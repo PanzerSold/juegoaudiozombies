@@ -1457,6 +1457,7 @@ MonoBehaviour:
   textPoints: {fileID: 864710123}
   BarrierBuildSfx: {fileID: 1667936313}
   points: 0
+  currentPowerUp: 3
   pi: {fileID: 0}
   inv: {fileID: 0}
 --- !u!114 &1161843250

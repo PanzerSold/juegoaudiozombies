@@ -14,6 +14,7 @@ public class Player : MonoBehaviour
 
     [SerializeField] private AudioSource BarrierBuildSfx;
 
+    private PlayerAmmo playerAmmo;
     private string pointsStart;
     public int points = 0;
     public enum PlayerBonus
@@ -28,7 +29,8 @@ public class Player : MonoBehaviour
 
     private float horizontalMovement;
     private float forwardMovement;
-    private PlayerBonus currentPowerUp = PlayerBonus.None;
+    [SerializeField] private PlayerBonus currentPowerUp = PlayerBonus.None;
+    public PlayerBonus CurrentPowerUp => currentPowerUp;
 
     private float verticalMovement = -2f;
     private CharacterController cc;
@@ -40,6 +42,7 @@ public class Player : MonoBehaviour
     {
         cc = GetComponent<CharacterController>();
         pi = GetComponent<PlayerInputs>();
+        playerAmmo = GetComponent<PlayerAmmo>();
         pointsStart = textPoints.text;
         textPoints.text = pointsStart + " " + points;
     }
@@ -49,8 +52,16 @@ public class Player : MonoBehaviour
         bool isGrounded = cc.isGrounded;
         Vector3 playerMovement;
 
-        
-        
+        if (currentPowerUp == PlayerBonus.Wings) moveSpeed = 7.5f;
+
+        if (currentPowerUp == PlayerBonus.MaxAmmo)
+        {
+            playerAmmo.rechargeAmmo();
+            playerAmmo.GainAmmo(50);
+            currentPowerUp = PlayerBonus.None;
+        }
+
+
         if (isGrounded)
         {
             playerMovement = pi.moveAction.ReadValue<Vector2>();

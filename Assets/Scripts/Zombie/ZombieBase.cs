@@ -7,9 +7,7 @@ public class ZombieBase : MonoBehaviour
     private bool isStunned = false;
     // private RoundManager rm;
     private Player player;
-
     private Transform playerTransform;
-
     private bool scriptedMovement = false;
     private Vector3 scriptedDir = Vector3.zero;
     private Rigidbody rb;
@@ -80,7 +78,14 @@ public class ZombieBase : MonoBehaviour
     {
         if (isHeadshot)
         {
-            health -= damage * 5;
+            if (player.CurrentPowerUp == Player.PlayerBonus.HeadShots)
+            {
+                health = 0;
+            }
+            else
+            {
+                health -= damage * 5;
+            }
         }
         health -= damage;
         if (health <= 0)

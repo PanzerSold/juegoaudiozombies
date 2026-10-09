@@ -2,6 +2,7 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static Player;
 
 public abstract class Interaction : MonoBehaviour
 {
@@ -31,6 +32,19 @@ public abstract class Interaction : MonoBehaviour
 
     protected abstract void Interactuar();
 
+    protected virtual int PuntosRequeridos
+    {
+        get
+        {
+            if (player.CurrentPowerUp == PlayerBonus.Discount) return puntosRequeridos / 2;
+            return puntosRequeridos;
+        }
+
+        set
+        {
+            puntosRequeridos = value;
+        }
+    }
     public virtual void PlayerEntered()
     {
         jugadorDentro = true;

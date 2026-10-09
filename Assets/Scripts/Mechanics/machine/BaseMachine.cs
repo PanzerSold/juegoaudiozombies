@@ -4,6 +4,7 @@ public abstract class BaseMachine : Interaction
 {
     protected Inventory inventory;
     protected AudioSource SFX_FaltaPlata;
+    protected override int PuntosRequeridos { get => base.PuntosRequeridos; set => base.PuntosRequeridos = value; }
 
     protected abstract void Buy();
     protected override void Start()
@@ -19,10 +20,10 @@ public abstract class BaseMachine : Interaction
 
     protected override void Interactuar()
     {
-        if (player.points >= puntosRequeridos)
+        if (player.points >= PuntosRequeridos)
         {
             Buy();
-            player.RemovePoints(puntosRequeridos);
+            player.RemovePoints(PuntosRequeridos);
         }
         else
         {

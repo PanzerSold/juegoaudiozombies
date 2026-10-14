@@ -106,7 +106,7 @@ public class ZombieBase : MonoBehaviour
     private void Despawn()
     {
         if(destroyingBarricade) ultimabarricada.zombiesClose--;
-        rm.removeZombie(this);
+        rm.RemoveZombie(this);
         Destroy(gameObject);
     }
 
@@ -116,7 +116,7 @@ public class ZombieBase : MonoBehaviour
 
         if (player != null)
         {
-            player.loseHealth(zombieDamage);
+            player.LoseHealth(zombieDamage);
         }
     }
     public void OnTriggerEnter(Collider other)

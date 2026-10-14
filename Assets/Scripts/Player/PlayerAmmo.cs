@@ -63,7 +63,6 @@ public class PlayerAmmo : MonoBehaviour
             if (pi.reloadAction.WasPressedThisFrame())
             {
                 rechargeAmmo();
-                ReloadSfx.Play();
             }
         }
     }
@@ -126,6 +125,7 @@ public class PlayerAmmo : MonoBehaviour
             ammoQuantity = 0;
         }
         ammoText.text = ammoTextStart + " " + ammoCurrent + " / " + ammoQuantity;
+        ReloadSfx.Play();
     }
 
     public void GainAmmo(int gainedAmmo)

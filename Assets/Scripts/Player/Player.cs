@@ -97,11 +97,12 @@ public class Player : MonoBehaviour
                 asyncRemovePowerUp();
             }
             else currentPowerUp = PlayerBonus.MaxAmmo;
-            Destroy(other);
+            Destroy(other.gameObject);
         }
     }
-    private async void asyncRemovePowerUp(){
-        await Awaitable.WaitForSecondsAsync(20);
+    private async void asyncRemovePowerUp()
+    {
+        await Awaitable.WaitForSecondsAsync(20f);
         if (this == null) return;
         currentPowerUp = PlayerBonus.None;
     }

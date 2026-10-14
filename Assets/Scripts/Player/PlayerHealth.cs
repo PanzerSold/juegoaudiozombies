@@ -1,22 +1,16 @@
-using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
-
 public class PlayerHealth : MonoBehaviour
 {
     
     [SerializeField] private int healthMax = 6;
 
-    [SerializeField] private TextMeshProUGUI healthText;
-
     public int health = 6;
-    private string healthTextStart;
-    
-    private void Awake()
+    private HealthBar healthBar;
+
+    private void Start()
     {
         health = healthMax;
-        healthTextStart = healthText.text;
-        healthText.text = healthText.text + " " + health;
+        healthBar = GetComponent<HealthBar>();
     }
 
     /* private void Update()
@@ -34,15 +28,16 @@ public class PlayerHealth : MonoBehaviour
         }
         
     } */
-    public void gainHealth(int bonusHealth)
+    public void GainHealth(int bonusHealth)
     {
         health += bonusHealth;
-        if (health > healthMax) {
+        if (health > healthMax) 
+        {
             health = healthMax;
         }
-        healthText.text = healthTextStart + " " + health;
+        healthBar.OnHealthChange(health);
     }
-    public void loseHealth(int damage)
+    public void LoseHealth(int damage)
     {
         health -= damage;
 
@@ -50,6 +45,6 @@ public class PlayerHealth : MonoBehaviour
         {
             health = 0;
         }
-        healthText.text = healthTextStart + " " + health;
+        healthBar.OnHealthChange(health);
     }
 }

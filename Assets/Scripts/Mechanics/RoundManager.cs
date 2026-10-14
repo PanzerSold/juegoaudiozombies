@@ -50,7 +50,7 @@ public class RoundManager : MonoBehaviour
     {
         return 8 + 2 * currentRound + currentRound - 1;
     }
-    public void removeZombie(ZombieBase zombie)
+    public void RemoveZombie(ZombieBase zombie)
     {
         zombieList.Remove(zombie);
         if (zombieList.Count == 0 && zombiesForCurrentRound == 0)

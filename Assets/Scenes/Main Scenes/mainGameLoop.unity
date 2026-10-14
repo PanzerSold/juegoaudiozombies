@@ -2552,14 +2552,17 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 129
   ps: {fileID: 1749070861}
+  shootTime: 0.5
   ammoMax: 10
   ammoQuantity: 50
+  delayRecharge: 3
   materialGenerico: {fileID: 2100000, guid: 339a08f372e0c174697772bb3778b054, type: 2}
   materialZombieHit: {fileID: 2100000, guid: 9dad342eb7181ab46bec85813f91a10b, type: 2}
   ShootSfx: {fileID: 153053061}
   emptyMagSfx: {fileID: 1717935547}
   ReloadSfx: {fileID: 1843296159}
   ammoText: {fileID: 1948318343}
+  rechargeText: Reloading...
 --- !u!1001 &1491076215
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8671,7 +8674,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: -3.9069366, z: -0.4198609, w: 0}
+  m_margin: {x: 0, y: -3.9069366, z: -128.85286, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0

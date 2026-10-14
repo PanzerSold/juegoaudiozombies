@@ -1579,6 +1579,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1050993478}
   m_CullTransparentMesh: 1
+--- !u!1 &1086133150 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 4652d9f27939c1d4ab83df0936b80d64, type: 3}
+  m_PrefabInstance: {fileID: 2143355276}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1100787713 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4887692034885589234, guid: 4b75b4deedc44384091989b6dba7516c, type: 3}
@@ -1771,6 +1776,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   healthMax: 6
+  invulnTime: 0.75
   health: 6
 --- !u!114 &1161843251
 MonoBehaviour:
@@ -1784,21 +1790,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f6271b7107779741b3c48f9b5254093, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::playerAmmunition
-  raycastDistance: 100
-  cameraPos: {fileID: 330585545}
-  gunDamage: 1
-  ammoMax: 10
-  ammoQuantity: 50
-  ammoText: {fileID: 1948318343}
-  coll:
-    serializedVersion: 2
-    m_Bits: 129
-  ps: {fileID: 1749070861}
-  materialGenerico: {fileID: 2100000, guid: 339a08f372e0c174697772bb3778b054, type: 2}
-  materialZombieHit: {fileID: 2100000, guid: 9dad342eb7181ab46bec85813f91a10b, type: 2}
-  ShootSfx: {fileID: 153053061}
-  EmptyMagSfx: {fileID: 1843296159}
-  ReloadSfx: {fileID: 1843296159}
+  startgun: {fileID: 1471016587}
 --- !u!114 &1161843252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2541,6 +2533,33 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4652d9f27939c1d4ab83df0936b80d64, type: 3}
   m_PrefabInstance: {fileID: 2143355276}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1471016587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1086133150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c5fc415778811e46b804e10e0104224, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GunBehaviour
+  raycastDistance: 100
+  gunDamage: 1
+  cameraPos: {fileID: 330585545}
+  coll:
+    serializedVersion: 2
+    m_Bits: 129
+  ps: {fileID: 1749070861}
+  ammoMax: 10
+  ammoQuantity: 50
+  materialGenerico: {fileID: 2100000, guid: 339a08f372e0c174697772bb3778b054, type: 2}
+  materialZombieHit: {fileID: 2100000, guid: 9dad342eb7181ab46bec85813f91a10b, type: 2}
+  ShootSfx: {fileID: 153053061}
+  emptyMagSfx: {fileID: 1717935547}
+  ReloadSfx: {fileID: 1843296159}
+  ammoText: {fileID: 1948318343}
 --- !u!1001 &1491076215
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9073,7 +9092,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 4652d9f27939c1d4ab83df0936b80d64, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1471016587}
   m_SourcePrefab: {fileID: 100100000, guid: 4652d9f27939c1d4ab83df0936b80d64, type: 3}
 --- !u!1001 &797326552692872587
 PrefabInstance:

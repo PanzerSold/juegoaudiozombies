@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,7 +15,7 @@ public class Player : MonoBehaviour
 
     [SerializeField] private AudioSource BarrierBuildSfx;
 
-    private PlayerAmmo playerAmmo;
+    private PlayerShoot playerAmmo;
     private string pointsStart;
     public int points = 0;
     public enum PlayerBonus
@@ -42,9 +43,10 @@ public class Player : MonoBehaviour
     {
         cc = GetComponent<CharacterController>();
         pi = GetComponent<PlayerInputs>();
-        playerAmmo = GetComponent<PlayerAmmo>();
+        playerAmmo = GetComponent<PlayerShoot>();
         pointsStart = textPoints.text;
         textPoints.text = pointsStart + " " + points;
+
     }
 
     private void Update()
@@ -52,12 +54,13 @@ public class Player : MonoBehaviour
         bool isGrounded = cc.isGrounded;
         Vector3 playerMovement;
 
+
         if (currentPowerUp == PlayerBonus.Wings) moveSpeed = 7.5f;
 
         if (currentPowerUp == PlayerBonus.MaxAmmo)
         {
-            playerAmmo.rechargeAmmo();
-            playerAmmo.GainAmmo(50);
+            playerAmmo.Gun.RechargeAmmo();
+            playerAmmo.Gun.GainAmmo(50);
             currentPowerUp = PlayerBonus.None;
         }
 
@@ -130,4 +133,6 @@ public class Player : MonoBehaviour
         BarrierBuildSfx.Play();
     }
 
+
+    
 }

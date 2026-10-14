@@ -1,25 +1,27 @@
+using System;
+using System.Collections;
+using System.Runtime.InteropServices.WindowsRuntime;
 using TMPro;
 using UnityEngine;
-using static Player;
+using static UnityEngine.Rendering.DebugUI;
 
-public class PlayerAmmo : MonoBehaviour
+public class GunBehaviour : MonoBehaviour
 {
     [Header("Disparo")]
-
     [SerializeField] private float raycastDistance = 100f;
-
-    [SerializeField] private Camera cameraPos;
-
     [SerializeField] private float gunDamage = 1f;
+    [SerializeField] private Camera cameraPos;
+    [SerializeField] private LayerMask coll;
+    [SerializeField] private ParticleSystem ps;
+
+    [SerializeField] private float shootTime = 0.5f;
+    private ParticleSystemRenderer psR;
 
     [Header("Municion")]
     [SerializeField] private int ammoMax = 10;
     [SerializeField] private int ammoQuantity = 50;
-    [SerializeField] private TextMeshProUGUI ammoText;
-    private PlayerInputs pi;
-    [SerializeField] private LayerMask coll;
-    [SerializeField] private ParticleSystem ps;
-    private ParticleSystemRenderer psR;
+
+    [SerializeField] private float delayRecharge = 3f;
 
     [Header("Materiales")]
     [SerializeField] private Material materialGenerico;
@@ -27,47 +29,43 @@ public class PlayerAmmo : MonoBehaviour
 
     [Header("Sonido")]
     [SerializeField] private AudioSource ShootSfx;
-    [SerializeField] private AudioSource EmptyMagSfx;
+    [SerializeField] private AudioSource emptyMagSfx;
     [SerializeField] private AudioSource ReloadSfx;
+
+    [SerializeField] private TextMeshProUGUI ammoText;
+
+    [SerializeField] private string rechargeText;
+
+    public AudioSource EmptyMagSfx => emptyMagSfx;
+
+    public int AmmoCurrent => ammoCurrent;
+
+    public float ShootTime => shootTime;
+    public int AmmoMax => ammoMax;
+    private string ammoTextStart;
 
     private int ammoUsed;
     private int ammoCurrent;
-    private string ammoTextStart;
+
+    private bool isRecharging;
+
+    public bool IsRecharging => isRecharging;
+
+    private Coroutine rechargeCoroutine;
+
     private void Awake()
     {
         ammoCurrent = ammoMax;
         ammoTextStart = ammoText.text;
         ammoText.text = ammoText.text + " " + ammoMax + " / " + ammoQuantity;
     }
+
     private void Start()
     {
-        pi = gameObject.GetComponent<PlayerInputs>();
         psR = ps.GetComponent<ParticleSystemRenderer>();
     }
 
-
-    private void Update()
-    {
-        if (pi.shootAction.WasPressedThisFrame())
-        {
-            if(ammoCurrent > 0)
-            {
-                Shoot();
-            }
-            else EmptyMagSfx.Play();
-            fireAmmo();
-        }
-        if(ammoCurrent != ammoMax)
-        {
-            
-            if (pi.reloadAction.WasPressedThisFrame())
-            {
-                rechargeAmmo();
-            }
-        }
-    }
-
-    private void Shoot()
+    public void Shoot()
     {
         RaycastHit hit;
         Vector3 origin = cameraPos.transform.position;
@@ -80,13 +78,13 @@ public class PlayerAmmo : MonoBehaviour
             ps.Play();
             if (hit.collider.CompareTag("ZombieBody"))
             {
-                
+
                 ZombieBase zombie = hit.collider.GetComponent<ZombieBase>();
                 zombie.ReceiveDamage(false, gunDamage);
                 psR.material = materialZombieHit;
             }
 
-            if(hit.collider.CompareTag("ZombieHead"))
+            if (hit.collider.CompareTag("ZombieHead"))
             {
 
                 ZombieBase zombie = hit.collider.GetComponentInParent<ZombieBase>();
@@ -101,7 +99,7 @@ public class PlayerAmmo : MonoBehaviour
     }
 
 
-    public void fireAmmo()
+    public void FireAmmo()
     {
         ammoCurrent--;
         if (ammoCurrent < 0)
@@ -110,8 +108,30 @@ public class PlayerAmmo : MonoBehaviour
         }
         ammoText.text = ammoTextStart + " " + ammoCurrent + " / " + ammoQuantity;
     }
-    public void rechargeAmmo()
+    public void RechargeAmmo()
     {
+        if(rechargeCoroutine != null)
+        {
+            StopCoroutine(rechargeCoroutine);
+        }
+        rechargeCoroutine = StartCoroutine(Recharge());
+        
+    }
+
+    public void GainAmmo(int gainedAmmo)
+    {
+        ammoQuantity += gainedAmmo;
+        ammoText.text = ammoTextStart + " " + ammoCurrent + " / " + ammoQuantity;
+    }
+
+    IEnumerator Recharge()
+    {
+        isRecharging = true;
+        ReloadSfx.Play();
+        ammoText.text = rechargeText;
+
+        yield return new WaitForSeconds(delayRecharge);
+
         ammoUsed = ammoMax - ammoCurrent;
         if (ammoQuantity < ammoUsed)
         {
@@ -125,12 +145,7 @@ public class PlayerAmmo : MonoBehaviour
             ammoQuantity = 0;
         }
         ammoText.text = ammoTextStart + " " + ammoCurrent + " / " + ammoQuantity;
-        ReloadSfx.Play();
-    }
-
-    public void GainAmmo(int gainedAmmo)
-    {
-        ammoQuantity += gainedAmmo;
-        ammoText.text = ammoTextStart + " " + ammoCurrent + " / " + ammoQuantity;
+        isRecharging = false;
+        rechargeCoroutine = null;
     }
 }

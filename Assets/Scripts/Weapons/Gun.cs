@@ -1,21 +1,18 @@
-using System;
 using System.Collections;
-using System.Runtime.InteropServices.WindowsRuntime;
 using TMPro;
 using UnityEngine;
-using static UnityEngine.Rendering.DebugUI;
 
 public class GunBehaviour : MonoBehaviour
 {
     [Header("Disparo")]
-    [SerializeField] private float raycastDistance = 100f;
-    [SerializeField] private float gunDamage = 1f;
-    [SerializeField] private Camera cameraPos;
-    [SerializeField] private LayerMask coll;
-    [SerializeField] private ParticleSystem ps;
+    [SerializeField] protected float raycastDistance = 100f;
+    [SerializeField] protected float gunDamage = 1f;
+    [SerializeField] protected Camera cameraPos;
+    [SerializeField] protected LayerMask coll;
+    [SerializeField] protected ParticleSystem ps;
 
     [SerializeField] private float shootTime = 0.5f;
-    private ParticleSystemRenderer psR;
+    protected ParticleSystemRenderer psR;
 
     [Header("Municion")]
     [SerializeField] private int ammoMax = 10;
@@ -24,17 +21,17 @@ public class GunBehaviour : MonoBehaviour
     [SerializeField] private float delayRecharge = 3f;
 
     [Header("Materiales")]
-    [SerializeField] private Material materialGenerico;
-    [SerializeField] private Material materialZombieHit;
+    [SerializeField] protected Material materialGenerico;
+    [SerializeField] protected Material materialZombieHit;
 
     [Header("Sonido")]
-    [SerializeField] private AudioSource ShootSfx;
+    [SerializeField] protected AudioSource ShootSfx;
     [SerializeField] private AudioSource emptyMagSfx;
     [SerializeField] private AudioSource ReloadSfx;
 
     [SerializeField] private TextMeshProUGUI ammoText;
 
-    [SerializeField] private string rechargeText;
+    [SerializeField] private string rechargeText = "Reloading...";
 
     public AudioSource EmptyMagSfx => emptyMagSfx;
 
@@ -42,7 +39,6 @@ public class GunBehaviour : MonoBehaviour
 
     public float ShootTime => shootTime;
     public int AmmoMax => ammoMax;
-    private string ammoTextStart;
 
     private int ammoUsed;
     private int ammoCurrent;
@@ -51,13 +47,14 @@ public class GunBehaviour : MonoBehaviour
 
     public bool IsRecharging => isRecharging;
 
+    public TextMeshProUGUI AmmoText => ammoText;
+
+    public int AmmoQuantity => ammoQuantity;
     private Coroutine rechargeCoroutine;
 
     private void Awake()
     {
         ammoCurrent = ammoMax;
-        ammoTextStart = ammoText.text;
-        ammoText.text = ammoText.text + " " + ammoMax + " / " + ammoQuantity;
     }
 
     private void Start()
@@ -65,13 +62,14 @@ public class GunBehaviour : MonoBehaviour
         psR = ps.GetComponent<ParticleSystemRenderer>();
     }
 
-    public void Shoot()
+    virtual public void Shoot()
     {
         RaycastHit hit;
         Vector3 origin = cameraPos.transform.position;
         Vector3 direction = cameraPos.transform.forward;
         psR.material = materialGenerico;
         ShootSfx.Play();
+        FireAmmo();
         if (Physics.Raycast(origin, direction, out hit, raycastDistance, coll))
         {
             ps.transform.position = hit.point;
@@ -106,7 +104,7 @@ public class GunBehaviour : MonoBehaviour
         {
             ammoCurrent = 0;
         }
-        ammoText.text = ammoTextStart + " " + ammoCurrent + " / " + ammoQuantity;
+        ammoText.text = ammoCurrent + " / " + ammoQuantity;
     }
     public void RechargeAmmo()
     {
@@ -121,7 +119,7 @@ public class GunBehaviour : MonoBehaviour
     public void GainAmmo(int gainedAmmo)
     {
         ammoQuantity += gainedAmmo;
-        ammoText.text = ammoTextStart + " " + ammoCurrent + " / " + ammoQuantity;
+        ammoText.text = ammoCurrent + " / " + ammoQuantity;
     }
 
     IEnumerator Recharge()
@@ -144,7 +142,7 @@ public class GunBehaviour : MonoBehaviour
         {
             ammoQuantity = 0;
         }
-        ammoText.text = ammoTextStart + " " + ammoCurrent + " / " + ammoQuantity;
+        ammoText.text = ammoCurrent + " / " + ammoQuantity;
         isRecharging = false;
         rechargeCoroutine = null;
     }

@@ -276,7 +276,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: aea99e80afc842442a0e66725ed441ef, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -873,6 +873,72 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 489635027}
   m_CullTransparentMesh: 1
+--- !u!1 &596719954
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 596719956}
+  - component: {fileID: 596719955}
+  m_Layer: 0
+  m_Name: ShotGun
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &596719955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 596719954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b483fcbf4c6d774fb29b0758a6957cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShotGun
+  raycastDistance: 100
+  gunDamage: 1
+  cameraPos: {fileID: 330585545}
+  coll:
+    serializedVersion: 2
+    m_Bits: 129
+  ps: {fileID: 1749070861}
+  shootTime: 0.5
+  ammoMax: 8
+  ammoQuantity: 50
+  delayRecharge: 3
+  materialGenerico: {fileID: 2100000, guid: 339a08f372e0c174697772bb3778b054, type: 2}
+  materialZombieHit: {fileID: 2100000, guid: 9dad342eb7181ab46bec85813f91a10b, type: 2}
+  ShootSfx: {fileID: 153053061}
+  emptyMagSfx: {fileID: 1717935547}
+  ReloadSfx: {fileID: 1843296159}
+  ammoText: {fileID: 1948318343}
+  rechargeText: Reloading...
+  raycastCount: 8
+  spreadAngle: 3
+  rotationPerShot: 13
+  impactPrefab: {fileID: 5405569026550440892, guid: 87dc52f3efa04fd43bf812ab1c856c03, type: 3}
+--- !u!4 &596719956
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 596719954}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -2.1035705, y: 1.2721499, z: 21.945002}
+  m_LocalScale: {x: 1.6666662, y: 1.6666666, z: 1.6666662}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1161843247}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &728536527
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1356,6 +1422,70 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 910650707}
   m_CullTransparentMesh: 1
+--- !u!1 &925252362
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 925252364}
+  - component: {fileID: 925252363}
+  m_Layer: 0
+  m_Name: GunBurst
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &925252363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 925252362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0853dc20485d914e999f317aaf53556, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BurstGun
+  raycastDistance: 100
+  gunDamage: 1
+  cameraPos: {fileID: 330585545}
+  coll:
+    serializedVersion: 2
+    m_Bits: 129
+  ps: {fileID: 1749070861}
+  shootTime: 0.5
+  ammoMax: 24
+  ammoQuantity: 48
+  delayRecharge: 3
+  materialGenerico: {fileID: 2100000, guid: 339a08f372e0c174697772bb3778b054, type: 2}
+  materialZombieHit: {fileID: 2100000, guid: 9dad342eb7181ab46bec85813f91a10b, type: 2}
+  ShootSfx: {fileID: 153053061}
+  emptyMagSfx: {fileID: 1717935547}
+  ReloadSfx: {fileID: 1843296159}
+  ammoText: {fileID: 1948318343}
+  rechargeText: Reloading...
+  bulletsPerBurst: 3
+  burstInterval: 0.1
+--- !u!4 &925252364
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 925252362}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -2.1035705, y: 1.2721499, z: 21.945002}
+  m_LocalScale: {x: 1.6666662, y: 1.6666666, z: 1.6666662}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1161843247}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &939759571
 GameObject:
   m_ObjectHideFlags: 0
@@ -1710,6 +1840,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1471016586}
+  - {fileID: 925252364}
+  - {fileID: 596719956}
   - {fileID: 11170411}
   - {fileID: 1246753956}
   - {fileID: 1749070859}
@@ -1790,7 +1922,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f6271b7107779741b3c48f9b5254093, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::playerAmmunition
-  startgun: {fileID: 1471016587}
+  startgun: {fileID: 925252363}
 --- !u!114 &1161843252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2820,7 +2952,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: aea99e80afc842442a0e66725ed441ef, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -3015,7 +3147,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 3189a6054c8b69547ae340a753d8ba8d, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -3234,7 +3366,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 70f86f36fbc2f614c87bb42eceaf5124, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -8329,7 +8461,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: efbca229fc5672c469f9b6cfbaf720d3, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.806
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0

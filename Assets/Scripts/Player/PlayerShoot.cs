@@ -15,12 +15,15 @@ public class PlayerShoot : MonoBehaviour
     {
         pi = gameObject.GetComponent<PlayerInputs>();
         gun = startgun;
+        gun.AmmoText.text = gun.AmmoCurrent + " / " + gun.AmmoQuantity;
+
     }
 
 
     public void EquipGun(GunBehaviour newGun)
     {
         gun = newGun;
+        gun.AmmoText.text = gun.AmmoCurrent + " / " + gun.AmmoQuantity;
     }
 
 
@@ -40,12 +43,11 @@ public class PlayerShoot : MonoBehaviour
                             gun.Shoot();
                         }
                         else gun.EmptyMagSfx.Play();
-                        gun.FireAmmo();
                         shootTimer = 0;
                     }
                 }
 
-                if (gun.AmmoCurrent != gun.AmmoMax)
+                if (gun.AmmoCurrent != gun.AmmoMax || gun.AmmoQuantity == 0)
                 {
                     if (pi.reloadAction.WasPressedThisFrame())
                     {

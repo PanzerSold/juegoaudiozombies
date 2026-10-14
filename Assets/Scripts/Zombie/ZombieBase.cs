@@ -33,6 +33,8 @@ public class ZombieBase : MonoBehaviour
         health = rm.SetHealthBasedOnRound();
     }
 
+    private void OnCollisionEnter(Collision collision) => Hit(collision);
+    private void OnCollisionStay(Collision collision) => Hit(collision);
 
     private void FixedUpdate()
     {
@@ -110,7 +112,13 @@ public class ZombieBase : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void Hit(Collision collision)
+    {
+        PlayerHealth ph = collision.gameObject.GetComponent<PlayerHealth>();
+        if (ph != null) ph.LoseHealth(zombieDamage);
+    }
+
+    /*private void OnCollisionEnter(Collision collision)
     {
         PlayerHealth player = collision.gameObject.GetComponent<PlayerHealth>();
 
@@ -118,7 +126,7 @@ public class ZombieBase : MonoBehaviour
         {
             player.LoseHealth(zombieDamage);
         }
-    }
+    }*/
     public void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("ZombieBarricade")){ 
@@ -127,6 +135,7 @@ public class ZombieBase : MonoBehaviour
             destroyingBarricade = true;
         }
     }
+    
     public void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("ZombieBarricade"))
@@ -135,44 +144,6 @@ public class ZombieBase : MonoBehaviour
             destroyingBarricade = false;
         }
     }
-
-
-    /*
-    void Update()
-    {
-        
-        if (Active){
-            if (!isStunned) return;
-            if (TimedCheck())
-            {
-                
-            }
-
-        }
-        
-    }
-    
-
-    
-    private bool TimedCheck()
-    {
-        if (timerPos < 0.2f)
-        {
-            timerPos += Time.deltaTime;
-            return false;
-        }
-        timerPos = 0f;
-        return true;
-    }
-    
-    private void Respawn()
-    {
-        SetHealthBasedOnRound(rm.currentRound);
-
-    }
-    */
-
-
     public void goTo( Vector3 position)
     {
         scriptedMovement = true;

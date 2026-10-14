@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CameraPosition : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class CameraPosition : MonoBehaviour
     [SerializeField] private LayerMask coll;
     [SerializeField] private float MaxUpAngle = 80;
     [SerializeField] private float MaxDownAngle = -80;
+    [SerializeField] private float mouseSensibility = 1f;
+    [SerializeField] private float stickSensibility = 15f;
     private PlayerInputs pi;
     [SerializeField] private Vector3 camPosOffset = new Vector3(0.471f,0.7f,-1.8f);
     private GameObject player;
@@ -35,15 +38,21 @@ public class CameraPosition : MonoBehaviour
 
     
     void Update()
-    {   
+    {
         Vector2 lookAround = pi.lookAction.ReadValue<Vector2>();
-        
-        Vector3 newDesiredAngleX = player.transform.eulerAngles + Vector3.up * lookAround.x * sensibility * Time.deltaTime;
-        player.transform.eulerAngles =  Vector3.Slerp(player.transform.eulerAngles,newDesiredAngleX,smoothing);
 
-        float newDesiredAngleY = camara.transform.eulerAngles.x - lookAround.y * sensibility * Time.deltaTime;
-        newDesiredAngleY = Mathf.Lerp(camara.transform.eulerAngles.z, newDesiredAngleY, smoothing);
-        newDesiredAngleY = Mathf.Clamp(Normalize(newDesiredAngleY),MaxDownAngle,MaxUpAngle);
+        bool isGamepad = pi.lookAction.activeControl?.device is Gamepad;
+
+        float currentSensibility = isGamepad ? stickSensibility : mouseSensibility;
+        float mult = currentSensibility * Time.deltaTime * sensibility;
+
+        Vector3 newDesiredAngleX = player.transform.eulerAngles + Vector3.up * lookAround.x * mult;
+        player.transform.eulerAngles = Vector3.Slerp(player.transform.eulerAngles, newDesiredAngleX, smoothing);
+
+        float newDesiredAngleY = camara.transform.eulerAngles.x - lookAround.y * mult;
+
+        newDesiredAngleY = Mathf.Lerp(camara.transform.eulerAngles.x, newDesiredAngleY, smoothing); 
+        newDesiredAngleY = Mathf.Clamp(Normalize(newDesiredAngleY), MaxDownAngle, MaxUpAngle);
 
         Vector3 camRot = new Vector3(newDesiredAngleY, player.transform.eulerAngles.y, 0);
         camara.transform.eulerAngles = camRot;
@@ -55,7 +64,9 @@ public class CameraPosition : MonoBehaviour
 
         Vector3 difference = transform.position - pivoti.transform.position;
         float difLength = difference.magnitude;
+
         RaycastHit hitInfo;
+
         if(Physics.Raycast(pivoti.transform.position, difference, out hitInfo, 3f, coll))
         {
             transform.position = hitInfo.point-(difference*ColisionSafety);

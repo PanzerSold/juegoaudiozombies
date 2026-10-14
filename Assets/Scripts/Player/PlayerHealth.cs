@@ -3,9 +3,13 @@ public class PlayerHealth : MonoBehaviour
 {
     
     [SerializeField] private int healthMax = 6;
+    [SerializeField] private float invulnTime = 0.75f;
 
     public int health = 6;
     private HealthBar healthBar;
+    private float invulnUntil = 0f;
+
+    public bool IsInvulnerable => Time.time < invulnUntil;
 
     private void Start()
     {
@@ -39,12 +43,10 @@ public class PlayerHealth : MonoBehaviour
     }
     public void LoseHealth(int damage)
     {
-        health -= damage;
+        if (IsInvulnerable) return;
 
-        if (health < 0)
-        {
-            health = 0;
-        }
+        invulnUntil = Time.time + invulnTime;
+        health = Mathf.Max(0, health - damage);
         healthBar.OnHealthChange(health);
     }
 }

@@ -20,15 +20,23 @@ public class Barricade : Interaction
     }
     protected override void Update()
     {
-        if (jugadorDentro)
+        if(jugadorDentro)
         {
-            textoInteraccion.text = fullString;
-
-            if (pi.interactAction.IsPressed())
+            if (barricadasRestantes < barricades.Length)
             {
-                Interactuar();
+                textoInteraccion.gameObject.SetActive(true);
+
+                if (pi.interactAction.IsPressed())
+                {
+                    Interactuar();
+                }
+            }
+            else
+            {
+                textoInteraccion.gameObject.SetActive(false);
             }
         }
+
         if (zombiesClose > 0)
         {
             SacarBarricada();
@@ -95,5 +103,15 @@ public class Barricade : Interaction
 
 
         cycle = false;
+    }
+
+    override public void PlayerEntered()
+    {
+        jugadorDentro = true;
+        if (barricadasRestantes < barricades.Length)
+        {
+            textoInteraccion.text = fullString;
+            textoInteraccion.gameObject.SetActive(true);
+        }
     }
 }

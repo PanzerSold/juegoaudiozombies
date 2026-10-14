@@ -381,7 +381,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CameraPosition
   camara: {fileID: 0}
   camSpeed: 8
-  sensibility: 25
+  sensibility: 200
   smoothing: 1
   coll:
     serializedVersion: 2

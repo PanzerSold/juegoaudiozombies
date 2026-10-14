@@ -164,14 +164,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraPosition
   camara: {fileID: 330585545}
-  camSpeed: 8
-  sensibility: 25
-  smoothing: 1
+  camSpeed: 36
+  sensibility: 17
+  smoothing: 2
   coll:
     serializedVersion: 2
     m_Bits: 137
   MaxUpAngle: 80
   MaxDownAngle: -80
+  mouseSensibility: 1
+  stickSensibility: 15
   camPosOffset: {x: 0.471, y: 0.7, z: -1.8}
   ColisionSafety: 0.1
 --- !u!1 &42791569
@@ -1984,36 +1986,6 @@ MonoBehaviour:
   isOnCooldown: 1
   hammerImage: {fileID: 1743279265}
   HammerText: {fileID: 1331257593}
-  colorByHammer:
-    serializedVersion: 2
-    key0: {r: 1, g: 1, b: 1, a: 1}
-    key1: {r: 0, g: 0, b: 0, a: 1}
-    key2: {r: 0, g: 0, b: 0, a: 0}
-    key3: {r: 0, g: 0, b: 0, a: 0}
-    key4: {r: 0, g: 0, b: 0, a: 0}
-    key5: {r: 0, g: 0, b: 0, a: 0}
-    key6: {r: 0, g: 0, b: 0, a: 0}
-    key7: {r: 0, g: 0, b: 0, a: 0}
-    ctime0: 0
-    ctime1: 65535
-    ctime2: 0
-    ctime3: 0
-    ctime4: 0
-    ctime5: 0
-    ctime6: 0
-    ctime7: 0
-    atime0: 0
-    atime1: 65535
-    atime2: 0
-    atime3: 0
-    atime4: 0
-    atime5: 0
-    atime6: 0
-    atime7: 0
-    m_Mode: 0
-    m_ColorSpace: -1
-    m_NumColorKeys: 2
-    m_NumAlphaKeys: 2
 --- !u!4 &1208102712 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 176310417670789353, guid: 88e28d8d7d9772a4eba7e691b6ffc723, type: 3}
@@ -2258,10 +2230,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2113715948}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 339, y: -926.24}
-  m_SizeDelta: {x: 402.125, y: 51.737}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 240, y: 220}
+  m_SizeDelta: {x: 210, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1331257593
 MonoBehaviour:
@@ -2349,7 +2321,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -4.5914, y: 0, z: 163.7786, w: -14.100147}
+  m_margin: {x: -4.5914, y: 0, z: -3.839554, w: -14.100147}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -8589,10 +8561,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2113715948}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 316, y: -1051.2}
-  m_SizeDelta: {x: 412.7, y: 50}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 215, y: 90}
+  m_SizeDelta: {x: 210, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1948318343
 MonoBehaviour:
@@ -8680,7 +8652,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: -3.9069366, z: 186.63144, w: 0}
+  m_margin: {x: 0, y: -3.9069366, z: -0.4198609, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -8826,10 +8798,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2113715948}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 947.42, y: -47.9}
-  m_SizeDelta: {x: 412.7, y: 50}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: 0, y: -35}
+  m_SizeDelta: {x: 412.69995, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2079259452
 GameObject:

@@ -7,9 +7,9 @@ public class GunBehaviour : MonoBehaviour
     [Header("Disparo")]
     [SerializeField] protected float raycastDistance = 100f;
     [SerializeField] protected float gunDamage = 1f;
-    [SerializeField] protected Camera cameraPos;
+    protected Camera cameraPos;
     [SerializeField] protected LayerMask coll;
-    [SerializeField] protected ParticleSystem ps;
+    protected ParticleSystem ps;
 
     [SerializeField] private float shootTime = 0.5f;
     protected ParticleSystemRenderer psR;
@@ -29,7 +29,7 @@ public class GunBehaviour : MonoBehaviour
     [SerializeField] private AudioSource emptyMagSfx;
     [SerializeField] private AudioSource ReloadSfx;
 
-    [SerializeField] private TextMeshProUGUI ammoText;
+    private TextMeshProUGUI ammoText;
 
     [SerializeField] private string rechargeText = "Reloading...";
 
@@ -62,29 +62,41 @@ public class GunBehaviour : MonoBehaviour
         ammoCurrent = ammoMax;
     }
 
-    private void Start()
+    public void Initialize(Camera playerCamera, TextMeshProUGUI playerAmmoText, ParticleSystem shotParticle)
     {
-        psR = ps.GetComponent<ParticleSystemRenderer>();
+        cameraPos = playerCamera;
+        ammoText = playerAmmoText;
+        ps = shotParticle;
+
+        if (ps != null)
+        {
+            psR = ps.GetComponent<ParticleSystemRenderer>();
+        }
+
+        if (ammoText != null)
+        {
+            ammoText.text = ammoCurrent + " / " + ammoQuantity;
+        }
     }
+
 
     virtual public void Shoot()
     {
         RaycastHit hit;
         Vector3 origin = cameraPos.transform.position;
         Vector3 direction = cameraPos.transform.forward;
-        psR.material = materialGenerico;
+        Material impactMaterial = materialGenerico;
         ShootSfx.Play();
         FireAmmo();
         if (Physics.Raycast(origin, direction, out hit, raycastDistance, coll))
         {
             ps.transform.position = hit.point;
-            ps.Play();
             if (hit.collider.CompareTag("ZombieBody"))
             {
 
                 ZombieBase zombie = hit.collider.GetComponent<ZombieBase>();
                 zombie.ReceiveDamage(false, gunDamage);
-                psR.material = materialZombieHit;
+                impactMaterial = materialZombieHit;
             }
 
             if (hit.collider.CompareTag("ZombieHead"))
@@ -93,9 +105,12 @@ public class GunBehaviour : MonoBehaviour
                 ZombieBase zombie = hit.collider.GetComponentInParent<ZombieBase>();
 
                 zombie.ReceiveDamage(true, gunDamage);
-                psR.material = materialZombieHit;
+                impactMaterial = materialZombieHit;
 
             }
+
+            psR.material = impactMaterial;
+            ps.Play();
 
         }
 

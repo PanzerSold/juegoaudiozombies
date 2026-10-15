@@ -1,8 +1,17 @@
+using TMPro;
 using UnityEngine;
 
 public class PlayerShoot : MonoBehaviour
 {
     [SerializeField] GunBehaviour startgun;
+
+    [SerializeField] private Camera playerCamera;
+
+    [SerializeField] private TextMeshProUGUI playerAmmoText;
+
+    [SerializeField] private ParticleSystem shotParticle;
+
+
     private PlayerInputs pi;
 
     private GunBehaviour gun;
@@ -15,7 +24,7 @@ public class PlayerShoot : MonoBehaviour
     {
         pi = gameObject.GetComponent<PlayerInputs>();
         gun = startgun;
-        gun.AmmoText.text = gun.AmmoCurrent + " / " + gun.AmmoQuantity;
+        gun.Initialize(playerCamera, playerAmmoText, shotParticle);
 
     }
 
@@ -23,8 +32,8 @@ public class PlayerShoot : MonoBehaviour
     public void EquipGun(GunBehaviour newGun)
     {
         gun = newGun;
+        gun.Initialize(playerCamera, playerAmmoText, shotParticle);
         shootTimer = 0;
-        gun.AmmoText.text = gun.AmmoCurrent + " / " + gun.AmmoQuantity;
     }
 
 

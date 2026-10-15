@@ -23,6 +23,7 @@ public class PlayerShoot : MonoBehaviour
     public void EquipGun(GunBehaviour newGun)
     {
         gun = newGun;
+        shootTimer = 0;
         gun.AmmoText.text = gun.AmmoCurrent + " / " + gun.AmmoQuantity;
     }
 
@@ -30,24 +31,36 @@ public class PlayerShoot : MonoBehaviour
     private void Update()
     {
         if (gun != null)
-         { 
+         {
+            bool inputShoot;
             shootTimer += Time.deltaTime;
+            if (gun.IsAutomatic)
+            {
+                inputShoot = pi.shootAction.IsPressed();
+            } else
+            {
+                inputShoot = pi.shootAction.WasPressedThisFrame();
+            }
+
             if (!gun.IsRecharging)
             {
-                if (shootTimer > gun.ShootTime)
+                if (shootTimer >= gun.ShootTime)
                 {
-                    if (pi.shootAction.WasPressedThisFrame())
+                    if (inputShoot)
                     {
                         if (gun.AmmoCurrent > 0)
                         {
                             gun.Shoot();
                         }
-                        else gun.EmptyMagSfx.Play();
+                        else if (!gun.EmptyMagSfx.isPlaying)
+                        {
+                            gun.EmptyMagSfx.Play();
+                        }
                         shootTimer = 0;
                     }
                 }
 
-                if (gun.AmmoCurrent != gun.AmmoMax || gun.AmmoQuantity == 0)
+                if (gun.AmmoCurrent != gun.AmmoMax && gun.AmmoQuantity > 0)
                 {
                     if (pi.reloadAction.WasPressedThisFrame())
                     {

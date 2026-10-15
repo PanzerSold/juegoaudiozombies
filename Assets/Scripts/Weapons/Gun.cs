@@ -33,6 +33,11 @@ public class GunBehaviour : MonoBehaviour
 
     [SerializeField] private string rechargeText = "Reloading...";
 
+    [Header("Automatica")]
+
+    [SerializeField] private bool isAutomatic = false;
+
+    public bool IsAutomatic => isAutomatic;
     public AudioSource EmptyMagSfx => emptyMagSfx;
 
     public int AmmoCurrent => ammoCurrent;

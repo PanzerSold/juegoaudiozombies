@@ -17,8 +17,38 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: m_Brick
+    second: {fileID: 2100000, guid: ceac445e360fa0149b629d24eebf5cdb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: m_Concrete
+    second: {fileID: 2100000, guid: 4e7f741fa41f6b14cac29fefd5624a57, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: m_barrel
+    second: {fileID: 2100000, guid: d2e3e45e35f302048af6fd093f3f229a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: m_glass
+    second: {fileID: 2100000, guid: 4ce57d4e4c02bb542bcacd062df7b8c6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: m_metal
+    second: {fileID: 2100000, guid: 7ad849823bc484c4eb1645349527059a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: madera
     second: {fileID: 2100000, guid: de5272c7849337248861ecd7df783ff6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: moskvitch
+    second: {fileID: 2100000, guid: 02205d3fbdc38c848ba6beafda07268d, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
@@ -37,33 +67,73 @@ ModelImporter:
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
+      name: 1001_BaseColor
+    second: {fileID: 2800000, guid: c8b8f74d61db9444ebfb3f2731f0c5f2, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: 1001_Normal
+    second: {fileID: 2800000, guid: f13559c786a17fc4da3f4b1e4ad6abc4, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: 1001_OcclusionRoughnessMetallic
+    second: {fileID: 2800000, guid: 3281aa9dbd752c5448e04d3692a7a8db, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: barrel
+    second: {fileID: 2800000, guid: 1fb74e17b0af81d4bb5edc12110d7bfa, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: brick
+    second: {fileID: 2800000, guid: 8b9de489d9a74644abc42c921bf4831f, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: concrete
+    second: {fileID: 2800000, guid: e0aec466ce6bd45419d23d0b701da3eb, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
       name: dev_gris
-    second: {fileID: 2800000, guid: 14ab4591fdd0f2e46935ecf5a3bed3ee, type: 3}
+    second: {fileID: 2800000, guid: 1c981195a7559a742a496af98f086f92, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: dev_madera
-    second: {fileID: 2800000, guid: 32534856eca137e48a7252d344e62da7, type: 3}
+    second: {fileID: 2800000, guid: e5bb36e8f545e7146984cce6425a2581, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: dev_naranja
-    second: {fileID: 2800000, guid: a1174f4f127dbaf4d9bfd4e23a14a3f0, type: 3}
+    second: {fileID: 2800000, guid: 20092f096bbc0cd4a90dd1c61cad3d23, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: dev_reja
-    second: {fileID: 2800000, guid: efc1e7fca1d9bb8418b306892c1637b1, type: 3}
+    second: {fileID: 2800000, guid: a0023b7da53430941883d721882638e5, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: dev_verde
-    second: {fileID: 2800000, guid: 74f86972e76bf6e4ba909e3cf49c4d61, type: 3}
+    second: {fileID: 2800000, guid: 8dbb49376e3cfb243944a71c8601abfa, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: metal
+    second: {fileID: 2800000, guid: a70f4a6fecdf18d49a7f8bc4b7bd0ff2, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: windows
+    second: {fileID: 2800000, guid: 3568fc1e8fd0c7a4dada94cd09831384, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
     materialSearch: 1
-    materialLocation: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0

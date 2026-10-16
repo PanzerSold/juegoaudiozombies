@@ -1678,7 +1678,6 @@ GameObject:
   - component: {fileID: 1161843252}
   - component: {fileID: 1161843254}
   - component: {fileID: 1161843256}
-  - component: {fileID: 1161843257}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -2054,32 +2053,6 @@ MonoBehaviour:
   isOnCooldown: 1
   hammerImage: {fileID: 1743279265}
   HammerText: {fileID: 1331257593}
---- !u!114 &1161843257
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1161843243}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a9d55830c36d66409c4d22e8fefcf13, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CameraPosition
-  camara: {fileID: 330585545}
-  camSpeed: 36
-  sensibility: 17
-  smoothing: 2
-  coll:
-    serializedVersion: 2
-    m_Bits: 137
-  MaxUpAngle: 80
-  MaxDownAngle: -80
-  mouseSensibility: 1
-  stickSensibility: 15
-  camPosOffset: {x: 0.471, y: 0.7, z: -1.8}
-  pivoti: {fileID: 3033116950715350803}
-  ColisionSafety: 0.1
 --- !u!4 &1208102712 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 176310417670789353, guid: 88e28d8d7d9772a4eba7e691b6ffc723, type: 3}
@@ -9311,6 +9284,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 9021659356763187329}
+  - component: {fileID: 9021659356763187330}
   m_Layer: 8
   m_Name: CamPos
   m_TagString: Untagged
@@ -9619,6 +9593,33 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1161843247}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9021659356763187330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3033116950715350803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a9d55830c36d66409c4d22e8fefcf13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraPosition
+  camara: {fileID: 330585545}
+  camSpeed: 36
+  sensibility: 17
+  smoothing: 2
+  coll:
+    serializedVersion: 2
+    m_Bits: 137
+  MaxUpAngle: 80
+  MaxDownAngle: -80
+  mouseSensibility: 1
+  stickSensibility: 15
+  camPosOffset: {x: 0.471, y: 0.7, z: -1.8}
+  player: {fileID: 1161843243}
+  pivoti: {fileID: 1246753955}
+  ColisionSafety: 0.1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

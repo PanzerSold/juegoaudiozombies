@@ -14,8 +14,8 @@ public class CameraPosition : MonoBehaviour
     [SerializeField] private float stickSensibility = 15f;
     private PlayerInputs pi;
     [SerializeField] private Vector3 camPosOffset = new Vector3(0.471f,0.7f,-1.8f);
-    private GameObject player;
-    private GameObject pivoti;
+    [SerializeField] private GameObject player;
+    [SerializeField] private GameObject pivoti;
 
     [Header("Seguridad de Colisión (0 - 1)")]
     // dejar entre >0 y 1, 1 siendo que la camara se pega al jugador si choca una pared
@@ -27,11 +27,9 @@ public class CameraPosition : MonoBehaviour
     {
         camara.transform.position = transform.position;
         camara.transform.rotation = transform.rotation;
-        player = transform.parent.gameObject;
         if (player != null)
         {
             pi = player.GetComponent<PlayerInputs>();
-            pivoti = player.transform.GetChild(2).gameObject;
         }
 
     }

@@ -744,6 +744,72 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 462574372}
   m_CullTransparentMesh: 1
+--- !u!1 &476714473
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 476714474}
+  - component: {fileID: 476714475}
+  m_Layer: 0
+  m_Name: RocketLauncher
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &476714474
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 476714473}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0.6810006, y: -0.20499998, z: 0.40699974}
+  m_LocalScale: {x: 3.9770901, y: 3.9770913, z: 3.9770901}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1515229847}
+  m_Father: {fileID: 1161843247}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &476714475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 476714473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a458dbf0ccae2ee4b888bb4f12c13717, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RocketLauncher
+  raycastDistance: 100
+  gunDamage: 40
+  coll:
+    serializedVersion: 2
+    m_Bits: 129
+  shootTime: 0.5
+  ammoMax: 1
+  ammoQuantity: 3
+  delayRecharge: 7
+  materialGenerico: {fileID: 2100000, guid: 339a08f372e0c174697772bb3778b054, type: 2}
+  materialZombieHit: {fileID: 2100000, guid: 9dad342eb7181ab46bec85813f91a10b, type: 2}
+  ShootSfx: {fileID: 153053061}
+  emptyMagSfx: {fileID: 1717935547}
+  ReloadSfx: {fileID: 1843296159}
+  rechargeText: Reloading...
+  isAutomatic: 0
+  rocketPrefab: {fileID: 5330413437615586180, guid: 6d6a9e32c3c812242bc81c4b1136589d, type: 3}
+  rocketSpawn: {fileID: 1515229846}
+  rocketSpeed: 20
+  explosionRadius: 4
+  destroyTime: 1
 --- !u!1 &489635027
 GameObject:
   m_ObjectHideFlags: 0
@@ -1782,6 +1848,7 @@ Transform:
   - {fileID: 7054064910212066811}
   - {fileID: 925252364}
   - {fileID: 596719956}
+  - {fileID: 476714474}
   - {fileID: 9021659356763187329}
   - {fileID: 1246753956}
   - {fileID: 1749070859}
@@ -1862,7 +1929,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f6271b7107779741b3c48f9b5254093, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::playerAmmunition
-  startgun: {fileID: 529907263729598516}
+  startgun: {fileID: 476714475}
   playerCamera: {fileID: 330585545}
   playerAmmoText: {fileID: 1948318343}
   shotParticle: {fileID: 1749070861}
@@ -2848,6 +2915,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4887692034885589234, guid: 4b75b4deedc44384091989b6dba7516c, type: 3}
   m_PrefabInstance: {fileID: 5519071739881228069}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1515229846
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1515229847}
+  m_Layer: 0
+  m_Name: RocketSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1515229847
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1515229846}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.143, y: 0.0664, z: -0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 476714474}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1526964162
 GameObject:
   m_ObjectHideFlags: 0
@@ -9212,6 +9310,18 @@ PrefabInstance:
     - target: {fileID: 1293517333987285390, guid: 9fb2a8b7e4aec76489a11c436b4f282a, type: 3}
       propertyPath: m_Name
       value: GameMap
+      objectReference: {fileID: 0}
+    - target: {fileID: 4547079242052705313, guid: 9fb2a8b7e4aec76489a11c436b4f282a, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7316038159212850657, guid: 9fb2a8b7e4aec76489a11c436b4f282a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8042879897395024546, guid: 9fb2a8b7e4aec76489a11c436b4f282a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9035268927544928669, guid: 9fb2a8b7e4aec76489a11c436b4f282a, type: 3}
       propertyPath: m_LocalPosition.x

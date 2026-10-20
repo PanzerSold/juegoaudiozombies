@@ -1,7 +1,6 @@
 using System;
 using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using static Player;
 
 public abstract class Interaction : MonoBehaviour

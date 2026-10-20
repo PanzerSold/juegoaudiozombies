@@ -1,7 +1,3 @@
-using UnityEditor;
-using UnityEngine;
-using TMPro;
-
 public class Door : Interaction
 {
     protected override int PuntosRequeridos { get => base.PuntosRequeridos; set => base.PuntosRequeridos = value; }

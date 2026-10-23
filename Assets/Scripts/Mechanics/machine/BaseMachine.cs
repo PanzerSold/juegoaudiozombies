@@ -10,6 +10,10 @@ public abstract class BaseMachine : Interaction
     protected override void Start()
     {
         base.Start();
+        if (player != null)
+        {
+            inventory = player.GetComponent<Inventory>();
+        }
         //SFX_FaltaPlata = GetComponent<AudioSource>();
     }
 
@@ -30,4 +34,6 @@ public abstract class BaseMachine : Interaction
             //SFX_FaltaPlata.Play();
         }
     }
+
+
 }

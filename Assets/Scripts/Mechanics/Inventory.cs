@@ -70,7 +70,7 @@ public class Inventory : MonoBehaviour
             this.amount = amount;
         }
     }
-    private Item[] currentInventory;
+    private Item[] actualInventory;
     //private int equippedSlot = 0;
 
     void Start()
@@ -84,21 +84,39 @@ public class Inventory : MonoBehaviour
 
     }
 
-    public void addItem()
+    public void AddItem(Item newItem)
     {
-
+        if (newItem.isStackable)
+        {
+            for (int i = 0; i < actualInventory.Length; i++)
+            {
+                if (actualInventory[i].item == newItem.item && actualInventory[i].index == newItem.index)
+                {
+                    Item existingItem = actualInventory[i];
+                    existingItem.amount += newItem.amount;
+                    actualInventory[i] = existingItem;
+                }
+            }
+        }
+        for (int i = 0; i < actualInventory.Length; i++)
+        {
+            if (actualInventory[i].item == itemType.Empty)
+            {
+                actualInventory[i] = newItem;
+            }
+        }
     }
 
 
     public void ResetInventory()
     {
         //equippedSlot = 0;
-        currentInventory = new Item[9];
-        currentInventory[0] = Item.M1911;
-        currentInventory[1] = Item.startingAmmo;
+        actualInventory = new Item[9];
+        actualInventory[0] = Item.M1911;
+        actualInventory[1] = Item.startingAmmo;
         for (int i = 2; i < 9; i++)
         {
-            currentInventory[i] = Item.empty;
+            actualInventory[i] = Item.empty;
         }
     }
 }

@@ -62,7 +62,6 @@ public class GunBehaviour : MonoBehaviour
         ammoCurrent = ammoMax;
     }
 
-
     public void Initialize(Camera playerCamera, TextMeshProUGUI playerAmmoText, ParticleSystem shotParticle)
     {
         cameraPos = playerCamera;

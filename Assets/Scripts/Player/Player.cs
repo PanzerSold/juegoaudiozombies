@@ -14,10 +14,13 @@ public class Player : MonoBehaviour
     [SerializeField] private TextMeshProUGUI textPoints;
 
     [SerializeField] private AudioSource BarrierBuildSfx;
-
+    private HealthBar healthBar;
     private PlayerShoot playerAmmo;
     private string pointsStart;
     public int points = 0;
+    private bool wingsIsCollected = false;
+    private bool speedIsCollected = false;
+    public bool isShielded = false;
     public enum PlayerBonus
     {
         None,
@@ -28,11 +31,25 @@ public class Player : MonoBehaviour
         MaxAmmo
     }
 
+    public enum PlayerPerks
+    {
+        None,
+        Shielded,
+        Speed,
+        Haste,
+        Rebirth,
+        Scavenger,
+        Vampirism,
+        CriticalShots,
+        ExplosiveBullets
+    }
+
     private float horizontalMovement;
     private float forwardMovement;
     [SerializeField] private PlayerBonus currentPowerUp = PlayerBonus.None;
     public PlayerBonus CurrentPowerUp => currentPowerUp;
-
+    [SerializeField] private PlayerPerks currentPerk = PlayerPerks.None;
+    public PlayerPerks CurrentPerk => currentPerk;
     private float verticalMovement = -2f;
     private CharacterController cc;
 
@@ -41,12 +58,13 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        healthBar = GetComponent<HealthBar>();
         cc = GetComponent<CharacterController>();
         pi = GetComponent<PlayerInputs>();
         playerAmmo = GetComponent<PlayerShoot>();
         pointsStart = textPoints.text;
         textPoints.text = pointsStart + " " + points;
-
+        MeCagoEnLaPuta();
     }
 
     private void Update()
@@ -54,8 +72,7 @@ public class Player : MonoBehaviour
         bool isGrounded = cc.isGrounded;
         Vector3 playerMovement;
 
-
-        if (currentPowerUp == PlayerBonus.Wings) moveSpeed = 7.5f;
+        if (currentPowerUp == PlayerBonus.Wings) IncreaseSpeed(1.5f);
 
         if (currentPowerUp == PlayerBonus.MaxAmmo)
         {
@@ -63,6 +80,8 @@ public class Player : MonoBehaviour
             playerAmmo.Gun.GainAmmo(50);
             currentPowerUp = PlayerBonus.None;
         }
+
+        if (currentPerk == PlayerPerks.Speed) IncreaseSpeed(1.5f);
 
 
         if (isGrounded)
@@ -85,6 +104,16 @@ public class Player : MonoBehaviour
         
     }
 
+    private void MeCagoEnLaPuta()
+    {
+        if (currentPerk == PlayerPerks.Shielded)
+        {
+            if (isShielded) return;
+            isShielded = true;
+            UnityEvents.shielded.Invoke(true);
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Interaction"))
@@ -102,6 +131,17 @@ public class Player : MonoBehaviour
             else currentPowerUp = PlayerBonus.MaxAmmo;
             Destroy(other.gameObject);
         }
+    }
+
+    public void IncreaseSpeed(float speed)
+    {
+        if (wingsIsCollected) return;
+        moveSpeed *= speed;
+        wingsIsCollected = true;
+
+        if (speedIsCollected) return;
+        moveSpeed *= speed;
+        speedIsCollected = true;
     }
     private async void asyncRemovePowerUp()
     {

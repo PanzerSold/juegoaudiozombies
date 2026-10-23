@@ -1,7 +1,6 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using UnityEngine.Rendering;
 
 public class Hammer : MonoBehaviour
 {
@@ -10,6 +9,7 @@ public class Hammer : MonoBehaviour
     [SerializeField] private bool isOnCooldown = false;
     [SerializeField] private RawImage hammerImage;
     [SerializeField] private TextMeshProUGUI HammerText;
+    [SerializeField] private PlayerInputs pi;
     private Color originalColor;
     private float cooldownTimer;
     private int timeLeft;
@@ -61,7 +61,7 @@ public class Hammer : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyUp(KeyCode.X))
+        if (pi.skillAction.WasPressedThisFrame())
         {
             if (!isOnCooldown)
             {

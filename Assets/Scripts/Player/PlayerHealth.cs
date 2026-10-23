@@ -7,6 +7,7 @@ public class PlayerHealth : MonoBehaviour
 
     public int health = 6;
     private HealthBar healthBar;
+    private Player player;
     private float invulnUntil = 0f;
 
     public bool IsInvulnerable => Time.time < invulnUntil;
@@ -15,6 +16,7 @@ public class PlayerHealth : MonoBehaviour
     {
         health = healthMax;
         healthBar = GetComponent<HealthBar>();
+        player = GetComponent<Player>();
     }
 
     /* private void Update()
@@ -44,6 +46,13 @@ public class PlayerHealth : MonoBehaviour
     public void LoseHealth(int damage)
     {
         if (IsInvulnerable) return;
+        if (player.isShielded)
+        {
+            invulnUntil = Time.time + invulnTime;
+            player.isShielded = false;
+            UnityEvents.shielded.Invoke(false);
+            return;
+        }
 
         invulnUntil = Time.time + invulnTime;
         health = Mathf.Max(0, health - damage);

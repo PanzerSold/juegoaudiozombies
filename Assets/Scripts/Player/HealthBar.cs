@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class HealthBar : MonoBehaviour
 {
     private PlayerHealth playerHealth;
+    private Player player;
     [SerializeField] private RawImage image1;
     [SerializeField] private RawImage image2;
     [SerializeField] private RawImage image3;
@@ -12,12 +13,14 @@ public class HealthBar : MonoBehaviour
     [SerializeField] private RawImage image6;
     private RawImage[] images;
     [SerializeField] private Gradient colorByHealth;
-
+    [SerializeField] private RawImage shield;
     private void Start()
     {
         images = new RawImage[] { image1, image2, image3, image4, image5, image6 };
         playerHealth = GetComponent<PlayerHealth>();
+        player = GetComponent<Player>();
         UnityEvents.onHealthChanged.AddListener(OnHealthChange);
+        UnityEvents.shielded.AddListener(Shielded);
     }
 
     private void CasoMuerte()
@@ -40,5 +43,15 @@ public class HealthBar : MonoBehaviour
                 images[i].color = colorByHealth.Evaluate(healthPercent);
             }
         }    
+    }
+
+    public void Shielded(bool isShielded)
+    {
+        player.isShielded = isShielded;
+        if (shield != null)
+        {
+            if (!isShielded) shield.gameObject.SetActive(false);
+            else shield.gameObject.SetActive(true);
+        }
     }
 }

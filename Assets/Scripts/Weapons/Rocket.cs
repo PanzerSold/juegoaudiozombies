@@ -32,13 +32,11 @@ public class Rocket : MonoBehaviour
         {
             Move();
         } 
-
     }
 
     private void Move()
     {
         transform.position += transform.forward * speed * Time.deltaTime;
-
     }
     private void OnTriggerEnter(Collider other)
     {

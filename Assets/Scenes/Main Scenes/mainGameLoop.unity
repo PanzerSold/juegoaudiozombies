@@ -1959,7 +1959,9 @@ MonoBehaviour:
   textPoints: {fileID: 864710123}
   BarrierBuildSfx: {fileID: 1667936313}
   points: 0
+  isShielded: 0
   currentPowerUp: 0
+  currentPerk: 0
   pi: {fileID: 0}
   inv: {fileID: 0}
 --- !u!114 &1161843250
@@ -2163,6 +2165,7 @@ MonoBehaviour:
     m_ColorSpace: -1
     m_NumColorKeys: 3
     m_NumAlphaKeys: 2
+  shield: {fileID: 0}
 --- !u!114 &1161843256
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9565,7 +9568,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6774288956877053420, guid: 9ce33e94799d50f43857c24c2111489e, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.825
+      value: -1.757
       objectReference: {fileID: 0}
     - target: {fileID: 6774288956877053420, guid: 9ce33e94799d50f43857c24c2111489e, type: 3}
       propertyPath: m_LocalRotation.w

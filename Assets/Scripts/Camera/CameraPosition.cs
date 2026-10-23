@@ -42,13 +42,14 @@ public class CameraPosition : MonoBehaviour
         bool isGamepad = pi.lookAction.activeControl?.device is Gamepad;
 
         float currentSensibility = isGamepad ? stickSensibility : mouseSensibility;
-        float mult = currentSensibility * Time.deltaTime * sensibility;
+        float userMult = isGamepad ? GameSettings.StickSensitivity : GameSettings.MouseSensitivity;
+        float mult = currentSensibility * Time.deltaTime * sensibility * userMult;
 
         Vector3 newDesiredAngleX = player.transform.eulerAngles + Vector3.up * lookAround.x * mult;
         player.transform.eulerAngles = Vector3.Slerp(player.transform.eulerAngles, newDesiredAngleX, smoothing);
 
         float newDesiredAngleY = camara.transform.eulerAngles.x - lookAround.y * mult;
-
+        
         newDesiredAngleY = Mathf.Lerp(camara.transform.eulerAngles.x, newDesiredAngleY, smoothing); 
         newDesiredAngleY = Mathf.Clamp(Normalize(newDesiredAngleY), MaxDownAngle, MaxUpAngle);
 

@@ -64,7 +64,7 @@ public class Player : MonoBehaviour
         playerAmmo = GetComponent<PlayerShoot>();
         pointsStart = textPoints.text;
         textPoints.text = pointsStart + " " + points;
-        MeCagoEnLaPuta();
+        CheckPerk();
     }
 
     private void Update()
@@ -104,7 +104,7 @@ public class Player : MonoBehaviour
         
     }
 
-    private void MeCagoEnLaPuta()
+    private void CheckPerk()
     {
         if (currentPerk == PlayerPerks.Shielded)
         {

@@ -16,6 +16,7 @@ public class Hammer : MonoBehaviour
     private int lastTimeLeft;
     void Awake()
     {
+        pi = GetComponent<PlayerInputs>();
         cooldownTimer = coolDown;
         lastTimeLeft = -1;
 

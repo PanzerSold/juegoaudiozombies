@@ -10,7 +10,7 @@ public class PlayerHealth : MonoBehaviour
     private Player player;
     private float invulnUntil = 0f;
 
-    public bool IsInvulnerable => Time.time < invulnUntil;
+    public bool IsInvulnerable => 0 < invulnUntil;
 
     private void Start()
     {
@@ -19,21 +19,6 @@ public class PlayerHealth : MonoBehaviour
         player = GetComponent<Player>();
     }
 
-    /* private void Update()
-    {
-        //testeo de los metodos y ver si el hud cambia
-       
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            loseHealth(1);
-        }
-
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            gainHealth(1);
-        }
-        
-    } */
     public void GainHealth(int bonusHealth)
     {
         health += bonusHealth;
@@ -43,18 +28,20 @@ public class PlayerHealth : MonoBehaviour
         }
         healthBar.OnHealthChange(health);
     }
-    public void LoseHealth(int damage)
+    private void Update()
+    {
+        if (invulnUntil > 0) invulnUntil -= Time.deltaTime;
+    }
+    public void LoseHealth(int damage = 1)
     {
         if (IsInvulnerable) return;
+        invulnUntil = invulnTime;
         if (player.isShielded)
         {
-            invulnUntil = Time.time + invulnTime;
             player.isShielded = false;
             UnityEvents.shielded.Invoke(false);
             return;
         }
-
-        invulnUntil = Time.time + invulnTime;
         health = Mathf.Max(0, health - damage);
         healthBar.OnHealthChange(health);
     }

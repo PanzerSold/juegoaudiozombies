@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class ZombieBase : MonoBehaviour
@@ -19,6 +20,7 @@ public class ZombieBase : MonoBehaviour
     [SerializeField] private float rotationSpeed = 10f;
 
     [SerializeField] private int zombieDamage = 1;
+    [SerializeField] private ParticleSystem ps;
     private bool destroyingBarricade = false;
     private RoundManager rm;
 
@@ -114,6 +116,7 @@ public class ZombieBase : MonoBehaviour
 
     private void Hit(Collision collision)
     {
+        if (!collision.gameObject.CompareTag("Player") || isStunned) return;
         PlayerHealth ph = collision.gameObject.GetComponent<PlayerHealth>();
         if (ph != null) ph.LoseHealth(zombieDamage);
     }
@@ -134,6 +137,18 @@ public class ZombieBase : MonoBehaviour
             ultimabarricada.zombiesClose++;
             destroyingBarricade = true;
         }
+        if (other.CompareTag("Fire"))
+        {
+            StartCoroutine(Burn());
+        }
+    }
+
+    IEnumerator Burn()
+    {
+        isStunned = true;
+        ps.Play();
+        yield return new WaitForSeconds(1f);
+        Despawn();
     }
     
     public void OnTriggerExit(Collider other)

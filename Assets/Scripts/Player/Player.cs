@@ -1,3 +1,4 @@
+using System;
 using System.Runtime.CompilerServices;
 using TMPro;
 using Unity.VisualScripting;
@@ -55,10 +56,13 @@ public class Player : MonoBehaviour
 
     [SerializeField] private PlayerInputs pi;
     [SerializeField] private Inventory inv;
+    [SerializeField] private PlayerHealth ph;
+    [SerializeField] private ParticleSystem PlayerFire;
 
     private void Start()
     {
         healthBar = GetComponent<HealthBar>();
+        ph = GetComponent<PlayerHealth>();
         cc = GetComponent<CharacterController>();
         pi = GetComponent<PlayerInputs>();
         playerAmmo = GetComponent<PlayerShoot>();
@@ -130,6 +134,11 @@ public class Player : MonoBehaviour
             }
             else currentPowerUp = PlayerBonus.MaxAmmo;
             Destroy(other.gameObject);
+        }
+        if (other.CompareTag("Fire") && !PlayerFire.isEmitting)
+        {
+            ph.LoseHealth();
+            PlayerFire.Play();
         }
     }
 

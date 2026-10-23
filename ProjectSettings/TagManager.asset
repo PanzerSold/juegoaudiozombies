@@ -12,6 +12,7 @@ TagManager:
   - ZombieBody
   - ZombieBarricade
   - RoundManager
+  - Fire
   layers:
   - Default
   - TransparentFX

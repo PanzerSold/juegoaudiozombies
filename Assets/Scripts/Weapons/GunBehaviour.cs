@@ -45,7 +45,7 @@ public class GunBehaviour : MonoBehaviour
 
     [Header("Balas explosivas")]
 
-    [SerializeField] private float boomRadius = 5f;
+    [SerializeField] private float boomRadius = 1f;
 
     public bool IsAutomatic => isAutomatic;
 

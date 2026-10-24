@@ -179,7 +179,7 @@ MonoBehaviour:
   minPitchShift: 0.85
   maxPitchShift: 1.15
   isAutomatic: 1
-  boomRadius: 5
+  boomRadius: 1
 --- !u!1 &42791569
 GameObject:
   m_ObjectHideFlags: 0
@@ -893,16 +893,16 @@ MonoBehaviour:
   delayRecharge: 1.6
   materialGenerico: {fileID: 2100000, guid: 339a08f372e0c174697772bb3778b054, type: 2}
   materialZombieHit: {fileID: 2100000, guid: 9dad342eb7181ab46bec85813f91a10b, type: 2}
-  shootClip: {fileID: 8300000, guid: aea99e80afc842442a0e66725ed441ef, type: 3}
-  reloadClip: {fileID: 8300000, guid: efbca229fc5672c469f9b6cfbaf720d3, type: 3}
+  shootClip: {fileID: 8300000, guid: 04bb933874e04924f906e369eecfa780, type: 3}
+  reloadClip: {fileID: 8300000, guid: 2b966f1b43a752648aaa1aad1cc35fdb, type: 3}
   minPitchShift: 0.85
   maxPitchShift: 1.15
   isAutomatic: 0
-  boomRadius: 5
+  boomRadius: 1
   rocketPrefab: {fileID: 5330413437615586180, guid: 6d6a9e32c3c812242bc81c4b1136589d, type: 3}
   rocketSpawn: {fileID: 1515229846}
   rocketSpeed: 20
-  explosionRadius: 4
+  explosionRadius: 3
   destroyTime: 1
 --- !u!1 &489635027
 GameObject:
@@ -1031,12 +1031,12 @@ MonoBehaviour:
   delayRecharge: 1
   materialGenerico: {fileID: 2100000, guid: 339a08f372e0c174697772bb3778b054, type: 2}
   materialZombieHit: {fileID: 2100000, guid: 9dad342eb7181ab46bec85813f91a10b, type: 2}
-  shootClip: {fileID: 8300000, guid: aa98b504a36bfca4e96ae1399172dfca, type: 3}
-  reloadClip: {fileID: 8300000, guid: 4bf8582928d50a944af6ad467f456e67, type: 3}
+  shootClip: {fileID: 8300000, guid: 886fd4719d794cc4588e416e8499d5bb, type: 3}
+  reloadClip: {fileID: 8300000, guid: 2e6772048de8f1a4b89fb435f4a51a51, type: 3}
   minPitchShift: 0.85
   maxPitchShift: 1.15
   isAutomatic: 1
-  boomRadius: 5
+  boomRadius: 1
 --- !u!1 &596719954
 GameObject:
   m_ObjectHideFlags: 0
@@ -1082,7 +1082,7 @@ MonoBehaviour:
   minPitchShift: 0.85
   maxPitchShift: 1.15
   isAutomatic: 0
-  boomRadius: 5
+  boomRadius: 1
   raycastCount: 8
   spreadAngle: 3
   rotationPerShot: 13
@@ -1323,12 +1323,12 @@ MonoBehaviour:
   delayRecharge: 1.5
   materialGenerico: {fileID: 2100000, guid: 339a08f372e0c174697772bb3778b054, type: 2}
   materialZombieHit: {fileID: 2100000, guid: 9dad342eb7181ab46bec85813f91a10b, type: 2}
-  shootClip: {fileID: 8300000, guid: fe4459494cd168c40a999616b7256f0d, type: 3}
-  reloadClip: {fileID: 8300000, guid: efbca229fc5672c469f9b6cfbaf720d3, type: 3}
+  shootClip: {fileID: 8300000, guid: 3f26692162b664846a963b6f596a775d, type: 3}
+  reloadClip: {fileID: 8300000, guid: 1f986205b033f224382da58c461262ca, type: 3}
   minPitchShift: 0.85
   maxPitchShift: 1.15
   isAutomatic: 0
-  boomRadius: 5
+  boomRadius: 1
 --- !u!4 &801350407 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4887692034885589234, guid: 4b75b4deedc44384091989b6dba7516c, type: 3}
@@ -1466,7 +1466,7 @@ MonoBehaviour:
   minPitchShift: 0.85
   maxPitchShift: 1.15
   isAutomatic: 1
-  boomRadius: 5
+  boomRadius: 1
 --- !u!1 &864710121
 GameObject:
   m_ObjectHideFlags: 0
@@ -1752,7 +1752,7 @@ MonoBehaviour:
   minPitchShift: 0.85
   maxPitchShift: 1.15
   isAutomatic: 0
-  boomRadius: 5
+  boomRadius: 1
   bulletsPerBurst: 3
   burstInterval: 0.1
 --- !u!4 &925252364
@@ -6971,7 +6971,7 @@ MonoBehaviour:
   minPitchShift: 0.85
   maxPitchShift: 1.15
   isAutomatic: 0
-  boomRadius: 2
+  boomRadius: 1
 --- !u!1 &1161843243
 GameObject:
   m_ObjectHideFlags: 0
@@ -7097,11 +7097,11 @@ Transform:
   - {fileID: 925252364}
   - {fileID: 596719956}
   - {fileID: 476714474}
-  - {fileID: 5500560}
   - {fileID: 773556582}
+  - {fileID: 5500560}
+  - {fileID: 830729390}
   - {fileID: 517893440}
   - {fileID: 1688482258}
-  - {fileID: 830729390}
   - {fileID: 9021659356763187329}
   - {fileID: 1246753956}
   - {fileID: 1749070859}
@@ -7160,7 +7160,7 @@ MonoBehaviour:
   - 20
   - 20
   - 0
-  activePerks: 0000000000000001
+  activePerks: 0000000000000000
   pi: {fileID: 0}
   inv: {fileID: 0}
   ph: {fileID: 0}
@@ -8728,12 +8728,12 @@ MonoBehaviour:
   delayRecharge: 1.2
   materialGenerico: {fileID: 2100000, guid: 339a08f372e0c174697772bb3778b054, type: 2}
   materialZombieHit: {fileID: 2100000, guid: 9dad342eb7181ab46bec85813f91a10b, type: 2}
-  shootClip: {fileID: 8300000, guid: aa98b504a36bfca4e96ae1399172dfca, type: 3}
-  reloadClip: {fileID: 8300000, guid: 4bf8582928d50a944af6ad467f456e67, type: 3}
+  shootClip: {fileID: 8300000, guid: 886fd4719d794cc4588e416e8499d5bb, type: 3}
+  reloadClip: {fileID: 8300000, guid: 2e6772048de8f1a4b89fb435f4a51a51, type: 3}
   minPitchShift: 0.85
   maxPitchShift: 1.15
   isAutomatic: 1
-  boomRadius: 5
+  boomRadius: 1
 --- !u!1 &1717935545
 GameObject:
   m_ObjectHideFlags: 0

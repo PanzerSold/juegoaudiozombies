@@ -800,11 +800,12 @@ MonoBehaviour:
   delayRecharge: 7
   materialGenerico: {fileID: 2100000, guid: 339a08f372e0c174697772bb3778b054, type: 2}
   materialZombieHit: {fileID: 2100000, guid: 9dad342eb7181ab46bec85813f91a10b, type: 2}
-  ShootSfx: {fileID: 153053061}
-  emptyMagSfx: {fileID: 1717935547}
-  ReloadSfx: {fileID: 1843296159}
-  rechargeText: Reloading...
+  shootClip: {fileID: 0}
+  reloadClip: {fileID: 0}
+  minPitchShift: 0.85
+  maxPitchShift: 1.15
   isAutomatic: 0
+  player: {fileID: 0}
   rocketPrefab: {fileID: 5330413437615586180, guid: 6d6a9e32c3c812242bc81c4b1136589d, type: 3}
   rocketSpawn: {fileID: 1515229846}
   rocketSpeed: 20
@@ -922,11 +923,12 @@ MonoBehaviour:
   delayRecharge: 3
   materialGenerico: {fileID: 2100000, guid: 339a08f372e0c174697772bb3778b054, type: 2}
   materialZombieHit: {fileID: 2100000, guid: 9dad342eb7181ab46bec85813f91a10b, type: 2}
-  ShootSfx: {fileID: 153053061}
-  emptyMagSfx: {fileID: 1717935547}
-  ReloadSfx: {fileID: 1843296159}
-  rechargeText: Reloading...
+  shootClip: {fileID: 0}
+  reloadClip: {fileID: 0}
+  minPitchShift: 0.85
+  maxPitchShift: 1.15
   isAutomatic: 0
+  player: {fileID: 1161843249}
   raycastCount: 8
   spreadAngle: 3
   rotationPerShot: 13
@@ -1469,11 +1471,12 @@ MonoBehaviour:
   delayRecharge: 3
   materialGenerico: {fileID: 2100000, guid: 339a08f372e0c174697772bb3778b054, type: 2}
   materialZombieHit: {fileID: 2100000, guid: 9dad342eb7181ab46bec85813f91a10b, type: 2}
-  ShootSfx: {fileID: 153053061}
-  emptyMagSfx: {fileID: 1717935547}
-  ReloadSfx: {fileID: 1843296159}
-  rechargeText: Reloading...
+  shootClip: {fileID: 0}
+  reloadClip: {fileID: 0}
+  minPitchShift: 0.85
+  maxPitchShift: 1.15
   isAutomatic: 0
+  player: {fileID: 1161843249}
   bulletsPerBurst: 3
   burstInterval: 0.1
 --- !u!4 &925252364
@@ -1906,14 +1909,11 @@ MonoBehaviour:
   - 20
   - 20
   - 0
-  activePerks: 00000000000000
-  currentPowerUp: 0
-  currentPerk: 0
+  activePerks: 0000000000000001
   pi: {fileID: 0}
   inv: {fileID: 0}
   ph: {fileID: 0}
   PlayerFire: {fileID: 0}
-  gunBehaviour: {fileID: 1471016587}
 --- !u!114 &1161843250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1945,6 +1945,9 @@ MonoBehaviour:
   playerCamera: {fileID: 330585545}
   playerAmmoText: {fileID: 1948318343}
   shotParticle: {fileID: 1749070861}
+  shootSfx: {fileID: 0}
+  emptyMagSfx: {fileID: 0}
+  reloadSfx: {fileID: 0}
 --- !u!114 &1161843252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2713,11 +2716,12 @@ MonoBehaviour:
   delayRecharge: 3
   materialGenerico: {fileID: 2100000, guid: 339a08f372e0c174697772bb3778b054, type: 2}
   materialZombieHit: {fileID: 2100000, guid: 9dad342eb7181ab46bec85813f91a10b, type: 2}
-  ShootSfx: {fileID: 153053061}
-  emptyMagSfx: {fileID: 1717935547}
-  ReloadSfx: {fileID: 1843296159}
-  rechargeText: Reloading...
+  shootClip: {fileID: 0}
+  reloadClip: {fileID: 0}
+  minPitchShift: 0.85
+  maxPitchShift: 1.15
   isAutomatic: 0
+  player: {fileID: 1161843249}
 --- !u!1001 &1491076215
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9381,11 +9385,12 @@ MonoBehaviour:
   delayRecharge: 3
   materialGenerico: {fileID: 2100000, guid: 339a08f372e0c174697772bb3778b054, type: 2}
   materialZombieHit: {fileID: 2100000, guid: 9dad342eb7181ab46bec85813f91a10b, type: 2}
-  ShootSfx: {fileID: 153053061}
-  emptyMagSfx: {fileID: 1717935547}
-  ReloadSfx: {fileID: 1843296159}
-  rechargeText: Reloading...
+  shootClip: {fileID: 0}
+  reloadClip: {fileID: 0}
+  minPitchShift: 0.85
+  maxPitchShift: 1.15
   isAutomatic: 1
+  player: {fileID: 1161843249}
 --- !u!1001 &797326552692872587
 PrefabInstance:
   m_ObjectHideFlags: 0

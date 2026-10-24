@@ -43,10 +43,15 @@ public abstract class Interaction : MonoBehaviour
             puntosRequeridos = value;
         }
     }
+
+    protected virtual void UpdatePriceText()
+    {
+        textoInteraccion.text = fullString.Replace(puntosRequeridos.ToString(), PuntosRequeridos.ToString());
+    }
     public virtual void PlayerEntered()
     {
         jugadorDentro = true;
-        textoInteraccion.text = fullString;
+        UpdatePriceText();
         textoInteraccion.gameObject.SetActive(true);
     }
     public virtual void PlayerExit()

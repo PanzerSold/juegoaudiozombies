@@ -49,8 +49,6 @@ public class Player : MonoBehaviour
 
     private float horizontalMovement;
     private float forwardMovement;
-    [SerializeField] private PlayerPerks currentPerk;
-    public PlayerPerks CurrentPerk => currentPerk;
     private float verticalMovement = -2f;
     private CharacterController cc;
 
@@ -74,10 +72,6 @@ public class Player : MonoBehaviour
     {
         bool isGrounded = cc.isGrounded;
         Vector3 playerMovement;
-
-
-        if (currentPerk == PlayerPerks.Speed) IncreaseSpeed(1.5f);
-
 
         if (isGrounded)
         {
@@ -103,7 +97,7 @@ public class Player : MonoBehaviour
     {
         await Awaitable.WaitForSecondsAsync(30f);
         if (this == null) return;
-        if (currentPerk == PlayerPerks.Shielded)
+        if (activePerks[0])
         {
             UnityEvents.shielded.Invoke(true);
         }
@@ -131,6 +125,7 @@ public class Player : MonoBehaviour
             ph.LoseHealth();
             PlayerFire.Play();
         }
+        if (activePerks[1]) IncreaseSpeed(1.5f);
     }
 
     private void ActivatePowerUp(PlayerBonus bonus)

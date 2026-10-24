@@ -1,6 +1,6 @@
 using UnityEngine;
-
-/*  public class UpgradesMachine : BaseMachine
+/*
+public class UpgradesMachine : BaseMachine
 {
     [SerializeField] private Inventory.itemIndex givenUpgrade;
     protected override void Start()
@@ -28,5 +28,4 @@ using UnityEngine;
     }
 } 
 */
-
 // Filo ahi les puse los nombres para el metodo, fijate que tiene que ser "upgrade", nose si es un itemType el upgrade o aparte, ahi ni idea.

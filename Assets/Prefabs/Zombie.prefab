@@ -5118,6 +5118,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a9fec6589d70e541aedefc4f1715ba4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ZombieBase
+  criticalChance: 0.33
   pus: {fileID: 2163085699649589148}
   speed: 2
   rotationSpeed: 10
@@ -5146,7 +5147,7 @@ MonoBehaviour:
     effect: 4
   - prefab: {fileID: 6636371496198895447, guid: 1ac2f91336786fa4f9cf210230d52eec, type: 3}
     effect: 5
-  dropChance: 0.1
+  dropChance: 0.075
 --- !u!54 &4528784402512057155
 Rigidbody:
   m_ObjectHideFlags: 0

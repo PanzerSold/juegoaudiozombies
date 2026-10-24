@@ -4,6 +4,10 @@ using UnityEngine;
 public class ZombieBase : MonoBehaviour
 {
     private float health = 10f;
+
+    [Header("Probabilidad de crítico")]
+    [SerializeField, Range(0f, 1f)]
+    private float criticalChance = 0.33f;
     // public bool Active = true;
     private bool isStunned = false;
     // private RoundManager rm;
@@ -89,10 +93,20 @@ public class ZombieBase : MonoBehaviour
             }
             else
             {
-                health -= damage * 5;
+                if (player.activePerks[6])
+                {
+                    if (Random.value >= criticalChance) return;
+                    health -= damage * 10;
+                }
+                else health -= damage * 5;
             }
         }
-        health -= damage;
+        if (player.activePerks[6])
+        {
+            if (Random.value >= criticalChance) return;
+            health -= damage * 2;
+        }
+        else health -= damage;
         if (health <= 0)
         {
             player.AwardPoints(60);

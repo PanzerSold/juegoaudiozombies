@@ -1,5 +1,6 @@
 using System.Collections;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GunBehaviour : MonoBehaviour
@@ -42,6 +43,10 @@ public class GunBehaviour : MonoBehaviour
 
     [SerializeField] private bool isAutomatic = false;
 
+    [Header("Balas explosivas")]
+
+    [SerializeField] private float boomRadius = 5f;
+
     public bool IsAutomatic => isAutomatic;
 
     public int AmmoCurrent => ammoCurrent;
@@ -60,19 +65,21 @@ public class GunBehaviour : MonoBehaviour
 
     public int AmmoQuantity => ammoQuantity;
     private Coroutine rechargeCoroutine;
+    private Player player;
 
     private void Awake()
     {
         ammoCurrent = ammoMax;
     }
 
-    public void Initialize(Camera playerCamera, TextMeshProUGUI playerAmmoText, ParticleSystem shotParticle, AudioSource shootSource, AudioSource reloadSource)
+    public void Initialize(Camera playerCamera, TextMeshProUGUI playerAmmoText, ParticleSystem shotParticle, AudioSource shootSource, AudioSource reloadSource, Player playerScript)
     {
         cameraPos = playerCamera;
         ammoText = playerAmmoText;
         ps = shotParticle;
         shootSfx = shootSource;
         reloadSfx = reloadSource;
+        player = playerScript;
 
         if (ps != null)
         {
@@ -98,22 +105,53 @@ public class GunBehaviour : MonoBehaviour
         if (Physics.Raycast(origin, direction, out hit, raycastDistance, coll))
         {
             ps.transform.position = hit.point;
-            if (hit.collider.CompareTag("ZombieBody"))
-            {
 
-                ZombieBase zombie = hit.collider.GetComponent<ZombieBase>();
-                zombie.ReceiveDamage(false, gunDamage);
-                impactMaterial = materialZombieHit;
+            if (player.activePerks[7])
+            {
+                float explosiveDamage = gunDamage * 2;
+                Collider[] colliders = Physics.OverlapSphere(hit.point, boomRadius);
+
+                foreach (Collider hitCollider in colliders)
+                {
+                    if (hitCollider.CompareTag("ZombieBody"))
+                    {
+
+                        ZombieBase zombie = hitCollider.GetComponent<ZombieBase>();
+                        zombie.ReceiveDamage(false, explosiveDamage);
+                        impactMaterial = materialZombieHit;
+                    }
+
+                    if (hitCollider.CompareTag("ZombieHead"))
+                    {
+
+                        ZombieBase zombie = hitCollider.GetComponentInParent<ZombieBase>();
+
+                        zombie.ReceiveDamage(true, explosiveDamage);
+                        impactMaterial = materialZombieHit;
+
+                    }
+                }
             }
 
-            if (hit.collider.CompareTag("ZombieHead"))
+            else
             {
+                if (hit.collider.CompareTag("ZombieBody"))
+                {
 
-                ZombieBase zombie = hit.collider.GetComponentInParent<ZombieBase>();
+                    ZombieBase zombie = hit.collider.GetComponent<ZombieBase>();
+                    zombie.ReceiveDamage(false, gunDamage);
+                    impactMaterial = materialZombieHit;
+                }
 
-                zombie.ReceiveDamage(true, gunDamage);
-                impactMaterial = materialZombieHit;
+                if (hit.collider.CompareTag("ZombieHead"))
+                {
 
+                    ZombieBase zombie = hit.collider.GetComponentInParent<ZombieBase>();
+
+                    zombie.ReceiveDamage(true, gunDamage);
+                    impactMaterial = materialZombieHit;
+
+                }
             }
 
             psR.material = impactMaterial;

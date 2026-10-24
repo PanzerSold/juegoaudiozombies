@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class RocketLauncher : GunBehaviour
@@ -18,7 +17,8 @@ public class RocketLauncher : GunBehaviour
         Vector3 origin = rocketSpawn.transform.position;
         Quaternion rotation = cameraPos.transform.rotation;
         Rocket rocket = Instantiate(rocketPrefab, origin, rotation);
-        ShootSfx.Play();
+        shootSfx.pitch = Random.Range(minPitchShift, maxPitchShift);
+        shootSfx.PlayOneShot(shootClip);
         FireAmmo();
         rocket.Initialize(rocketSpeed, explosionRadius, gunDamage,destroyTime);
         

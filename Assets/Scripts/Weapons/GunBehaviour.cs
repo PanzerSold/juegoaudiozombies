@@ -25,20 +25,24 @@ public class GunBehaviour : MonoBehaviour
     [SerializeField] protected Material materialZombieHit;
 
     [Header("Sonido")]
-    [SerializeField] protected AudioSource ShootSfx;
-    [SerializeField] private AudioSource emptyMagSfx;
-    [SerializeField] private AudioSource ReloadSfx;
+    [SerializeField] protected AudioClip shootClip;
+    [SerializeField] private AudioClip reloadClip;
+
+    [SerializeField] protected float minPitchShift = 0.85f;
+    [SerializeField] protected float maxPitchShift = 1.15f;
+
+    protected AudioSource shootSfx;
+    private AudioSource reloadSfx;
 
     private TextMeshProUGUI ammoText;
 
-    [SerializeField] private string rechargeText = "Reloading...";
+    private string rechargeText = "Reloading...";
 
     [Header("Automatica")]
 
     [SerializeField] private bool isAutomatic = false;
 
     public bool IsAutomatic => isAutomatic;
-    public AudioSource EmptyMagSfx => emptyMagSfx;
 
     public int AmmoCurrent => ammoCurrent;
 
@@ -62,11 +66,13 @@ public class GunBehaviour : MonoBehaviour
         ammoCurrent = ammoMax;
     }
 
-    public void Initialize(Camera playerCamera, TextMeshProUGUI playerAmmoText, ParticleSystem shotParticle)
+    public void Initialize(Camera playerCamera, TextMeshProUGUI playerAmmoText, ParticleSystem shotParticle, AudioSource shootSource, AudioSource reloadSource)
     {
         cameraPos = playerCamera;
         ammoText = playerAmmoText;
         ps = shotParticle;
+        shootSfx = shootSource;
+        reloadSfx = reloadSource;
 
         if (ps != null)
         {
@@ -86,7 +92,8 @@ public class GunBehaviour : MonoBehaviour
         Vector3 origin = cameraPos.transform.position;
         Vector3 direction = cameraPos.transform.forward;
         Material impactMaterial = materialGenerico;
-        ShootSfx.Play();
+        shootSfx.pitch = Random.Range(minPitchShift, maxPitchShift);
+        shootSfx.PlayOneShot(shootClip);
         FireAmmo();
         if (Physics.Raycast(origin, direction, out hit, raycastDistance, coll))
         {
@@ -145,7 +152,7 @@ public class GunBehaviour : MonoBehaviour
     private IEnumerator Recharge()
     {
         isRecharging = true;
-        ReloadSfx.Play();
+        reloadSfx.PlayOneShot(reloadClip);
         ammoText.text = rechargeText;
 
         yield return new WaitForSeconds(delayRecharge);

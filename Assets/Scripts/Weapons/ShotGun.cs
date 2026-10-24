@@ -14,7 +14,8 @@ public class ShotGun : GunBehaviour
 
     public override void Shoot()
     {
-        ShootSfx.Play();
+        shootSfx.pitch = Random.Range(minPitchShift, maxPitchShift);
+        shootSfx.PlayOneShot(shootClip);
         FireAmmo();
 
         for (int i = 0; i < raycastCount; i++)

@@ -11,6 +11,10 @@ public class PlayerShoot : MonoBehaviour
 
     [SerializeField] private ParticleSystem shotParticle;
 
+    [Header("Sonido")]
+    [SerializeField] protected AudioSource shootSfx;
+    [SerializeField] private AudioSource emptyMagSfx;
+    [SerializeField] private AudioSource reloadSfx;
 
     private PlayerInputs pi;
 
@@ -24,7 +28,7 @@ public class PlayerShoot : MonoBehaviour
     {
         pi = gameObject.GetComponent<PlayerInputs>();
         gun = startgun;
-        gun.Initialize(playerCamera, playerAmmoText, shotParticle);
+        gun.Initialize(playerCamera, playerAmmoText, shotParticle, shootSfx, reloadSfx);
 
     }
 
@@ -32,13 +36,18 @@ public class PlayerShoot : MonoBehaviour
     public void EquipGun(GunBehaviour newGun)
     {
         gun = newGun;
-        gun.Initialize(playerCamera, playerAmmoText, shotParticle);
+        gun.Initialize(playerCamera, playerAmmoText, shotParticle, shootSfx, reloadSfx);
         shootTimer = 0;
     }
 
 
     private void Update()
     {
+        if (startgun != gun)
+        {
+            gun = startgun;
+            gun.Initialize(playerCamera, playerAmmoText, shotParticle, shootSfx, reloadSfx);
+        }
         if (gun != null)
          {
             bool inputShoot;
@@ -61,9 +70,9 @@ public class PlayerShoot : MonoBehaviour
                         {
                             gun.Shoot();
                         }
-                        else if (!gun.EmptyMagSfx.isPlaying)
+                        else if (!emptyMagSfx.isPlaying)
                         {
-                            gun.EmptyMagSfx.Play();
+                            emptyMagSfx.Play();
                         }
                         shootTimer = 0;
                     }

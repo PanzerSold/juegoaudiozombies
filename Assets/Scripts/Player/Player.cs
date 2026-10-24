@@ -58,7 +58,6 @@ public class Player : MonoBehaviour
     [SerializeField] private Inventory inv;
     [SerializeField] private PlayerHealth ph;
     [SerializeField] private ParticleSystem PlayerFire;
-    [SerializeField] private GunBehaviour gunBehaviour;
 
     private void Start()
     {
@@ -138,8 +137,8 @@ public class Player : MonoBehaviour
     {
         if (bonus == PlayerBonus.MaxAmmo)
         {
-            gunBehaviour.RechargeAmmo();
-            gunBehaviour.GainAmmo(50);
+            playerAmmo.Gun.RechargeAmmo();
+            playerAmmo.Gun.GainAmmo(50);
             return;
         }
 

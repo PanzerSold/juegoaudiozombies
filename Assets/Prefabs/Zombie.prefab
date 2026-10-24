@@ -5002,7 +5002,6 @@ GameObject:
   - component: {fileID: 3723301033497667439}
   - component: {fileID: 7474087677045280014}
   - component: {fileID: 9203935426817351750}
-  - component: {fileID: 620459027698998543}
   - component: {fileID: 4528784402512057155}
   m_Layer: 0
   m_Name: Zombie
@@ -5118,38 +5117,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a9fec6589d70e541aedefc4f1715ba4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ZombieBase
-  pus: {fileID: 620459027698998543}
   speed: 2
   rotationSpeed: 10
   zombieDamage: 1
-<<<<<<< Updated upstream
   ps: {fileID: 7298432569968053434}
-=======
---- !u!114 &620459027698998543
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7277187663294482894}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edbbea3882163dc47b54df7ca57a4325, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PowerUpSpawner
-  options:
-  - prefab: {fileID: 6636371496198895447, guid: 1ac2f91336786fa4f9cf210230d52eec, type: 3}
-    effect: 1
-  - prefab: {fileID: 6636371496198895447, guid: 1ac2f91336786fa4f9cf210230d52eec, type: 3}
-    effect: 2
-  - prefab: {fileID: 6636371496198895447, guid: 1ac2f91336786fa4f9cf210230d52eec, type: 3}
-    effect: 3
-  - prefab: {fileID: 6636371496198895447, guid: 1ac2f91336786fa4f9cf210230d52eec, type: 3}
-    effect: 4
-  - prefab: {fileID: 6636371496198895447, guid: 1ac2f91336786fa4f9cf210230d52eec, type: 3}
-    effect: 5
-  dropChance: 0.1
->>>>>>> Stashed changes
 --- !u!54 &4528784402512057155
 Rigidbody:
   m_ObjectHideFlags: 0

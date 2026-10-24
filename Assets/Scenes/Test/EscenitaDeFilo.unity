@@ -1897,7 +1897,6 @@ MonoBehaviour:
   gravity: -9.8
   friction: 30
   textPoints: {fileID: 864710123}
-  textPUandP: {fileID: 0}
   BarrierBuildSfx: {fileID: 1667936313}
   points: 0
   activePowerUps:
@@ -1912,6 +1911,9 @@ MonoBehaviour:
   currentPerk: 0
   pi: {fileID: 0}
   inv: {fileID: 0}
+  ph: {fileID: 0}
+  PlayerFire: {fileID: 0}
+  gunBehaviour: {fileID: 1471016587}
 --- !u!114 &1161843250
 MonoBehaviour:
   m_ObjectHideFlags: 0

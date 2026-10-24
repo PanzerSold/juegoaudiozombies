@@ -36,9 +36,8 @@ public class PlayerHealth : MonoBehaviour
     {
         if (IsInvulnerable) return;
         invulnUntil = invulnTime;
-        if (player.isShielded)
+        if (player.activePerks[0])
         {
-            player.isShielded = false;
             UnityEvents.shielded.Invoke(false);
             return;
         }

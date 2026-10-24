@@ -1,7 +1,6 @@
 using System;
 using TMPro;
 using UnityEngine;
-using static Player;
 
 public abstract class Interaction : MonoBehaviour
 {
@@ -35,7 +34,7 @@ public abstract class Interaction : MonoBehaviour
     {
         get
         {
-            if (player.CurrentPowerUp == PlayerBonus.Discount) return puntosRequeridos / 2;
+            if (player.HasPowerUp(Player.PlayerBonus.Discount)) return puntosRequeridos / 2;
             return puntosRequeridos;
         }
 

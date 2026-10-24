@@ -1,6 +1,6 @@
-using System.Runtime.CompilerServices;
+using System.Collections;
+using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,7 +12,6 @@ public class Player : MonoBehaviour
     [SerializeField] private float friction = 5f;
 
     [SerializeField] private TextMeshProUGUI textPoints;
-    [SerializeField] private TextMeshProUGUI textPUandP;
     [SerializeField] private AudioSource BarrierBuildSfx;
     private HealthBar healthBar;
     private PlayerShoot playerAmmo;
@@ -41,12 +40,15 @@ public class Player : MonoBehaviour
     }
 
     public float[] activePowerUps;
+    private Dictionary<PlayerBonus, Coroutine> powerUpTimers = new Dictionary<PlayerBonus, Coroutine>();
+    public bool HasPowerUp(PlayerBonus bonus)
+    {
+        return powerUpTimers.ContainsKey(bonus);
+    }
     public bool[] activePerks;
 
     private float horizontalMovement;
     private float forwardMovement;
-    [SerializeField] private PlayerBonus currentPowerUp = PlayerBonus.None;
-    public PlayerBonus CurrentPowerUp => currentPowerUp;
     [SerializeField] private PlayerPerks currentPerk;
     public PlayerPerks CurrentPerk => currentPerk;
     private float verticalMovement = -2f;
@@ -56,6 +58,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Inventory inv;
     [SerializeField] private PlayerHealth ph;
     [SerializeField] private ParticleSystem PlayerFire;
+    [SerializeField] private GunBehaviour gunBehaviour;
 
     private void Start()
     {
@@ -116,12 +119,12 @@ public class Player : MonoBehaviour
         if (other.CompareTag("PowerUp"))
         {
             PowerUp pu = other.GetComponent<PowerUp>();
-            if (pu.pu != PlayerBonus.None)
+            if (pu != null)
             {
-                currentPowerUp = pu.pu;
-                asyncRemovePowerUp();
+                PlayerBonus bonus = pu.pu;
+                if (bonus == PlayerBonus.None) bonus = PlayerBonus.MaxAmmo;
+                ActivatePowerUp(bonus);
             }
-            else currentPowerUp = PlayerBonus.MaxAmmo;
             Destroy(other.gameObject);
         }
         if (other.CompareTag("Fire") && !PlayerFire.isEmitting)
@@ -129,6 +132,43 @@ public class Player : MonoBehaviour
             ph.LoseHealth();
             PlayerFire.Play();
         }
+    }
+
+    private void ActivatePowerUp(PlayerBonus bonus)
+    {
+        if (bonus == PlayerBonus.MaxAmmo)
+        {
+            gunBehaviour.RechargeAmmo();
+            gunBehaviour.GainAmmo(50);
+            return;
+        }
+
+        if (bonus == PlayerBonus.None) return;
+
+        bool alreadyActive = powerUpTimers.TryGetValue(bonus, out Coroutine existingTimer);
+
+        if (alreadyActive) StopCoroutine(existingTimer);
+        else
+        {
+            if (bonus == PlayerBonus.Wings) IncreaseSpeed(1.5f);
+        }
+
+        int index = (int)bonus;
+
+        if (index >= activePowerUps.Length) return;
+
+        float duration = activePowerUps[index];
+
+        powerUpTimers[bonus] = StartCoroutine(RemovePowerUpAfterTime(bonus, duration));
+    }
+
+    private IEnumerator RemovePowerUpAfterTime(PlayerBonus bonus, float duration)
+    {
+        yield return new WaitForSeconds(duration);
+
+        if (bonus == PlayerBonus.Wings) DecreaseSpeed(1.5f);
+
+        powerUpTimers.Remove(bonus);
     }
 
     private void IncreaseSpeed(float speed)
@@ -140,13 +180,7 @@ public class Player : MonoBehaviour
     {
         moveSpeed /= speed;
     }
-    private async void asyncRemovePowerUp()
-    {
-        await Awaitable.WaitForSecondsAsync(20f);
-        if (this == null) return;
-        if (currentPowerUp == PlayerBonus.Wings) DecreaseSpeed(1.5f);
-        currentPowerUp = PlayerBonus.None;
-    }
+
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Interaction"))
@@ -157,7 +191,7 @@ public class Player : MonoBehaviour
 
     public void AwardPoints(int pts)
     {
-        if (currentPowerUp == PlayerBonus.DoublePoints) points += pts;
+        if (HasPowerUp(PlayerBonus.DoublePoints)) points += pts;
         points += pts;
         textPoints.text = pointsStart + " " + points;
     }

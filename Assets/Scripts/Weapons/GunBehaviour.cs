@@ -142,7 +142,7 @@ public class GunBehaviour : MonoBehaviour
         ammoText.text = ammoCurrent + " / " + ammoQuantity;
     }
 
-    IEnumerator Recharge()
+    private IEnumerator Recharge()
     {
         isRecharging = true;
         ReloadSfx.Play();

@@ -83,7 +83,7 @@ public class ZombieBase : MonoBehaviour
     {
         if (isHeadshot)
         {
-            if (player.CurrentPowerUp == Player.PlayerBonus.HeadShots)
+            if (player.HasPowerUp(Player.PlayerBonus.HeadShots))
             {
                 health = 0;
             }

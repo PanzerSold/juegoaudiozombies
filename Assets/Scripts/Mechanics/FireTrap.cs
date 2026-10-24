@@ -45,7 +45,7 @@ public class FireTrap : Interaction
         }
     }
 
-    IEnumerator ActivarFuego()
+    private IEnumerator ActivarFuego()
     {
         isFireActive = true;
         FuegoTrigger.gameObject.SetActive(true);

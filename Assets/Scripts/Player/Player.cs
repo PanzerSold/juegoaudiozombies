@@ -1,4 +1,3 @@
-using System;
 using System.Runtime.CompilerServices;
 using TMPro;
 using Unity.VisualScripting;
@@ -13,15 +12,12 @@ public class Player : MonoBehaviour
     [SerializeField] private float friction = 5f;
 
     [SerializeField] private TextMeshProUGUI textPoints;
-
+    [SerializeField] private TextMeshProUGUI textPUandP;
     [SerializeField] private AudioSource BarrierBuildSfx;
     private HealthBar healthBar;
     private PlayerShoot playerAmmo;
     private string pointsStart;
     public int points = 0;
-    private bool wingsIsCollected = false;
-    private bool speedIsCollected = false;
-    public bool isShielded = false;
     public enum PlayerBonus
     {
         None,
@@ -34,7 +30,6 @@ public class Player : MonoBehaviour
 
     public enum PlayerPerks
     {
-        None,
         Shielded,
         Speed,
         Haste,
@@ -45,11 +40,14 @@ public class Player : MonoBehaviour
         ExplosiveBullets
     }
 
+    public float[] activePowerUps;
+    public bool[] activePerks;
+
     private float horizontalMovement;
     private float forwardMovement;
     [SerializeField] private PlayerBonus currentPowerUp = PlayerBonus.None;
     public PlayerBonus CurrentPowerUp => currentPowerUp;
-    [SerializeField] private PlayerPerks currentPerk = PlayerPerks.None;
+    [SerializeField] private PlayerPerks currentPerk;
     public PlayerPerks CurrentPerk => currentPerk;
     private float verticalMovement = -2f;
     private CharacterController cc;
@@ -68,7 +66,6 @@ public class Player : MonoBehaviour
         playerAmmo = GetComponent<PlayerShoot>();
         pointsStart = textPoints.text;
         textPoints.text = pointsStart + " " + points;
-        CheckPerk();
     }
 
     private void Update()
@@ -76,14 +73,6 @@ public class Player : MonoBehaviour
         bool isGrounded = cc.isGrounded;
         Vector3 playerMovement;
 
-        if (currentPowerUp == PlayerBonus.Wings) IncreaseSpeed(1.5f);
-
-        if (currentPowerUp == PlayerBonus.MaxAmmo)
-        {
-            playerAmmo.Gun.RechargeAmmo();
-            playerAmmo.Gun.GainAmmo(50);
-            currentPowerUp = PlayerBonus.None;
-        }
 
         if (currentPerk == PlayerPerks.Speed) IncreaseSpeed(1.5f);
 
@@ -108,12 +97,12 @@ public class Player : MonoBehaviour
         
     }
 
-    private void CheckPerk()
+    private async void Shield()
     {
+        await Awaitable.WaitForSecondsAsync(30f);
+        if (this == null) return;
         if (currentPerk == PlayerPerks.Shielded)
         {
-            if (isShielded) return;
-            isShielded = true;
             UnityEvents.shielded.Invoke(true);
         }
     }
@@ -142,20 +131,20 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void IncreaseSpeed(float speed)
+    private void IncreaseSpeed(float speed)
     {
-        if (wingsIsCollected) return;
         moveSpeed *= speed;
-        wingsIsCollected = true;
+    }
 
-        if (speedIsCollected) return;
-        moveSpeed *= speed;
-        speedIsCollected = true;
+    private void DecreaseSpeed(float speed)
+    {
+        moveSpeed /= speed;
     }
     private async void asyncRemovePowerUp()
     {
         await Awaitable.WaitForSecondsAsync(20f);
         if (this == null) return;
+        if (currentPowerUp == PlayerBonus.Wings) DecreaseSpeed(1.5f);
         currentPowerUp = PlayerBonus.None;
     }
     private void OnTriggerExit(Collider other)

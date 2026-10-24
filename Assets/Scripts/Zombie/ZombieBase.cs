@@ -8,6 +8,7 @@ public class ZombieBase : MonoBehaviour
     private bool isStunned = false;
     // private RoundManager rm;
     private Player player;
+    [SerializeField] private PowerUpSpawner pus;
     private Transform playerTransform;
     private bool scriptedMovement = false;
     private Vector3 scriptedDir = Vector3.zero;
@@ -111,6 +112,7 @@ public class ZombieBase : MonoBehaviour
     {
         if(destroyingBarricade) ultimabarricada.zombiesClose--;
         rm.RemoveZombie(this);
+        pus.Spawn();
         Destroy(gameObject);
     }
 

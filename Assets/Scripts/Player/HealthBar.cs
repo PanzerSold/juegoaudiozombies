@@ -47,7 +47,7 @@ public class HealthBar : MonoBehaviour
 
     public void Shielded(bool isShielded)
     {
-        player.isShielded = isShielded;
+        player.activePerks[0] = isShielded;
         if (shield != null)
         {
             if (!isShielded) shield.gameObject.SetActive(false);

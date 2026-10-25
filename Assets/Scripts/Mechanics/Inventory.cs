@@ -1,5 +1,5 @@
 using UnityEngine;
-
+//
 public class Inventory : MonoBehaviour
 {
     public enum itemType
@@ -18,7 +18,6 @@ public class Inventory : MonoBehaviour
         AK47,
         AWP,
         MAC10,
-        Micro_Uzi,
         MP5,
         RPG,
         Remington,
@@ -30,7 +29,7 @@ public class Inventory : MonoBehaviour
         Granada,
         Espray_curativo
     }
-
+    //
     public struct LimitesInventario
     {
         public int Balas_Pistola;
@@ -71,18 +70,9 @@ public class Inventory : MonoBehaviour
         }
     }
     private Item[] actualInventory;
-    //private int equippedSlot = 0;
+    
 
-    void Start()
-    {
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     public void AddItem(Item newItem)
     {
@@ -118,5 +108,10 @@ public class Inventory : MonoBehaviour
         {
             actualInventory[i] = Item.empty;
         }
+    }
+
+    private void Awake()
+    {
+        ResetInventory();
     }
 }

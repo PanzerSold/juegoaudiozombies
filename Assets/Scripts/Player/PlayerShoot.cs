@@ -39,7 +39,7 @@ public class PlayerShoot : MonoBehaviour
     {
         gun = newGun;
         gun.Initialize(playerCamera, playerAmmoText, shotParticle, shootSfx, reloadSfx, player);
-        shootTimer = 0;
+        
     }
 
 

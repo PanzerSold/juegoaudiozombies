@@ -1,8 +1,8 @@
 using UnityEngine;
-/*
+
 public class UpgradesMachine : BaseMachine
 {
-    [SerializeField] private Inventory.itemIndex givenUpgrade;
+    [SerializeField] private Player.PlayerPerks givenPerks;
     protected override void Start()
     {
         base.Start();
@@ -10,22 +10,12 @@ public class UpgradesMachine : BaseMachine
     }
     protected override void Buy()
     {
-        EntregarMejora();
-        Debug.Log("Obtuviste " + givenUpgrade);
+        GivePerk();
+        Debug.Log("Obtuviste " + givenPerks);
     }
-    private void EntregarMejora()
-    {
-        Inventory.Item nuevaMejora = new Inventory.Item(
-            Inventory.itemType.Upgrade,
-            givenUpgrade,
-            amount: 1
-        );
-        if (inventory != null)
-        {
-            inventory.AddUpgrade(nuevaMejora);
 
-        }
+    private void GivePerk()
+    {
+
     }
 } 
-*/
-// Filo ahi les puse los nombres para el metodo, fijate que tiene que ser "upgrade", nose si es un itemType el upgrade o aparte, ahi ni idea.

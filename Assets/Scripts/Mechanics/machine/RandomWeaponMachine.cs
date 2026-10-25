@@ -13,7 +13,7 @@ public class RandomWeaponMachine: BaseMachine
     protected override void Buy()
     {
         EntregarArmaAleatoria();
-        Debug.Log("Te toco el " + availableWeapons);
+        Debug.Log("Te tocó el " + availableWeapons);
     }
 
     private void EntregarArmaAleatoria()

@@ -7,12 +7,19 @@ public class ZombieBase : MonoBehaviour
 
     [Header("Probabilidad de crítico")]
     [SerializeField, Range(0f, 1f)]
+
     private float criticalChance = 0.33f;
+
+    [Header("Probabilidad de curación")]
+    [SerializeField, Range(0f, 1f)]
+
+    private float healChance = 0.0667f;
     // public bool Active = true;
     private bool isStunned = false;
     // private RoundManager rm;
     private Player player;
     [SerializeField] private PowerUpSpawner pus;
+    private PlayerShoot playerAmmo;
     private Transform playerTransform;
     private bool scriptedMovement = false;
     private Vector3 scriptedDir = Vector3.zero;
@@ -34,8 +41,10 @@ public class ZombieBase : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        player = GameObject.Find("Player").GetComponent<Player>();
-        playerTransform = GameObject.Find("Player").GetComponentInParent<Transform>();
+        GameObject playerObject = GameObject.Find("Player");
+        player = playerObject.GetComponent<Player>();
+        playerAmmo = playerObject.GetComponent<PlayerShoot>();
+        playerTransform = playerObject.transform;
         rm = GameObject.FindWithTag("RoundManager").GetComponent<RoundManager>();
         health = rm.SetHealthBasedOnRound();
     }
@@ -109,6 +118,17 @@ public class ZombieBase : MonoBehaviour
         else health -= damage;
         if (health <= 0)
         {
+            if (player.activePerks[5])
+            {
+                PlayerHealth ph = GameObject.Find("Player").GetComponent<PlayerHealth>();
+                if (Random.value >= healChance && ph.health >= 6) return;
+
+            }
+            if (player.activePerks[4] && playerAmmo.Gun != null)
+            {
+                int bonusAmmo = playerAmmo.Gun.AmmoMax * 10 / 100;
+                playerAmmo.Gun.GainAmmo(bonusAmmo);
+            }
             player.AwardPoints(60);
             if (isHeadshot)
             {

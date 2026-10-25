@@ -451,10 +451,10 @@
                 {
                     "name": "",
                     "id": "103d2c7c-d50a-45a5-8c85-26855569e72c",
-                    "path": "",
+                    "path": "<Gamepad>/select",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Gamepad",
                     "action": "Inventory",
                     "isComposite": false,
                     "isPartOfComposite": false

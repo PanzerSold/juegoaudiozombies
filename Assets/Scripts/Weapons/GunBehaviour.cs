@@ -14,6 +14,9 @@ public class GunBehaviour : MonoBehaviour
     [SerializeField] private float shootTime = 0.5f;
     protected ParticleSystemRenderer psR;
 
+    [Header("Inventario")]
+    [SerializeField] private Inventory.itemIndex weaponIndex = Inventory.itemIndex.None;
+
     [Header("Municion")]
     [SerializeField] private int ammoMax = 10;
     [SerializeField] private int ammoQuantity = 50;
@@ -36,11 +39,16 @@ public class GunBehaviour : MonoBehaviour
 
     private TextMeshProUGUI ammoText;
 
+    private Inventory inventory;
+
     private string rechargeText = "Reloading...";
 
     [Header("Automatica")]
 
     [SerializeField] private bool isAutomatic = false;
+
+    public Inventory.itemIndex WeaponIndex => weaponIndex;
+    protected Inventory.itemIndex AmmoType => Inventory.GetAmmoFor(weaponIndex);
 
     [Header("Balas explosivas")]
 
@@ -62,7 +70,8 @@ public class GunBehaviour : MonoBehaviour
 
     public TextMeshProUGUI AmmoText => ammoText;
 
-    public int AmmoQuantity => ammoQuantity;
+    public int AmmoQuantity => inventory != null ? inventory.GetAmount(AmmoType) : 0;
+
     private Coroutine rechargeCoroutine;
     private Player player;
 
@@ -71,14 +80,17 @@ public class GunBehaviour : MonoBehaviour
         ammoCurrent = ammoMax;
     }
 
-    public void Initialize(Camera playerCamera, TextMeshProUGUI playerAmmoText, ParticleSystem shotParticle, AudioSource shootSource, AudioSource reloadSource, Player playerScript)
+    public void Initialize(Camera playerCamera, TextMeshProUGUI playerAmmoText, ParticleSystem shotParticle, AudioSource shootSource, AudioSource reloadSource, Inventory playerInventory)
     {
         cameraPos = playerCamera;
         ammoText = playerAmmoText;
         ps = shotParticle;
         shootSfx = shootSource;
         reloadSfx = reloadSource;
-        player = playerScript;
+
+        if (inventory != null) inventory.OnInventoryChanged -= RefreshAmmoText;
+        inventory = playerInventory;
+        inventory.OnInventoryChanged += RefreshAmmoText;
 
         if (ps != null)
         {
@@ -89,6 +101,30 @@ public class GunBehaviour : MonoBehaviour
         {
             ammoText.text = ammoCurrent + " / " + ammoQuantity;
         }
+
+        RefreshAmmoText();
+
+    }
+
+    public virtual void Unequip()
+    {
+        StopAllCoroutines();
+        CancelReload();
+        if (inventory != null) inventory.OnInventoryChanged -= RefreshAmmoText;
+    }
+
+    public void CancelReload()
+    {
+        if (rechargeCoroutine != null) StopCoroutine(rechargeCoroutine);
+        rechargeCoroutine = null;
+        isRecharging = false;
+        RefreshAmmoText();
+    }
+
+    private void RefreshAmmoText()
+    {
+        if (ammoText == null) return;
+        ammoText.text = isRecharging ? rechargeText : ammoCurrent + " / " + AmmoQuantity;
     }
 
 
@@ -161,14 +197,16 @@ public class GunBehaviour : MonoBehaviour
     }
 
 
-    public void FireAmmo()
+    protected void FireAmmo()
     {
         ammoCurrent--;
         if (ammoCurrent < 0)
         {
             ammoCurrent = 0;
         }
-        ammoText.text = ammoCurrent + " / " + ammoQuantity;
+
+        RefreshAmmoText();
+
     }
     public void RechargeAmmo()
     {
@@ -182,32 +220,24 @@ public class GunBehaviour : MonoBehaviour
 
     public void GainAmmo(int gainedAmmo)
     {
-        ammoQuantity += gainedAmmo;
-        ammoText.text = ammoCurrent + " / " + ammoQuantity;
+        inventory.AddItem(Inventory.CreateItem(AmmoType, gainedAmmo));
+        RefreshAmmoText();
     }
 
     private IEnumerator Recharge()
     {
         isRecharging = true;
         reloadSfx.PlayOneShot(reloadClip);
-        ammoText.text = rechargeText;
+        RefreshAmmoText();
 
         yield return new WaitForSeconds(delayRecharge);
 
-        ammoUsed = ammoMax - ammoCurrent;
-        if (ammoQuantity < ammoUsed)
-        {
-            ammoUsed = ammoQuantity;
-        }
-        ammoCurrent += ammoUsed;
-
-        ammoQuantity -= ammoUsed;
-        if (ammoQuantity < 0)
-        {
-            ammoQuantity = 0;
-        }
-        ammoText.text = ammoCurrent + " / " + ammoQuantity;
         isRecharging = false;
         rechargeCoroutine = null;
+
+        int needed = ammoMax - ammoCurrent;
+        ammoCurrent += inventory.TakeAmount(AmmoType, needed);
+
+        RefreshAmmoText();
     }
 }

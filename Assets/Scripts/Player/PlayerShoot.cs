@@ -1,55 +1,117 @@
 using TMPro;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class PlayerShoot : MonoBehaviour
 {
-    [SerializeField] GunBehaviour startgun;
-
     [SerializeField] private Camera playerCamera;
 
     [SerializeField] private TextMeshProUGUI playerAmmoText;
 
     [SerializeField] private ParticleSystem shotParticle;
+    [SerializeField] private GameObject inventoryPanel;
+
 
     [Header("Sonido")]
     [SerializeField] protected AudioSource shootSfx;
     [SerializeField] private AudioSource emptyMagSfx;
     [SerializeField] private AudioSource reloadSfx;
-    private Player player;
 
     private PlayerInputs pi;
+    private Inventory inventory;
 
     private GunBehaviour gun;
 
     public GunBehaviour Gun => gun;
 
+    private readonly Dictionary<Inventory.itemIndex, GunBehaviour> guns = new Dictionary<Inventory.itemIndex, GunBehaviour>();
+
     private float shootTimer = 0;
+
+    private bool inventoryOpen = false;
+
+    private void Awake()
+    {
+        inventory = GetComponent<Inventory>();
+
+        foreach (GunBehaviour g in GetComponentsInChildren<GunBehaviour>())
+        {
+            if (g.WeaponIndex == Inventory.itemIndex.None)
+            {
+                Debug.LogWarning("El arma '" + g.name + "' no tiene Weapon Index asignado.", g);
+                continue;
+            }
+            if (!guns.TryAdd(g.WeaponIndex, g))
+            {
+                Debug.LogWarning("Dos armas comparten el Weapon Index " + g.WeaponIndex + " ('" + g.name + "').", g);
+            }
+        }
+    }
 
     private void Start()
     {
-        player = GetComponent<Player>();
         pi = gameObject.GetComponent<PlayerInputs>();
-        gun = startgun;
-        gun.Initialize(playerCamera, playerAmmoText, shotParticle, shootSfx, reloadSfx, player);
+        EquipWeapon(inventory.EquippedWeapon);
 
     }
 
 
+    private void EquipWeapon(Inventory.itemIndex weapon)
+    {
+        if (!guns.TryGetValue(weapon, out GunBehaviour newGun))
+        {
+            Debug.LogWarning("No hay ningun arma en el Player con Weapon Index " + weapon);
+            return;
+        }
+        EquipGun(newGun);
+    }
+
     public void EquipGun(GunBehaviour newGun)
     {
+        if (newGun == gun) return;
+        if (gun != null) gun.Unequip();
+
         gun = newGun;
-        gun.Initialize(playerCamera, playerAmmoText, shotParticle, shootSfx, reloadSfx, player);
-        
+        gun.Initialize(playerCamera, playerAmmoText, shotParticle, shootSfx, reloadSfx, inventory);
+        shootTimer = 0;
+    }
+
+    public void EquipFromSlot(int slot)
+    {
+        if (inventory.TrySelectWeaponSlot(slot, out Inventory.itemIndex weapon))
+        {
+            EquipWeapon(weapon);
+            ToggleInventory();
+        }
+    }
+
+    private void ToggleInventory()
+    {
+        inventoryOpen = !inventoryOpen;
+        if (inventoryPanel != null) inventoryPanel.SetActive(inventoryOpen);
+
+        Time.timeScale = inventoryOpen ? 0f : 1f;
+        Cursor.lockState = inventoryOpen ? CursorLockMode.None : CursorLockMode.Locked;
+        Cursor.visible = inventoryOpen;
+
+        if (inventoryOpen && gun != null) gun.CancelReload();
+    }
+
+    private void ThrowGrenade()
+    {
+        if (inventory.TakeAmount(Inventory.itemIndex.Granada, 1) == 0) return;
     }
 
 
     private void Update()
     {
-        if (startgun != gun)
+        if (pi.inventoryAction.WasPressedThisFrame())
         {
-            gun = startgun;
-            gun.Initialize(playerCamera, playerAmmoText, shotParticle, shootSfx, reloadSfx, player);
+            ToggleInventory();
         }
+
+        if (inventoryOpen) return;
+
         if (gun != null)
          {
             bool inputShoot;

@@ -8,6 +8,13 @@ public class BurstGun : GunBehaviour
     [SerializeField] private float burstInterval = 0.1f;
 
     private Coroutine burstCoroutine;
+
+    public override void Unequip()
+    {
+        base.Unequip();
+        burstCoroutine = null;
+    }
+
     public override void Shoot()
     {
         if (burstCoroutine == null)

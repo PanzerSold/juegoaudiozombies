@@ -1747,7 +1747,7 @@ MonoBehaviour:
   delayRecharge: 1.1
   materialGenerico: {fileID: 2100000, guid: 339a08f372e0c174697772bb3778b054, type: 2}
   materialZombieHit: {fileID: 2100000, guid: 9dad342eb7181ab46bec85813f91a10b, type: 2}
-  shootClip: {fileID: 8300000, guid: fe4459494cd168c40a999616b7256f0d, type: 3}
+  shootClip: {fileID: 8300000, guid: 6f8bb798083f33640ae54b05f5cedf98, type: 3}
   reloadClip: {fileID: 8300000, guid: efbca229fc5672c469f9b6cfbaf720d3, type: 3}
   minPitchShift: 0.85
   maxPitchShift: 1.15
@@ -6966,7 +6966,7 @@ MonoBehaviour:
   delayRecharge: 1
   materialGenerico: {fileID: 2100000, guid: 339a08f372e0c174697772bb3778b054, type: 2}
   materialZombieHit: {fileID: 2100000, guid: 9dad342eb7181ab46bec85813f91a10b, type: 2}
-  shootClip: {fileID: 8300000, guid: fe4459494cd168c40a999616b7256f0d, type: 3}
+  shootClip: {fileID: 8300000, guid: 6f8bb798083f33640ae54b05f5cedf98, type: 3}
   reloadClip: {fileID: 8300000, guid: efbca229fc5672c469f9b6cfbaf720d3, type: 3}
   minPitchShift: 0.85
   maxPitchShift: 1.15

@@ -230,7 +230,8 @@ public class GunBehaviour : MonoBehaviour
         reloadSfx.PlayOneShot(reloadClip);
         RefreshAmmoText();
 
-        yield return new WaitForSeconds(delayRecharge);
+        if (player.activePerks[2]) yield return new WaitForSeconds(delayRecharge / 2);
+        else yield return new WaitForSeconds(delayRecharge);
 
         isRecharging = false;
         rechargeCoroutine = null;

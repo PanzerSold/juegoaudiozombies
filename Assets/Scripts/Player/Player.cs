@@ -7,9 +7,12 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour
 {
     [SerializeField] private InputActionAsset inputActionsAsset;
-    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private static float moveSpeed = 5f;
+    private float wingsSpeed = moveSpeed * 1.5f;
+    private float superSpeed = moveSpeed * 1.7f;
     [SerializeField] private float gravity = -9.8f;
     [SerializeField] private float friction = 5f;
+    private bool hasWings = false;
 
     [SerializeField] private TextMeshProUGUI textPoints;
     [SerializeField] private AudioSource BarrierBuildSfx;
@@ -40,7 +43,7 @@ public class Player : MonoBehaviour
     }
 
     public float[] activePowerUps;
-    private Dictionary<PlayerBonus, Coroutine> powerUpTimers = new Dictionary<PlayerBonus, Coroutine>();
+    [SerializeField] private Dictionary<PlayerBonus, Coroutine> powerUpTimers = new Dictionary<PlayerBonus, Coroutine>();
     public bool HasPowerUp(PlayerBonus bonus)
     {
         return powerUpTimers.ContainsKey(bonus);
@@ -76,9 +79,13 @@ public class Player : MonoBehaviour
         if (isGrounded)
         {
             playerMovement = pi.moveAction.ReadValue<Vector2>();
-            horizontalMovement = Mathf.MoveTowards(horizontalMovement, playerMovement.x * moveSpeed, friction * Time.deltaTime);
-            forwardMovement = Mathf.MoveTowards(forwardMovement, playerMovement.y * moveSpeed, friction * Time.deltaTime);
-            verticalMovement = -2f;
+            bool hasSpeed = activePerks[(int)PlayerPerks.Speed];
+            float currentSpeed;
+            if (!hasSpeed && !hasWings) currentSpeed = moveSpeed;
+            else if ((hasSpeed && !hasWings) || (!hasSpeed && hasWings)) currentSpeed = wingsSpeed;
+            else (currentSpeed) = superSpeed;
+            horizontalMovement = Mathf.MoveTowards(horizontalMovement, playerMovement.x * currentSpeed, friction * Time.deltaTime);
+            forwardMovement = Mathf.MoveTowards(forwardMovement, playerMovement.y * currentSpeed, friction * Time.deltaTime); verticalMovement = -2f;
             playerMovement = new Vector3(horizontalMovement, verticalMovement, forwardMovement);
             Quaternion rotacion = Quaternion.Euler(0f, transform.eulerAngles.y, 0f);
             playerMovement = rotacion*playerMovement;
@@ -93,10 +100,9 @@ public class Player : MonoBehaviour
         
     }
 
-    private async void Shield()
+    private IEnumerator Shield()
     {
-        await Awaitable.WaitForSecondsAsync(30f);
-        if (this == null) return;
+        yield return new WaitForSeconds(30f);
         if (activePerks[0])
         {
             UnityEvents.shielded.Invoke(true);
@@ -125,7 +131,6 @@ public class Player : MonoBehaviour
             ph.LoseHealth();
             PlayerFire.Play();
         }
-        if (activePerks[1]) IncreaseSpeed(1.5f);
     }
 
     private void ActivatePowerUp(PlayerBonus bonus)
@@ -137,16 +142,14 @@ public class Player : MonoBehaviour
             return;
         }
 
+        if (bonus == PlayerBonus.Wings) hasWings = true;
+
         if (bonus == PlayerBonus.None) return;
 
         bool alreadyActive = powerUpTimers.TryGetValue(bonus, out Coroutine existingTimer);
 
         if (alreadyActive) StopCoroutine(existingTimer);
-        else
-        {
-            if (bonus == PlayerBonus.Wings) IncreaseSpeed(1.5f);
-        }
-
+ 
         int index = (int)bonus;
 
         if (index >= activePowerUps.Length) return;
@@ -159,20 +162,8 @@ public class Player : MonoBehaviour
     private IEnumerator RemovePowerUpAfterTime(PlayerBonus bonus, float duration)
     {
         yield return new WaitForSeconds(duration);
-
-        if (bonus == PlayerBonus.Wings) DecreaseSpeed(1.5f);
-
+        if (bonus == PlayerBonus.Wings) hasWings = false;
         powerUpTimers.Remove(bonus);
-    }
-
-    private void IncreaseSpeed(float speed)
-    {
-        moveSpeed *= speed;
-    }
-
-    private void DecreaseSpeed(float speed)
-    {
-        moveSpeed /= speed;
     }
 
     private void OnTriggerExit(Collider other)

@@ -7,7 +7,7 @@ public class PistolBulletMachine : BaseMachine
         base.Start();
         fullString = "Comprar Balas " + PuntosRequeridos + " (E)";
     }
-        protected override void Buy()
+    protected override void Buy()
     {
         player.GetComponent<PlayerShoot>().Gun.GainAmmo(20);
     }

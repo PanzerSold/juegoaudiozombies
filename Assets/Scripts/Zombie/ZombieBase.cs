@@ -1,9 +1,10 @@
 using System.Collections;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class ZombieBase : MonoBehaviour
 {
-    private float health = 10f;
+    [SerializeField] private float health = 10f;
 
     [Header("Probabilidad de crítico")]
     [SerializeField, Range(0f, 1f)]
@@ -104,16 +105,16 @@ public class ZombieBase : MonoBehaviour
             {
                 if (player.activePerks[6])
                 {
-                    if (Random.value >= criticalChance) return;
-                    health -= damage * 10;
+                    if (Random.value >= criticalChance) health -= damage * 5;
+                    else health -= damage * 10;
                 }
                 else health -= damage * 5;
             }
         }
         if (player.activePerks[6])
         {
-            if (Random.value >= criticalChance) return;
-            health -= damage * 2;
+            if (Random.value >= criticalChance) health -= damage;
+            else health -= damage * 2;
         }
         else health -= damage;
         if (health <= 0)
@@ -122,7 +123,7 @@ public class ZombieBase : MonoBehaviour
             {
                 PlayerHealth ph = GameObject.Find("Player").GetComponent<PlayerHealth>();
                 if (Random.value >= healChance && ph.health >= 6) return;
-
+                ph.GainHealth(1);
             }
             if (player.activePerks[4] && playerAmmo.Gun != null)
             {

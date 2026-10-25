@@ -169,6 +169,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 129
   shootTime: 0.11
+  weaponIndex: 0
   ammoMax: 30
   ammoQuantity: 60
   delayRecharge: 1.5
@@ -888,6 +889,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 129
   shootTime: 0
+  weaponIndex: 0
   ammoMax: 1
   ammoQuantity: 3
   delayRecharge: 1.6
@@ -1026,6 +1028,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 129
   shootTime: 0.09
+  weaponIndex: 0
   ammoMax: 30
   ammoQuantity: 60
   delayRecharge: 1
@@ -1072,6 +1075,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 129
   shootTime: 0.6
+  weaponIndex: 0
   ammoMax: 8
   ammoQuantity: 24
   delayRecharge: 1.2
@@ -1318,6 +1322,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 129
   shootTime: 0.7
+  weaponIndex: 0
   ammoMax: 10
   ammoQuantity: 30
   delayRecharge: 1.5
@@ -1456,6 +1461,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 129
   shootTime: 0.13
+  weaponIndex: 0
   ammoMax: 30
   ammoQuantity: 60
   delayRecharge: 1.3
@@ -1742,6 +1748,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 129
   shootTime: 0.25
+  weaponIndex: 0
   ammoMax: 21
   ammoQuantity: 48
   delayRecharge: 1.1
@@ -6961,12 +6968,13 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 129
   shootTime: 0.1
+  weaponIndex: 0
   ammoMax: 10
   ammoQuantity: 50
   delayRecharge: 1
   materialGenerico: {fileID: 2100000, guid: 339a08f372e0c174697772bb3778b054, type: 2}
   materialZombieHit: {fileID: 2100000, guid: 9dad342eb7181ab46bec85813f91a10b, type: 2}
-  shootClip: {fileID: 8300000, guid: fe4459494cd168c40a999616b7256f0d, type: 3}
+  shootClip: {fileID: 8300000, guid: 6f8bb798083f33640ae54b05f5cedf98, type: 3}
   reloadClip: {fileID: 8300000, guid: efbca229fc5672c469f9b6cfbaf720d3, type: 3}
   minPitchShift: 0.85
   maxPitchShift: 1.15
@@ -7147,7 +7155,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   inputActionsAsset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  moveSpeed: 4
   gravity: -9.8
   friction: 30
   textPoints: {fileID: 864710123}
@@ -7160,7 +7167,7 @@ MonoBehaviour:
   - 20
   - 20
   - 0
-  activePerks: 0000000001000000
+  activePerks: 0000000000000000
   pi: {fileID: 0}
   inv: {fileID: 0}
   ph: {fileID: 0}
@@ -7192,10 +7199,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f6271b7107779741b3c48f9b5254093, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::playerAmmunition
-  startgun: {fileID: 1161588207}
   playerCamera: {fileID: 330585545}
   playerAmmoText: {fileID: 1948318343}
   shotParticle: {fileID: 1749070861}
+  inventoryPanel: {fileID: 0}
   shootSfx: {fileID: 153053061}
   emptyMagSfx: {fileID: 1717935547}
   reloadSfx: {fileID: 1843296159}
@@ -7304,6 +7311,15 @@ MonoBehaviour:
     m_Type: 0
     m_ExpectedControlType: 
     m_Id: 8b901eb0-1654-4df0-a507-0badac541167
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  inventoryAction:
+    m_Name: 
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 03005576-b6c1-4b18-87f6-7f6cba337d1b
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings: []
@@ -8164,6 +8180,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -4814080708934774386, guid: e6d509834efb41f43a10b929a30ac476, type: 3}
+      propertyPath: textoInteraccion
+      value: 
+      objectReference: {fileID: 1495732276}
     - target: {fileID: 1516614588075952682, guid: e6d509834efb41f43a10b929a30ac476, type: 3}
       propertyPath: m_Name
       value: MaquinaMejoras (1)
@@ -8783,6 +8803,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 129
   shootTime: 0.1
+  weaponIndex: 0
   ammoMax: 30
   ammoQuantity: 60
   delayRecharge: 1.2

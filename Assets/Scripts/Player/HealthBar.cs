@@ -25,16 +25,28 @@ public class HealthBar : MonoBehaviour
 
     private void CasoMuerte()
     {
-        
+        if (player.activePerks[3])
+        {
+            playerHealth.GainHealth(6);
+            player.activePerks[3] = false;
+            for (int i = 0; i < images.Length; i++)
+            {
+                images[i].gameObject.SetActive(true);
+            }
+        }
     }
     public void OnHealthChange(int health)
     {
         playerHealth.health = health;
         float healthPercent = health / 6f;
+        if (health <= 0)
+        {
+            CasoMuerte();
+            return;
+        }
 
         for (int i = 0; i < images.Length; i++)
-        {
-            if (health == 0) CasoMuerte();
+            {
 
             bool check = health > i;
             if (images[i] != null)
@@ -42,7 +54,7 @@ public class HealthBar : MonoBehaviour
                 images[i].gameObject.SetActive(check);
                 images[i].color = colorByHealth.Evaluate(healthPercent);
             }
-        }    
+            }    
     }
 
     public void Shielded(bool isShielded)

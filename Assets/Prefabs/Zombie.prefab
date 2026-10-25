@@ -5119,6 +5119,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ZombieBase
   criticalChance: 0.33
+  healChance: 0.0667
   pus: {fileID: 2163085699649589148}
   speed: 2
   rotationSpeed: 10

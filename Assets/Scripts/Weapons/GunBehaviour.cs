@@ -87,7 +87,7 @@ public class GunBehaviour : MonoBehaviour
         ps = shotParticle;
         shootSfx = shootSource;
         reloadSfx = reloadSource;
-
+        player = GetComponentInParent<Player>();
         if (inventory != null) inventory.OnInventoryChanged -= RefreshAmmoText;
         inventory = playerInventory;
         inventory.OnInventoryChanged += RefreshAmmoText;

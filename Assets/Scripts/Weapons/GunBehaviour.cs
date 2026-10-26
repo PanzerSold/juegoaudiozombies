@@ -52,7 +52,7 @@ public class GunBehaviour : MonoBehaviour
 
     [Header("Balas explosivas")]
 
-    [SerializeField] private float boomRadius = 1f;
+    [SerializeField] private float boomRadius = 0.5f;
 
     public bool IsAutomatic => isAutomatic;
 
@@ -148,52 +148,31 @@ public class GunBehaviour : MonoBehaviour
 
                 foreach (Collider hitCollider in colliders)
                 {
-                    if (hitCollider.CompareTag("ZombieBody"))
-                    {
-
-                        ZombieBase zombie = hitCollider.GetComponent<ZombieBase>();
-                        zombie.ReceiveDamage(false, explosiveDamage);
-                        impactMaterial = materialZombieHit;
-                    }
-
-                    if (hitCollider.CompareTag("ZombieHead"))
-                    {
-
-                        ZombieBase zombie = hitCollider.GetComponentInParent<ZombieBase>();
-
-                        zombie.ReceiveDamage(true, explosiveDamage);
-                        impactMaterial = materialZombieHit;
-
-                    }
+                    ZombieBase zombie = hitCollider.gameObject.GetComponent<ZombieBase>();
+                    if (zombie != null) zombie.ReceiveDamage(false, explosiveDamage);
                 }
             }
-
-            else
+            
+            if (hit.collider.CompareTag("ZombieBody"))
             {
-                if (hit.collider.CompareTag("ZombieBody"))
-                {
 
                     ZombieBase zombie = hit.collider.GetComponent<ZombieBase>();
                     zombie.ReceiveDamage(false, gunDamage);
                     impactMaterial = materialZombieHit;
-                }
+            }
 
-                if (hit.collider.CompareTag("ZombieHead"))
-                {
+            if (hit.collider.CompareTag("ZombieHead"))
+            {
 
                     ZombieBase zombie = hit.collider.GetComponentInParent<ZombieBase>();
 
                     zombie.ReceiveDamage(true, gunDamage);
                     impactMaterial = materialZombieHit;
 
-                }
             }
-
             psR.material = impactMaterial;
             ps.Play();
-
         }
-
     }
 
 

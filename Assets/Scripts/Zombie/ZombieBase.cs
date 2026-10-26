@@ -28,20 +28,25 @@ public class ZombieBase : MonoBehaviour
 
     private Barricade ultimabarricada;
 
-    [SerializeField] private float speed = 5f;
-
     [SerializeField] private float rotationSpeed = 10f;
 
     [SerializeField] private int zombieDamage = 1;
     [SerializeField] private ParticleSystem ps;
+
+    [SerializeField] private float[] speedValues = new float[3]{1.6f, 1.8f, 2.4f};
+
+    private int speedIndex = 0;
     private bool destroyingBarricade = false;
     private RoundManager rm;
+
+    private Animator anim;
 
     // private float timerPos = 0f;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        anim = GetComponentInChildren<Animator>();
         GameObject playerObject = GameObject.Find("Player");
         player = playerObject.GetComponent<Player>();
         playerAmmo = playerObject.GetComponent<PlayerShoot>();
@@ -68,7 +73,7 @@ public class ZombieBase : MonoBehaviour
             direction.y = 0;
             direction.Normalize();
 
-            Vector3 position = transform.position + direction * speed * Time.fixedDeltaTime;
+            Vector3 position = transform.position + direction * speedValues[speedIndex] * Time.fixedDeltaTime;
             rb.MovePosition(position);
 
             if (direction != Vector3.zero)
@@ -79,10 +84,13 @@ public class ZombieBase : MonoBehaviour
         } 
         else
         {
-
             rb.linearVelocity = Vector3.zero;
 
         }
+
+        float actualSpeed = isStunned ? 0 : speedValues[speedIndex];
+        
+        anim.SetFloat("Speed", actualSpeed);
 
     }
 
@@ -154,8 +162,10 @@ public class ZombieBase : MonoBehaviour
     private void Hit(Collision collision)
     {
         if (!collision.gameObject.CompareTag("Player") || isStunned) return;
+
         PlayerHealth ph = collision.gameObject.GetComponent<PlayerHealth>();
         if (ph != null) ph.LoseHealth(zombieDamage);
+        
     }
 
     /*private void OnCollisionEnter(Collision collision)

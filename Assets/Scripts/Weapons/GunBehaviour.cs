@@ -148,7 +148,7 @@ public class GunBehaviour : MonoBehaviour
 
                 foreach (Collider hitCollider in colliders)
                 {
-                    ZombieBase zombie = hitCollider.gameObject.GetComponent<ZombieBase>();
+                    ZombieBase zombie = hitCollider.gameObject.GetComponentInParent<ZombieBase>();
                     if (zombie != null) zombie.ReceiveDamage(false, explosiveDamage);
                 }
             }
@@ -156,7 +156,7 @@ public class GunBehaviour : MonoBehaviour
             if (hit.collider.CompareTag("ZombieBody"))
             {
 
-                    ZombieBase zombie = hit.collider.GetComponent<ZombieBase>();
+                    ZombieBase zombie = hit.collider.GetComponentInParent<ZombieBase>();
                     zombie.ReceiveDamage(false, gunDamage);
                     impactMaterial = materialZombieHit;
             }

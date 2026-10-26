@@ -55,7 +55,7 @@ public class Rocket : MonoBehaviour
 
         foreach (var hitCollider in colliders)
         {
-            ZombieBase zombie = hitCollider.gameObject.GetComponent<ZombieBase>();
+            ZombieBase zombie = hitCollider.gameObject.GetComponentInParent<ZombieBase>();
             PlayerHealth player = hitCollider.gameObject.GetComponent<PlayerHealth>();
 
             if (player != null)

@@ -55,7 +55,7 @@ public class ShotGun : GunBehaviour
 
             if (hit.collider.CompareTag("ZombieBody"))
             {
-                ZombieBase zombie = hit.collider.GetComponent<ZombieBase>();
+                ZombieBase zombie = hit.collider.GetComponentInParent<ZombieBase>();
                 zombie.ReceiveDamage(false, gunDamage);
 
                 renderer.material = materialZombieHit;

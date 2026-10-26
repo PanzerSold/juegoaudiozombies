@@ -8570,7 +8570,7 @@ MonoBehaviour:
   minPitchShift: 0.85
   maxPitchShift: 1.15
   isAutomatic: 0
-  boomRadius: 1
+  boomRadius: 0.5
 --- !u!1 &1161843243
 GameObject:
   m_ObjectHideFlags: 0
@@ -8749,9 +8749,10 @@ MonoBehaviour:
   inputActionsAsset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   gravity: -9.8
   friction: 30
+  shieldAvailable: 1
   textPoints: {fileID: 864710123}
   BarrierBuildSfx: {fileID: 1667936313}
-  points: 25000
+  points: 500
   activePowerUps:
   - 0
   - 20
@@ -8759,7 +8760,7 @@ MonoBehaviour:
   - 20
   - 20
   - 0
-  activePerks: 0000000000000000
+  activePerks: 0000000000000001
   pi: {fileID: 0}
   inv: {fileID: 0}
   ph: {fileID: 0}

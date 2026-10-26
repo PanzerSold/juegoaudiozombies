@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -14,6 +15,10 @@ public class Player : MonoBehaviour
     [SerializeField] private float friction = 5f;
     private bool hasWings = false;
     public bool shieldAvailable = true;
+    [SerializeField] private float shieldCooldown = 30f;
+    private float shieldCooldownTimer;
+    private int timeLeft;
+    private int lastTimeLeft;
 
     [SerializeField] private TextMeshProUGUI textPoints;
     [SerializeField] private AudioSource BarrierBuildSfx;
@@ -67,13 +72,28 @@ public class Player : MonoBehaviour
         playerAmmo = GetComponent<PlayerShoot>();
         pointsStart = textPoints.text;
         textPoints.text = pointsStart + " " + points;
+        shieldCooldownTimer = shieldCooldown;
+        lastTimeLeft = -1;
     }
 
     private void Update()
     {
+        shieldCooldownTimer += Time.deltaTime;
+        timeLeft = Mathf.CeilToInt(shieldCooldown - shieldCooldownTimer);
         bool isGrounded = cc.isGrounded;
         Vector3 playerMovement;
 
+        if (!shieldAvailable)
+        {
+            if (timeLeft != lastTimeLeft)
+            {
+                HealthBar healthBar = GetComponent<HealthBar>();
+                healthBar.shieldTime.gameObject.SetActive(true);
+                healthBar.shieldTimeText.gameObject.SetActive(true);
+                healthBar.shieldTimeText.text = timeLeft + "s";
+                lastTimeLeft = timeLeft;
+            }
+        }
         if (isGrounded)
         {
             playerMovement = pi.moveAction.ReadValue<Vector2>();
@@ -100,8 +120,11 @@ public class Player : MonoBehaviour
 
     public IEnumerator Shield()
     {
-        yield return new WaitForSeconds(30f);
-
+        shieldCooldownTimer = 0;
+        yield return new WaitForSeconds(shieldCooldown);
+        HealthBar healthBar = GetComponent<HealthBar>();
+        healthBar.shieldTime.gameObject.SetActive(false);
+        healthBar.shieldTimeText.gameObject.SetActive(false);
         shieldAvailable = true;
         UnityEvents.shielded.Invoke(true);
     }
@@ -189,7 +212,4 @@ public class Player : MonoBehaviour
     {
         BarrierBuildSfx.Play();
     }
-
-
-    
 }

@@ -23,6 +23,8 @@ public class HealthBar : MonoBehaviour
     [SerializeField] private TextMeshProUGUI textMaxAmmo;
     [SerializeField] private Gradient colorByHealth;
     [SerializeField] private RawImage shield;
+    public RawImage shieldTime;
+    public TextMeshProUGUI shieldTimeText;
     private void Start()
     {
         powerUps = new RawImage[] { doublePoints, headShots, discount, wings };
@@ -58,7 +60,6 @@ public class HealthBar : MonoBehaviour
 
         for (int i = 0; i < images.Length; i++)
         {
-
             bool check = health > i;
             if (images[i] != null)
             {
@@ -94,9 +95,7 @@ public class HealthBar : MonoBehaviour
     {
         textMaxAmmo.text = "+ 50";
         textMaxAmmo.gameObject.SetActive(true);
-
         yield return new WaitForSeconds(2f);
-
         textMaxAmmo.gameObject.SetActive(false);
     }
 }

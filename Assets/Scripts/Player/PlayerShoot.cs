@@ -52,7 +52,6 @@ public class PlayerShoot : MonoBehaviour
     {
         pi = gameObject.GetComponent<PlayerInputs>();
         EquipWeapon(inventory.EquippedWeapon);
-
     }
 
 

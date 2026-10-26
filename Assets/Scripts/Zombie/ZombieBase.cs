@@ -119,23 +119,23 @@ public class ZombieBase : MonoBehaviour
         else health -= damage;
         if (health <= 0)
         {
-            if (player.activePerks[5])
-            {
-                PlayerHealth ph = GameObject.Find("Player").GetComponent<PlayerHealth>();
-                if (Random.value >= healChance && ph.health >= 6) return;
-                ph.GainHealth(1);
-            }
-            if (player.activePerks[4] && playerAmmo.Gun != null)
-            {
-                int bonusAmmo = playerAmmo.Gun.AmmoMax * 10 / 100;
-                playerAmmo.Gun.GainAmmo(bonusAmmo);
-            }
             player.AwardPoints(60);
             if (isHeadshot)
             {
                 player.AwardPoints(40);
             }
             Despawn();
+            if (player.activePerks[4] && playerAmmo.Gun != null)
+            {
+                int bonusAmmo = playerAmmo.Gun.AmmoMax * 10 / 100;
+                playerAmmo.Gun.GainAmmo(bonusAmmo);
+            }
+            if (player.activePerks[5])
+            {
+                PlayerHealth ph = GameObject.Find("Player").GetComponent<PlayerHealth>();
+                if (Random.value >= healChance || ph.health >= 6) return;
+                else ph.GainHealth(1);
+            }
         }
         else
         {

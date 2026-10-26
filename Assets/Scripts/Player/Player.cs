@@ -13,10 +13,10 @@ public class Player : MonoBehaviour
     [SerializeField] private float gravity = -9.8f;
     [SerializeField] private float friction = 5f;
     private bool hasWings = false;
+    public bool shieldAvailable = true;
 
     [SerializeField] private TextMeshProUGUI textPoints;
     [SerializeField] private AudioSource BarrierBuildSfx;
-    private HealthBar healthBar;
     private PlayerShoot playerAmmo;
     private string pointsStart;
     public int points = 0;
@@ -62,7 +62,6 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        healthBar = GetComponent<HealthBar>();
         ph = GetComponent<PlayerHealth>();
         cc = GetComponent<CharacterController>();
         pi = GetComponent<PlayerInputs>();
@@ -100,13 +99,12 @@ public class Player : MonoBehaviour
         
     }
 
-    private IEnumerator Shield()
+    public IEnumerator Shield()
     {
         yield return new WaitForSeconds(30f);
-        if (activePerks[0])
-        {
-            UnityEvents.shielded.Invoke(true);
-        }
+
+        shieldAvailable = true;
+        UnityEvents.shielded.Invoke(true);
     }
 
     private void OnTriggerEnter(Collider other)

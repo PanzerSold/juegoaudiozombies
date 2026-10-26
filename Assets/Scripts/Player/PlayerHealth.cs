@@ -32,16 +32,22 @@ public class PlayerHealth : MonoBehaviour
     {
         if (invulnUntil > 0) invulnUntil -= Time.deltaTime;
     }
+
     public void LoseHealth(int damage = 1)
     {
         if (IsInvulnerable) return;
         invulnUntil = invulnTime;
-        if (player.activePerks[0])
+
+        if (player.activePerks[0] && player.shieldAvailable)
         {
+            player.shieldAvailable = false;
             UnityEvents.shielded.Invoke(false);
+            player.StartCoroutine(player.Shield());
             return;
         }
+
         health = Mathf.Max(0, health - damage);
         healthBar.OnHealthChange(health);
     }
 }
+

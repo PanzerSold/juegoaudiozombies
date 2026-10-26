@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public class UpgradesMachine : BaseMachine
 {
@@ -27,18 +28,21 @@ public class UpgradesMachine : BaseMachine
         }
         else
         {
+            player.AwardPoints(2500);
             Debug.Log("Ya tenés todas las mejoras.");
         }
     }
 
     private void GivePerk(List<int> missingPerks)
     {
-        int randomIndex = Random.Range(0, missingPerks.Count);
+        int randomIndex = Random.Range(0, missingPerks.Count - 1);
         int perkIndex = missingPerks[randomIndex];
 
         player.activePerks[perkIndex] = true;
 
         Player.PlayerPerks perk = (Player.PlayerPerks)perkIndex;
+
+        if (perk == Player.PlayerPerks.Shielded) UnityEvents.shielded.Invoke(true);
         Debug.Log("Obtuviste: " + perk.ToString());
     }
 }

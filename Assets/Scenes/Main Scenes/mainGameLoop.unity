@@ -181,6 +181,7 @@ MonoBehaviour:
   maxPitchShift: 1.15
   isAutomatic: 1
   boomRadius: 1
+  player: {fileID: 0}
 --- !u!1 &42791569
 GameObject:
   m_ObjectHideFlags: 0
@@ -1378,6 +1379,7 @@ MonoBehaviour:
   maxPitchShift: 1.15
   isAutomatic: 0
   boomRadius: 1
+  player: {fileID: 0}
   rocketPrefab: {fileID: 5330413437615586180, guid: 6d6a9e32c3c812242bc81c4b1136589d, type: 3}
   rocketSpawn: {fileID: 1515229846}
   rocketSpeed: 20
@@ -1517,6 +1519,7 @@ MonoBehaviour:
   maxPitchShift: 1.15
   isAutomatic: 1
   boomRadius: 1
+  player: {fileID: 0}
 --- !u!1 &587283169
 GameObject:
   m_ObjectHideFlags: 0
@@ -1701,6 +1704,7 @@ MonoBehaviour:
   maxPitchShift: 1.15
   isAutomatic: 0
   boomRadius: 1
+  player: {fileID: 0}
   raycastCount: 8
   spreadAngle: 3
   rotationPerShot: 13
@@ -2364,6 +2368,7 @@ MonoBehaviour:
   maxPitchShift: 1.15
   isAutomatic: 0
   boomRadius: 1
+  player: {fileID: 0}
 --- !u!4 &801350407 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4887692034885589234, guid: 4b75b4deedc44384091989b6dba7516c, type: 3}
@@ -2503,6 +2508,7 @@ MonoBehaviour:
   maxPitchShift: 1.15
   isAutomatic: 1
   boomRadius: 1
+  player: {fileID: 0}
 --- !u!1 &864710121
 GameObject:
   m_ObjectHideFlags: 0
@@ -2927,6 +2933,7 @@ MonoBehaviour:
   maxPitchShift: 1.15
   isAutomatic: 0
   boomRadius: 1
+  player: {fileID: 0}
   bulletsPerBurst: 3
   burstInterval: 0.1
 --- !u!4 &925252364
@@ -8604,6 +8611,7 @@ MonoBehaviour:
   maxPitchShift: 1.15
   isAutomatic: 0
   boomRadius: 1
+  player: {fileID: 1161843249}
 --- !u!1 &1161843243
 GameObject:
   m_ObjectHideFlags: 0
@@ -11095,6 +11103,7 @@ MonoBehaviour:
   maxPitchShift: 1.15
   isAutomatic: 1
   boomRadius: 1
+  player: {fileID: 0}
 --- !u!1 &1717935545
 GameObject:
   m_ObjectHideFlags: 0

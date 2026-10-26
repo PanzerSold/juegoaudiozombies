@@ -46,7 +46,7 @@ public class HealthBar : MonoBehaviour
         }
 
         for (int i = 0; i < images.Length; i++)
-            {
+        {
 
             bool check = health > i;
             if (images[i] != null)
@@ -54,16 +54,14 @@ public class HealthBar : MonoBehaviour
                 images[i].gameObject.SetActive(check);
                 images[i].color = colorByHealth.Evaluate(healthPercent);
             }
-            }    
+        }    
     }
 
     public void Shielded(bool isShielded)
     {
-        player.activePerks[0] = isShielded;
         if (shield != null)
         {
-            if (!isShielded) shield.gameObject.SetActive(false);
-            else shield.gameObject.SetActive(true);
+            shield.gameObject.SetActive(isShielded);
         }
     }
 }

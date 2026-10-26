@@ -22,7 +22,6 @@ public class Player : MonoBehaviour
     public int points = 0;
     public enum PlayerBonus
     {
-        None,
         DoublePoints,
         HeadShots,
         Discount,
@@ -119,7 +118,6 @@ public class Player : MonoBehaviour
             if (pu != null)
             {
                 PlayerBonus bonus = pu.pu;
-                if (bonus == PlayerBonus.None) bonus = PlayerBonus.MaxAmmo;
                 ActivatePowerUp(bonus);
             }
             Destroy(other.gameObject);
@@ -137,17 +135,17 @@ public class Player : MonoBehaviour
         {
             playerAmmo.Gun.RechargeAmmo();
             playerAmmo.Gun.GainAmmo(50);
+            HealthBar healthBar = GetComponent<HealthBar>();
+            healthBar.VisualMaxAmmoText();
             return;
         }
 
         if (bonus == PlayerBonus.Wings) hasWings = true;
 
-        if (bonus == PlayerBonus.None) return;
-
         bool alreadyActive = powerUpTimers.TryGetValue(bonus, out Coroutine existingTimer);
 
         if (alreadyActive) StopCoroutine(existingTimer);
- 
+
         int index = (int)bonus;
 
         if (index >= activePowerUps.Length) return;
@@ -155,15 +153,19 @@ public class Player : MonoBehaviour
         float duration = activePowerUps[index];
 
         powerUpTimers[bonus] = StartCoroutine(RemovePowerUpAfterTime(bonus, duration));
-    }
 
+        UnityEvents.onPowerUpTriggered.Invoke();
+    }
     private IEnumerator RemovePowerUpAfterTime(PlayerBonus bonus, float duration)
     {
         yield return new WaitForSeconds(duration);
-        if (bonus == PlayerBonus.Wings) hasWings = false;
-        powerUpTimers.Remove(bonus);
-    }
 
+        if (bonus == PlayerBonus.Wings) hasWings = false;
+
+        powerUpTimers.Remove(bonus);
+
+        UnityEvents.onPowerUpTriggered.Invoke();
+    }
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Interaction"))

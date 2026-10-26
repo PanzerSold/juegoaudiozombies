@@ -5834,6 +5834,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PowerUpSpawner
   options:
   - prefab: {fileID: 6636371496198895447, guid: 1ac2f91336786fa4f9cf210230d52eec, type: 3}
+    effect: 0
+  - prefab: {fileID: 6636371496198895447, guid: 1ac2f91336786fa4f9cf210230d52eec, type: 3}
     effect: 1
   - prefab: {fileID: 6636371496198895447, guid: 1ac2f91336786fa4f9cf210230d52eec, type: 3}
     effect: 2
@@ -5841,8 +5843,6 @@ MonoBehaviour:
     effect: 3
   - prefab: {fileID: 6636371496198895447, guid: 1ac2f91336786fa4f9cf210230d52eec, type: 3}
     effect: 4
-  - prefab: {fileID: 6636371496198895447, guid: 1ac2f91336786fa4f9cf210230d52eec, type: 3}
-    effect: 5
   dropChance: 0.075
 --- !u!54 &4528784402512057155
 Rigidbody:

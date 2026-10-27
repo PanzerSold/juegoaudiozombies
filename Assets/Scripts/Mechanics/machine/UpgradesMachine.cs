@@ -30,7 +30,7 @@ public class UpgradesMachine : BaseMachine
         }
         else
         {
-            player.AwardPoints(2500);
+            player.AwardPoints(PuntosRequeridos);
             StartCoroutine(OutOfPerks());
         }
     }

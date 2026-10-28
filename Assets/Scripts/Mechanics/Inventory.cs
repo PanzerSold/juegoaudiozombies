@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-//
 public class Inventory : MonoBehaviour
 {
     public enum itemType
@@ -30,7 +29,6 @@ public class Inventory : MonoBehaviour
         Granada,
         Espray_curativo
     }
-    //
     public struct LimitesInventario
     {
         public int Balas_Pistola;
@@ -41,7 +39,6 @@ public class Inventory : MonoBehaviour
         public int Granada;
         public int Espray_curativo;
 
-        // Instancia con valores por defecto
         public static LimitesInventario Defecto => new LimitesInventario
         {
             Balas_Pistola = 48,
@@ -78,8 +75,7 @@ public class Inventory : MonoBehaviour
 
     private const int SlotCount = 9;
 
-    [Header("Debug (para probar sin pickups)")]
-    [SerializeField] private itemIndex[] debugStartItems;
+    
 
     private int equippedSlot = 0;
 
@@ -265,6 +261,21 @@ public class Inventory : MonoBehaviour
         return actualInventory[slot];
     }
 
+    //----- NUEVO CODIGO ----- Devuelve false si el slot esta vacio o es el arma equipada. Si descarta, vacia el slot, devuelve lo que habia en discarded y avisa con OnInventoryChanged
+    public bool DiscardSlot(int slot, out Item discarded)
+    {
+        discarded = Item.empty;
+        if (slot < 0 || slot >= actualInventory.Length) return false;
+        if (actualInventory[slot].item == itemType.Empty) return false;
+        if (slot == equippedSlot) return false;
+
+        discarded = actualInventory[slot];
+        actualInventory[slot] = Item.empty;
+        OnInventoryChanged?.Invoke();
+        return true;
+    }
+    //----- NUEVO CODIGO ----- “Borrar” sobre el arma equipada no hace nada, porque DiscardSlot lo bloquea a propósito.
+
     private void ResetInventory()
     {
         equippedSlot = 0;
@@ -276,15 +287,9 @@ public class Inventory : MonoBehaviour
             actualInventory[i] = Item.empty;
         }
 
-        if (debugStartItems != null)
-        {
-            foreach (itemIndex index in debugStartItems)
-            {
-                AddItem(CreateItem(index, GetLimit(index)));
-            }
-        }
+       
 
         OnInventoryChanged?.Invoke();
     }
-
+    //----- Codigo Borrado----- Todo lo relacionado a "DebugStartItem"
 }

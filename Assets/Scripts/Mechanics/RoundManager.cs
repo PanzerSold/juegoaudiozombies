@@ -7,10 +7,14 @@ public class RoundManager : MonoBehaviour
     [SerializeField] AudioSource RoundPassSFX;
     [SerializeField] GameObject ZombieSpawnerMain;
     [SerializeField] private TextMeshProUGUI roundText;
+
+    private bool restartingRound = false;
     private List<SpawnerZombie> SZSpawners = new List<SpawnerZombie>();
     private List<ZombieBase> zombieList = new List<ZombieBase>();
     private int zombiesForCurrentRound = 4;
     private int currentRound = 1;
+
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -34,6 +38,8 @@ public class RoundManager : MonoBehaviour
 
     public async void RestartRound()
     {
+        if (restartingRound) return;
+        restartingRound = true;
         RoundPassSFX.Play();
         await Awaitable.WaitForSecondsAsync(1f);
         currentRound++;
@@ -45,6 +51,7 @@ public class RoundManager : MonoBehaviour
         {
             sz.SetSpawnTimer();
         }
+        restartingRound = false;
     }
     public int SetHealthBasedOnRound()
     {

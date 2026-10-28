@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class Rocket : MonoBehaviour
 {
@@ -11,6 +13,8 @@ public class Rocket : MonoBehaviour
     private float destroyTime;
 
     private bool isExploding;
+
+    [SerializeField] private ParticleSystem Explosion;
 
     private MeshRenderer meshRenderer;
 
@@ -51,12 +55,27 @@ public class Rocket : MonoBehaviour
     {
         meshRenderer.enabled = false;
         isExploding = true;
-        Collider[] colliders = Physics.OverlapSphere(transform.position, explosionRadius);
 
+        if (Explosion != null)
+        {
+            ParticleSystem explosion = Instantiate(Explosion,transform.position,Quaternion.identity);
+
+            explosion.Play();
+
+            Destroy(explosion.gameObject, explosion.main.duration + explosion.main.startLifetime.constantMax);
+        }
+
+        Collider[] colliders = Physics.OverlapSphere(
+            transform.position,
+            explosionRadius
+        );
+
+        List<ZombieBase> currentZombie = new List<ZombieBase>();
         foreach (var hitCollider in colliders)
         {
-            ZombieBase zombie = hitCollider.gameObject.GetComponentInParent<ZombieBase>();
-            PlayerHealth player = hitCollider.gameObject.GetComponent<PlayerHealth>();
+            ZombieBase zombie = hitCollider.GetComponentInParent<ZombieBase>();
+            PlayerHealth player = hitCollider.GetComponent<PlayerHealth>();
+
 
             if (player != null)
             {
@@ -65,9 +84,9 @@ public class Rocket : MonoBehaviour
 
             if (zombie != null)
             {
-
+                if (currentZombie.Contains(zombie)) continue;
+                currentZombie.Add(zombie);
                 zombie.ReceiveDamage(false, gunDamage);
-
             }
         }
     }

@@ -1,4 +1,6 @@
+using NUnit.Framework;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -11,11 +13,14 @@ public class GunBehaviour : MonoBehaviour
     [SerializeField] protected LayerMask coll;
     protected ParticleSystem ps;
 
+    [SerializeField] protected ParticleSystem[] psExplosiveAmmo;
+    [SerializeField] protected ParticleSystem psExplosion;
     [SerializeField] private float shootTime = 0.5f;
     protected ParticleSystemRenderer psR;
 
     [Header("Inventario")]
     [SerializeField] private Inventory.itemIndex weaponIndex = Inventory.itemIndex.None;
+    [SerializeField] private PlayerShoot shootScript;
 
     [Header("Municion")]
     [SerializeField] private int ammoMax = 10;
@@ -145,11 +150,17 @@ public class GunBehaviour : MonoBehaviour
             {
                 float explosiveDamage = gunDamage * 2;
                 Collider[] colliders = Physics.OverlapSphere(hit.point, boomRadius);
+                List<ZombieBase> currentZombie = new List<ZombieBase>();
 
                 foreach (Collider hitCollider in colliders)
                 {
                     ZombieBase zombie = hitCollider.gameObject.GetComponentInParent<ZombieBase>();
-                    if (zombie != null) zombie.ReceiveDamage(false, explosiveDamage);
+                    if (zombie != null) 
+                    {
+                        if (currentZombie.Contains(zombie)) continue;
+                        currentZombie.Add(zombie);
+                        zombie.ReceiveDamage(false, explosiveDamage);
+                    }
                 }
             }
             
@@ -170,8 +181,11 @@ public class GunBehaviour : MonoBehaviour
                     impactMaterial = materialZombieHit;
 
             }
-            psR.material = impactMaterial;
             ps.Play();
+            if (player.activePerks[7])
+            {
+
+            }
         }
     }
 

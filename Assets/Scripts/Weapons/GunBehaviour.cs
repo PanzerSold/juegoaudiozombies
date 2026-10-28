@@ -14,7 +14,6 @@ public class GunBehaviour : MonoBehaviour
     protected ParticleSystem ps;
 
     [SerializeField] protected ParticleSystem[] psExplosiveAmmo;
-    [SerializeField] protected ParticleSystem psExplosion;
     [SerializeField] private float shootTime = 0.5f;
     protected ParticleSystemRenderer psR;
 
@@ -181,11 +180,19 @@ public class GunBehaviour : MonoBehaviour
                     impactMaterial = materialZombieHit;
 
             }
-            ps.Play();
+
             if (player.activePerks[7])
             {
-
+                foreach(ParticleSystem pse in psExplosiveAmmo)
+                {
+                    pse.transform.position = hit.point;
+                    pse.Play();
+                }
             }
+            else{
+                ps.Play();            
+            }
+            
         }
     }
 

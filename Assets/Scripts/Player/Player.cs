@@ -63,6 +63,8 @@ public class Player : MonoBehaviour
     [SerializeField] private Inventory inv;
     [SerializeField] private PlayerHealth ph;
     [SerializeField] private ParticleSystem PlayerFire;
+    [SerializeField] private ParticleSystem psWings;
+
 
     private void Start()
     {
@@ -163,7 +165,15 @@ public class Player : MonoBehaviour
             return;
         }
 
-        if (bonus == PlayerBonus.Wings) hasWings = true;
+        if (bonus == PlayerBonus.Wings)
+        {
+            hasWings = true;
+
+            if (psWings != null)
+            {
+                psWings.Play();
+            }
+        }
 
         bool alreadyActive = powerUpTimers.TryGetValue(bonus, out Coroutine existingTimer);
 
@@ -179,11 +189,26 @@ public class Player : MonoBehaviour
 
         UnityEvents.onPowerUpTriggered.Invoke();
     }
+    private void LateUpdate()
+    {
+        if (psWings != null && hasWings)
+        {
+            psWings.transform.rotation = transform.rotation;
+        }
+    }
     private IEnumerator RemovePowerUpAfterTime(PlayerBonus bonus, float duration)
     {
         yield return new WaitForSeconds(duration);
 
-        if (bonus == PlayerBonus.Wings) hasWings = false;
+        if (bonus == PlayerBonus.Wings)
+        {
+            hasWings = false;
+
+            if (psWings != null)
+            {
+                psWings.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            }
+        }
 
         powerUpTimers.Remove(bonus);
 

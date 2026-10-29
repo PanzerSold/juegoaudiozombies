@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ShotGun : GunBehaviour
@@ -52,6 +53,24 @@ public class ShotGun : GunBehaviour
             ParticleSystemRenderer renderer = impact.GetComponent<ParticleSystemRenderer>();
 
             renderer.material = materialGenerico;
+
+            if (player.activePerks[7])
+            {
+                float explosiveDamage = gunDamage * 2;
+                Collider[] colliders = Physics.OverlapSphere(hit.point, boomRadius);
+                List<ZombieBase> currentZombie = new List<ZombieBase>();
+
+                foreach (Collider hitCollider in colliders)
+                {
+                    ZombieBase zombie = hitCollider.gameObject.GetComponentInParent<ZombieBase>();
+                    if (zombie != null)
+                    {
+                        if (currentZombie.Contains(zombie)) continue;
+                        currentZombie.Add(zombie);
+                        zombie.ReceiveDamage(false, explosiveDamage);
+                    }
+                }
+            }
 
             if (hit.collider.CompareTag("ZombieBody"))
             {

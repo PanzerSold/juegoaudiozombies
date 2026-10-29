@@ -56,7 +56,7 @@ public class GunBehaviour : MonoBehaviour
 
     [Header("Balas explosivas")]
 
-    [SerializeField] private float boomRadius = 0.5f;
+    [SerializeField] protected float boomRadius = 0.5f;
 
     public bool IsAutomatic => isAutomatic;
 
@@ -77,7 +77,7 @@ public class GunBehaviour : MonoBehaviour
     public int AmmoQuantity => inventory != null ? inventory.GetAmount(AmmoType) : 0;
 
     private Coroutine rechargeCoroutine;
-    private Player player;
+    protected Player player;
 
     private void Awake()
     {

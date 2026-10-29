@@ -129,6 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5500560}
   - component: {fileID: 5500561}
+  - component: {fileID: 5500562}
   m_Layer: 8
   m_Name: AK47
   m_TagString: Untagged
@@ -185,7 +186,41 @@ MonoBehaviour:
   minPitchShift: 0.85
   maxPitchShift: 1.15
   isAutomatic: 1
-  boomRadius: 1
+  boomRadius: 0.5
+--- !u!114 &5500562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5500559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0853dc20485d914e999f317aaf53556, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BurstGun
+  raycastDistance: 100
+  gunDamage: 2.4
+  coll:
+    serializedVersion: 2
+    m_Bits: 0
+  psExplosiveAmmo: []
+  shootTime: 0.5
+  weaponIndex: 0
+  shootScript: {fileID: 0}
+  ammoMax: 30
+  ammoQuantity: 60
+  delayRecharge: 3
+  materialGenerico: {fileID: 2100000, guid: 339a08f372e0c174697772bb3778b054, type: 2}
+  materialZombieHit: {fileID: 2100000, guid: 9dad342eb7181ab46bec85813f91a10b, type: 2}
+  shootClip: {fileID: 8300000, guid: aa98b504a36bfca4e96ae1399172dfca, type: 3}
+  reloadClip: {fileID: 8300000, guid: 4bf8582928d50a944af6ad467f456e67, type: 3}
+  minPitchShift: 0.85
+  maxPitchShift: 1.15
+  isAutomatic: 1
+  boomRadius: 0.5
+  bulletsPerBurst: 3
+  burstInterval: 0.1
 --- !u!1 &35358649
 GameObject:
   m_ObjectHideFlags: 0
@@ -2005,7 +2040,7 @@ MonoBehaviour:
   minPitchShift: 0.85
   maxPitchShift: 1.15
   isAutomatic: 1
-  boomRadius: 1
+  boomRadius: 0.5
 --- !u!1 &587283169
 GameObject:
   m_ObjectHideFlags: 0
@@ -2194,7 +2229,7 @@ MonoBehaviour:
   minPitchShift: 0.85
   maxPitchShift: 1.15
   isAutomatic: 0
-  boomRadius: 1
+  boomRadius: 0.5
   raycastCount: 8
   spreadAngle: 3
   rotationPerShot: 13
@@ -3177,7 +3212,7 @@ MonoBehaviour:
   minPitchShift: 0.85
   maxPitchShift: 1.15
   isAutomatic: 0
-  boomRadius: 1
+  boomRadius: 0.5
 --- !u!198 &776179830 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 4306531364896084506, guid: 4b93cedf93ad5d84c889e75307c286b2, type: 3}
@@ -3403,7 +3438,7 @@ MonoBehaviour:
   minPitchShift: 0.85
   maxPitchShift: 1.15
   isAutomatic: 1
-  boomRadius: 1
+  boomRadius: 0.5
 --- !u!1 &851241517
 GameObject:
   m_ObjectHideFlags: 0
@@ -4119,7 +4154,7 @@ MonoBehaviour:
   reloadClip: {fileID: 8300000, guid: efbca229fc5672c469f9b6cfbaf720d3, type: 3}
   minPitchShift: 0.85
   maxPitchShift: 1.15
-  isAutomatic: 0
+  isAutomatic: 1
   boomRadius: 1
   bulletsPerBurst: 3
   burstInterval: 0.1
@@ -13522,7 +13557,7 @@ MonoBehaviour:
   minPitchShift: 0.85
   maxPitchShift: 1.15
   isAutomatic: 1
-  boomRadius: 1
+  boomRadius: 0.5
 --- !u!1 &1712721302
 GameObject:
   m_ObjectHideFlags: 0

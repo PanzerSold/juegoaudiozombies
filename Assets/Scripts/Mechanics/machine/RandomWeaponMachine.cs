@@ -7,13 +7,12 @@ public class RandomWeaponMachine: BaseMachine
     protected override void Start()
     {
         base.Start();
-        fullString = "Maquina Aleatoria " + PuntosRequeridos + " (E)";
+        fullString = "Randon weapon machine " + PuntosRequeridos + " (E)";
     }
 
     protected override void Buy()
     {
         EntregarArmaAleatoria();
-        Debug.Log("Te tocó el " + availableWeapons);
     }
 
     private void EntregarArmaAleatoria()
@@ -32,12 +31,8 @@ public class RandomWeaponMachine: BaseMachine
         {
             Inventory.itemIndex chosenWeapon = availableWeapons[Random.Range(0, availableWeapons.Length)];
 
-            inventory.AddItem(new Inventory.Item(
-                Inventory.itemType.Weapon,
-                chosenWeapon,
-                amount: 1
-            ));
-            Debug.Log("Te toco el " + chosenWeapon);
+            inventory.AddItem(new Inventory.Item(Inventory.itemType.Weapon, chosenWeapon, amount: 1));
+            StartCoroutine(VisualPurchase("New weapon: " + chosenWeapon));
         }
     }
 }

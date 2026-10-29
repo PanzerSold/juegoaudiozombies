@@ -20981,6 +20981,10 @@ PrefabInstance:
       propertyPath: textoInteraccion
       value: 
       objectReference: {fileID: 1495732276}
+    - target: {fileID: -1962106248256925180, guid: 9639f1a2f8bd132489c34077965714ae, type: 3}
+      propertyPath: 'availableWeapons.Array.data[0]'
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 1058575190388714187, guid: 9639f1a2f8bd132489c34077965714ae, type: 3}
       propertyPath: m_Name
       value: MaquinaRandom

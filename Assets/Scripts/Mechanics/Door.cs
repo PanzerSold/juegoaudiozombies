@@ -4,7 +4,7 @@ public class Door : Interaction
     protected override void Start()
     {
         base.Start();
-        fullString = "Abrir Puerta (" + PuntosRequeridos + ") (E)";
+        fullString = "Open door (" + PuntosRequeridos + ") (E)";
     }
 
     protected override void Interactuar()

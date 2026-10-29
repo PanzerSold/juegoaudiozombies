@@ -24,7 +24,7 @@ public class Barricade : Interaction
     protected override void Start()
     {
         base.Start();
-        fullString = "Reparar Barricada (E)";
+        fullString = "Repair barricade (E)";
 
         //----- NUEVO CODIGO ----- Cuenta las tablas que arrancan activas
         barricadasRestantes = 0;

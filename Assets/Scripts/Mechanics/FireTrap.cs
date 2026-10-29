@@ -13,7 +13,7 @@ public class FireTrap : Interaction
     protected override void Start()
     {
         base.Start();
-        fullString = "Activar Trampa (" + PuntosRequeridos + ") (E)";
+        fullString = "Activate trap (" + PuntosRequeridos + ") (E)";
     }
 
     protected override void Update()

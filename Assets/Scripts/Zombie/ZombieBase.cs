@@ -41,6 +41,8 @@ public class ZombieBase : MonoBehaviour
 
     private Animator anim;
 
+    private bool isAttacking = false;
+
     // private float timerPos = 0f;
 
     void Start()
@@ -55,8 +57,7 @@ public class ZombieBase : MonoBehaviour
         health = rm.SetHealthBasedOnRound();
     }
 
-    private void OnCollisionEnter(Collision collision) => Hit(collision);
-    private void OnCollisionStay(Collision collision) => Hit(collision);
+    private void OnCollisionStay(Collision collision) => HitStay(collision);
 
     private void FixedUpdate()
     {
@@ -93,6 +94,7 @@ public class ZombieBase : MonoBehaviour
         anim.SetFloat("Speed", actualSpeed);
 
     }
+
 
     public async void Stun()
     {
@@ -159,25 +161,43 @@ public class ZombieBase : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void Hit(Collision collision)
+    private void HitStay(Collision collision)
     {
-        if (!collision.gameObject.CompareTag("Player") || isStunned) return;
+        if (!collision.gameObject.CompareTag("Player") || isStunned || isAttacking) return;
 
         PlayerHealth ph = collision.gameObject.GetComponent<PlayerHealth>();
-        if (ph != null) ph.LoseHealth(zombieDamage);
+        if (ph != null)
+        {
+            StartCoroutine(Attack(ph));
+        }
+    }
+
+    private IEnumerator Attack(PlayerHealth player)
+    {
+        isAttacking = true;
+
+        anim.Play("attack", 0, 0f);
+
+        yield return new WaitForSeconds(0.3f);
+
+        player.LoseHealth(zombieDamage);
+
+        yield return new WaitForSeconds(0.45f);
+
+        isAttacking = false;
         
     }
 
-    /*private void OnCollisionEnter(Collision collision)
-    {
-        PlayerHealth player = collision.gameObject.GetComponent<PlayerHealth>();
+/*private void OnCollisionEnter(Collision collision)
+{
+    PlayerHealth player = collision.gameObject.GetComponent<PlayerHealth>();
 
-        if (player != null)
-        {
-            player.LoseHealth(zombieDamage);
-        }
-    }*/
-    public void OnTriggerEnter(Collider other)
+    if (player != null)
+    {
+        player.LoseHealth(zombieDamage);
+    }
+}*/
+public void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("ZombieBarricade")){ 
             ultimabarricada=other.GetComponentInParent<Barricade>();

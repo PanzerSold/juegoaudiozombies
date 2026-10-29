@@ -230,16 +230,6 @@ public class ZombieBase : MonoBehaviour
         Destroy(gameObject);
     }
 
-    private void HitStay(Collision collision)
-    {
-        if (!collision.gameObject.CompareTag("Player") || isStunned || isAttacking) return;
-
-        PlayerHealth ph = collision.gameObject.GetComponent<PlayerHealth>();
-        if (ph != null)
-        {
-            StartCoroutine(Attack(ph));
-        }
-    }
 
     private IEnumerator Attack(PlayerHealth player)
     {
@@ -269,11 +259,12 @@ public class ZombieBase : MonoBehaviour
         player.LoseHealth(zombieDamage);
     }
 }*/
-public void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("ZombieBarricade")){ 
             ultimabarricada=other.GetComponentInParent<Barricade>();
             ultimabarricada.zombiesClose++;
+            ultimabarricada.GetZombieAnim(anim);
             destroyingBarricade = true;
         }
         if (other.CompareTag("Fire"))

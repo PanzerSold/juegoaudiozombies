@@ -8,7 +8,7 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour
 {
     [SerializeField] private InputActionAsset inputActionsAsset;
-    [SerializeField] private static float moveSpeed = 5f;
+    [SerializeField] private static float moveSpeed = 3f;
     private float wingsSpeed = moveSpeed * 1.5f;
     private float superSpeed = moveSpeed * 1.7f;
     [SerializeField] private float gravity = -9.8f;
@@ -64,9 +64,11 @@ public class Player : MonoBehaviour
     [SerializeField] private ParticleSystem PlayerFire;
     [SerializeField] private ParticleSystem psWings;
 
+    private Animator anim;
 
     private void Start()
     {
+        anim = GetComponentInChildren<Animator>();
         ph = GetComponent<PlayerHealth>();
         cc = GetComponent<CharacterController>();
         pi = GetComponent<PlayerInputs>();
@@ -97,6 +99,7 @@ public class Player : MonoBehaviour
         }
         if (isGrounded)
         {
+            anim.SetBool("IsGrounded", true);
             playerMovement = pi.moveAction.ReadValue<Vector2>();
             bool hasSpeed = activePerks[(int)PlayerPerks.Speed];
             float currentSpeed;
@@ -105,12 +108,15 @@ public class Player : MonoBehaviour
             else (currentSpeed) = superSpeed;
             horizontalMovement = Mathf.MoveTowards(horizontalMovement, playerMovement.x * currentSpeed, friction * Time.deltaTime);
             forwardMovement = Mathf.MoveTowards(forwardMovement, playerMovement.y * currentSpeed, friction * Time.deltaTime); verticalMovement = -2f;
+            anim.SetFloat("Xspeed", horizontalMovement);
+            anim.SetFloat("Zspeed", forwardMovement);
             playerMovement = new Vector3(horizontalMovement, verticalMovement, forwardMovement);
             Quaternion rotacion = Quaternion.Euler(0f, transform.eulerAngles.y, 0f);
             playerMovement = rotacion*playerMovement;
         } 
         else
         {
+            anim.SetBool("IsGrounded", false);
             verticalMovement += gravity * Time.deltaTime;
             playerMovement = new Vector3(0, verticalMovement, 0);
         }

@@ -1,6 +1,7 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using System.Collections.Generic;
+using static UnityEngine.Analytics.IAnalytic;
 
 public class PlayerShoot : MonoBehaviour
 {
@@ -32,7 +33,9 @@ public class PlayerShoot : MonoBehaviour
     
     //----- NUEVO CODIGO ----- Índice del arma que sostenías antes de la actual
     private Inventory.itemIndex lastWeapon = Inventory.itemIndex.None;
-        
+
+    private Animator anim;
+
     //----- NUEVO CODIGO -----
     private void Awake()
     {
@@ -54,6 +57,7 @@ public class PlayerShoot : MonoBehaviour
 
     private void Start()
     {
+        anim = GetComponentInChildren<Animator>();
         pi = gameObject.GetComponent<PlayerInputs>();
         EquipWeapon(inventory.EquippedWeapon);
     }
@@ -78,7 +82,10 @@ public class PlayerShoot : MonoBehaviour
         if (gun != null) gun.Unequip();
 
         gun = newGun;
-        gun.Initialize(playerCamera, playerAmmoText, shotParticle, shootSfx, reloadSfx, inventory);
+        gun.Initialize(playerCamera, playerAmmoText, shotParticle, shootSfx, reloadSfx, inventory, anim);
+        gun.Render.enabled = true;
+        float idArma = gun.AnimIndex;
+        anim.SetFloat("Weapon", idArma);
         shootTimer = 0;
     }
     //----- NUEVO CODIGO ----- Cambia al arma anterior si existe en la escena y todavía está en el inventario

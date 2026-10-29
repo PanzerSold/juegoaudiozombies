@@ -21,6 +21,7 @@ public class Barricade : Interaction
 
     public int zombiesClose = 0;
 
+    private Animator animZombie;
     protected override void Start()
     {
         base.Start();
@@ -115,10 +116,21 @@ public class Barricade : Interaction
             ColliderPrincipal.enabled = false;
             isOpen = true;
         }
+        if (animZombie != null)
+        {
+            animZombie.Play("attack");
+        }
         yield return new WaitForSeconds(delayBarricada/2f);
 
 
         cycle = false;
+    }
+
+    public void GetZombieAnim(Animator zombie)
+    {
+
+        animZombie = zombie;
+
     }
 
     override public void PlayerEntered()

@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+
+
 public class GunBehaviour : MonoBehaviour
 {
     [Header("Disparo")]
@@ -38,6 +40,11 @@ public class GunBehaviour : MonoBehaviour
     [SerializeField] protected float minPitchShift = 0.85f;
     [SerializeField] protected float maxPitchShift = 1.15f;
 
+    [Header("Animacion")]
+
+    [SerializeField] protected float animIndex;
+
+    public float AnimIndex => animIndex;
     protected AudioSource shootSfx;
     private AudioSource reloadSfx;
 
@@ -79,18 +86,28 @@ public class GunBehaviour : MonoBehaviour
     private Coroutine rechargeCoroutine;
     protected Player player;
 
+    private Animator anim;
+
+    private SkinnedMeshRenderer render;
+
+    public SkinnedMeshRenderer Render => render;
     private void Awake()
     {
         ammoCurrent = ammoMax;
     }
 
-    public void Initialize(Camera playerCamera, TextMeshProUGUI playerAmmoText, ParticleSystem shotParticle, AudioSource shootSource, AudioSource reloadSource, Inventory playerInventory)
+    private void Start()
+    {
+        render = GetComponent<SkinnedMeshRenderer>();
+    }
+    public void Initialize(Camera playerCamera, TextMeshProUGUI playerAmmoText, ParticleSystem shotParticle, AudioSource shootSource, AudioSource reloadSource, Inventory playerInventory, Animator playerAnim)
     {
         cameraPos = playerCamera;
         ammoText = playerAmmoText;
         ps = shotParticle;
         shootSfx = shootSource;
         reloadSfx = reloadSource;
+        anim = playerAnim;
         player = GetComponentInParent<Player>();
         if (inventory != null) inventory.OnInventoryChanged -= RefreshAmmoText;
         inventory = playerInventory;
@@ -114,6 +131,7 @@ public class GunBehaviour : MonoBehaviour
     {
         StopAllCoroutines();
         CancelReload();
+        render.enabled = false;
         if (inventory != null) inventory.OnInventoryChanged -= RefreshAmmoText;
     }
 
@@ -190,6 +208,7 @@ public class GunBehaviour : MonoBehaviour
                 }
             }
             else{
+                psR.material = impactMaterial;
                 ps.Play();            
             }
             
@@ -228,6 +247,7 @@ public class GunBehaviour : MonoBehaviour
     {
         isRecharging = true;
         reloadSfx.PlayOneShot(reloadClip);
+        anim.SetTrigger("Reload");
         RefreshAmmoText();
 
         if (player.activePerks[2]) yield return new WaitForSeconds(delayRecharge / 2);
@@ -235,7 +255,6 @@ public class GunBehaviour : MonoBehaviour
 
         isRecharging = false;
         rechargeCoroutine = null;
-
         int needed = ammoMax - ammoCurrent;
         ammoCurrent += inventory.TakeAmount(AmmoType, needed);
 

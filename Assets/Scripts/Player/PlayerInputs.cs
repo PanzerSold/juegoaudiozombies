@@ -16,6 +16,7 @@ public class PlayerInputs : MonoBehaviour
     public InputAction shootAction;
     public InputAction skillAction;
     public InputAction inventoryAction;
+    public InputAction lastWeaponAction;
     private void Start()
     {
 
@@ -32,6 +33,7 @@ public class PlayerInputs : MonoBehaviour
         shootAction = playerMap.FindAction("Shoot");
         skillAction = playerMap.FindAction("Skill");
         inventoryAction = playerMap.FindAction("Inventory");
+        lastWeaponAction = playerMap.FindAction("LastWeapon");
 
         playerMap.Enable();
 

@@ -8,6 +8,8 @@ public class HealthBar : MonoBehaviour
 {
     private PlayerHealth playerHealth;
     private Player player;
+
+    
     [SerializeField] private RawImage image1;
     [SerializeField] private RawImage image2;
     [SerializeField] private RawImage image3;

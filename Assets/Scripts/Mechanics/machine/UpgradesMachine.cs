@@ -1,11 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
-using TMPro;
-using System.Collections;
 
 public class UpgradesMachine : BaseMachine
 {
-    [SerializeField] private TextMeshProUGUI perkText;
     protected override void Start()
     {
         base.Start();
@@ -31,7 +28,7 @@ public class UpgradesMachine : BaseMachine
         else
         {
             player.AwardPoints(PuntosRequeridos);
-            StartCoroutine(OutOfPerks());
+            StartCoroutine(VisualPurchase("Every perk collected"));        
         }
     }
 
@@ -45,22 +42,7 @@ public class UpgradesMachine : BaseMachine
         Player.PlayerPerks perk = (Player.PlayerPerks)perkIndex;
 
         if (perk == Player.PlayerPerks.Shielded) UnityEvents.shielded.Invoke(true);
-        StartCoroutine(PerkText(perk.ToString()));
-    }
-
-    private IEnumerator OutOfPerks()
-    {
-        perkText.gameObject.SetActive(true);
-        perkText.text = "Ya tenés todas las mejoras";
-        yield return new WaitForSeconds(2f);
-        perkText.gameObject.SetActive(false);
-    }
-
-    private IEnumerator PerkText(string perk)
-    {
-        perkText.gameObject.SetActive(true);
-        perkText.text = "Obtuviste: " + perk;
-        yield return new WaitForSeconds(2f);
-        perkText.gameObject.SetActive(false);
+        StartCoroutine(VisualPurchase("You got: " + perk));
+        UnityEvents.onPerkActive.Invoke();
     }
 }

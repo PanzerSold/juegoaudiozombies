@@ -1,11 +1,7 @@
 using UnityEngine;
-
 public abstract class BaseMachine : Interaction
 {
     protected Inventory inventory;
-    [SerializeField] protected AudioSource SFX_FaltaPlata;
-    [SerializeField] protected AudioSource SFX_Comprar;
-
     protected override int PuntosRequeridos { get => base.PuntosRequeridos; set => base.PuntosRequeridos = value; }
 
     protected abstract void Buy();
@@ -35,8 +31,7 @@ public abstract class BaseMachine : Interaction
         else
         {
             SFX_FaltaPlata.Play();
+            StartCoroutine(VisualPurchase("Not enough money"));
         }
     }
-
-
 }

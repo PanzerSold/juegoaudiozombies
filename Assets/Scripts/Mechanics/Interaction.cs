@@ -1,6 +1,7 @@
 using System;
 using TMPro;
 using UnityEngine;
+using System.Collections;
 
 public abstract class Interaction : MonoBehaviour
 {
@@ -11,6 +12,10 @@ public abstract class Interaction : MonoBehaviour
     protected bool jugadorDentro = false;
     protected Player player;
     [SerializeField] protected TextMeshProUGUI textoInteraccion;
+    [SerializeField] protected TextMeshProUGUI textPurchase;
+    [SerializeField] protected AudioSource SFX_FaltaPlata;
+    [SerializeField] protected AudioSource SFX_Comprar;
+
     protected String fullString = "";
 
 
@@ -58,5 +63,13 @@ public abstract class Interaction : MonoBehaviour
     {
         jugadorDentro = false;
         textoInteraccion.gameObject.SetActive(false);
+    }
+
+    protected IEnumerator VisualPurchase(string purchase)
+    {
+        textPurchase.text = "" + purchase;
+        textPurchase.gameObject.SetActive(true);
+        yield return new WaitForSeconds(2f);
+        textPurchase.gameObject.SetActive(false);
     }
 }

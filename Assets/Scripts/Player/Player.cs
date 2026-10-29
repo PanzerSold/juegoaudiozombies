@@ -53,7 +53,6 @@ public class Player : MonoBehaviour
         return powerUpTimers.ContainsKey(bonus);
     }
     public bool[] activePerks;
-
     private float horizontalMovement;
     private float forwardMovement;
     private float verticalMovement = -2f;

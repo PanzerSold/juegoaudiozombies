@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
@@ -39,9 +38,15 @@ public class FireTrap : Interaction
 
     protected override void Interactuar()
     {
-        if (!isFireActive && player.points > PuntosRequeridos)
+        if (!isFireActive && player.points >= PuntosRequeridos)
         {
             StartCoroutine(ActivarFuego());
+            SFX_Comprar.Play();
+        }
+        else
+        {
+            StartCoroutine(VisualPurchase("Not enough money"));
+            SFX_FaltaPlata.Play();
         }
     }
 

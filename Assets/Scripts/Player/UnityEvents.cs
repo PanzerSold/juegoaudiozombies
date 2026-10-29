@@ -7,4 +7,5 @@ public static class UnityEvents
    public static UnityEvent<bool> onCooldownChanged = new UnityEvent<bool>();
    public static UnityEvent<bool> shielded = new UnityEvent<bool>();
    public static UnityEvent onPowerUpTriggered = new UnityEvent();
+   public static UnityEvent onPerkActive = new UnityEvent();
 }

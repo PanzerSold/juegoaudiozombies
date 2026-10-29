@@ -10,25 +10,42 @@ public class HealthBar : MonoBehaviour
     private Player player;
 
     
+    [Header("Barra de vida")]
+    private RawImage[] images;
     [SerializeField] private RawImage image1;
     [SerializeField] private RawImage image2;
     [SerializeField] private RawImage image3;
     [SerializeField] private RawImage image4;
     [SerializeField] private RawImage image5;
     [SerializeField] private RawImage image6;
-    private RawImage[] images;
+    [SerializeField] private Gradient colorByHealth;
+
+    [Header("Power Ups")]
     private RawImage[] powerUps;
     [SerializeField] private RawImage doublePoints;
     [SerializeField] private RawImage headShots;
     [SerializeField] private RawImage discount;
     [SerializeField] private RawImage wings;
+
+    [Header("Perks")]
+    private RawImage[] perks;
+    [SerializeField] private RawImage shielded;
+    [SerializeField] private RawImage speed;
+    [SerializeField] private RawImage haste;
+    [SerializeField] private RawImage rebirth;
+    [SerializeField] private RawImage scavenger;
+    [SerializeField] private RawImage vampirism;
+    [SerializeField] private RawImage criticalShots;
+    [SerializeField] private RawImage explosiveBullets;
+
+    [Header("Otros visuales")]
     [SerializeField] private TextMeshProUGUI textMaxAmmo;
-    [SerializeField] private Gradient colorByHealth;
     [SerializeField] private RawImage shield;
     public RawImage shieldTime;
     public TextMeshProUGUI shieldTimeText;
     private void Start()
     {
+        perks = new RawImage[] { shielded, speed, haste, rebirth, scavenger, vampirism, criticalShots, explosiveBullets };
         powerUps = new RawImage[] { doublePoints, headShots, discount, wings };
         images = new RawImage[] { image1, image2, image3, image4, image5, image6 };
         playerHealth = GetComponent<PlayerHealth>();
@@ -36,6 +53,7 @@ public class HealthBar : MonoBehaviour
         UnityEvents.onHealthChanged.AddListener(OnHealthChange);
         UnityEvents.shielded.AddListener(Shielded);
         UnityEvents.onPowerUpTriggered.AddListener(VisualPowerUps);
+        UnityEvents.onPerkActive.AddListener(VisualPerks);
     }
 
     private void OnDeath()
@@ -49,6 +67,7 @@ public class HealthBar : MonoBehaviour
                 images[i].gameObject.SetActive(true);
             }
         }
+        UnityEvents.onPerkActive.Invoke();
     }
     public void OnHealthChange(int health)
     {
@@ -80,11 +99,19 @@ public class HealthBar : MonoBehaviour
     {
         for (int i = 0; i < powerUps.Length; i++)
         {
-            if (powerUps[i] == null)
-                continue;
-
+            if (powerUps[i] == null) continue;
             PlayerBonus bonus = (PlayerBonus)i;
             powerUps[i].gameObject.SetActive(player.HasPowerUp(bonus));
+        }
+    }
+
+    public void VisualPerks()
+    {
+        for (int i = 0; i < perks.Length; i++)
+        {
+            if(perks[i] == null) continue;
+            PlayerPerks perk = (PlayerPerks)i;
+            perks[i].gameObject.SetActive(player.activePerks[(int)perk]);
         }
     }
 

@@ -14,11 +14,12 @@ public class Door : Interaction
             player.RemovePoints(PuntosRequeridos);
             Destroy(gameObject);
             textoInteraccion.gameObject.SetActive(false);
+            SFX_Comprar.Play();
         }
         else
         {
-            //SFX_FaltaPlata.Play();
+            SFX_FaltaPlata.Play();
+            StartCoroutine(VisualPurchase("Not enough money"));
         }
     }
-
 }

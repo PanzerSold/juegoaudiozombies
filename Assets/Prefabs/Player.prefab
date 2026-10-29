@@ -161,13 +161,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   inputActionsAsset: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
-  moveSpeed: 4
   gravity: -9.8
   friction: 30
+  shieldAvailable: 1
+  shieldCooldown: 30
   textPoints: {fileID: 0}
+  BarrierBuildSfx: {fileID: 0}
   points: 0
+  activePowerUps: []
+  activePerks: 
   pi: {fileID: 0}
   inv: {fileID: 0}
+  ph: {fileID: 0}
+  PlayerFire: {fileID: 0}
+  psWings: {fileID: 0}
 --- !u!114 &6931691286831212850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,7 +188,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   healthMax: 6
-  healthText: {fileID: 0}
+  invulnTime: 0.75
   health: 6
 --- !u!114 &291795205699516084
 MonoBehaviour:
@@ -195,9 +202,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f6271b7107779741b3c48f9b5254093, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::playerAmmunition
-  ammoMax: 10
-  ammoQuantity: 50
-  ammoText: {fileID: 0}
+  playerCamera: {fileID: 0}
+  playerAmmoText: {fileID: 0}
+  shotParticle: {fileID: 0}
+  inventoryPanel: {fileID: 0}
+  shootSfx: {fileID: 0}
+  emptyMagSfx: {fileID: 0}
+  reloadSfx: {fileID: 0}
 --- !u!114 &8944921541306281776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -307,6 +318,15 @@ MonoBehaviour:
     m_Interactions: 
     m_SingletonActionBindings: []
     m_Flags: 0
+  inventoryAction:
+    m_Name: Inventory
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 784a97dd-6a89-4a09-9b59-cde7973db66c
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
 --- !u!114 &355938897163177654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -322,6 +342,9 @@ MonoBehaviour:
   hammerRadius: 5.5
   coolDown: 15
   isOnCooldown: 1
+  hammerImage: {fileID: 0}
+  HammerText: {fileID: 0}
+  pi: {fileID: 0}
 --- !u!114 &7933459818418673719
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -379,6 +402,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a9d55830c36d66409c4d22e8fefcf13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraPosition
+  disabled: 0
   camara: {fileID: 0}
   camSpeed: 8
   sensibility: 200
@@ -386,7 +410,14 @@ MonoBehaviour:
   coll:
     serializedVersion: 2
     m_Bits: 0
+  MaxUpAngle: 80
+  MaxDownAngle: -80
+  mouseSensibility: 1
+  stickSensibility: 15
   camPosOffset: {x: 0.471, y: 0.7, z: -1.8}
+  player: {fileID: 0}
+  pivoti: {fileID: 0}
+  ColisionSafety: 0.1
 --- !u!1001 &1852364757074869916
 PrefabInstance:
   m_ObjectHideFlags: 0

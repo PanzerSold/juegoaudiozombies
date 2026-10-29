@@ -36,6 +36,59 @@ Transform:
   - {fileID: 6006640520454044488}
   m_Father: {fileID: 8396010618126026370}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &593495642220107016
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7900920329210683721}
+  - component: {fileID: 6450194649003646262}
+  m_Layer: 6
+  m_Name: ZombieBarricade
+  m_TagString: ZombieBarricade
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7900920329210683721
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 593495642220107016}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.1, z: 0.11}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8396010618126026370}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &6450194649003646262
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 593495642220107016}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.021670396, y: 0.2567395, z: 0.6052128}
+  m_Center: {x: 0.06184238, y: -0.37163025, z: -0.12572439}
 --- !u!1 &622469259534490959
 GameObject:
   m_ObjectHideFlags: 0
@@ -213,6 +266,7 @@ Transform:
   m_Children:
   - {fileID: 7632704234923664719}
   - {fileID: 6405812024810396706}
+  - {fileID: 7900920329210683721}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -88.988, z: 0}
 --- !u!65 &4554961687733650359

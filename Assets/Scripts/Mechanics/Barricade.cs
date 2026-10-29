@@ -10,13 +10,29 @@ public class Barricade : Interaction
 
     public bool isOpen { get; private set; } = false;
     private bool cycle = false;
-    private int barricadasRestantes = 5;
+
+    //----- Codigo borrado ----- Estaba fijo en 5 aunque la barricada tenga otra cantidad de tablas
+    // private int barricadasRestantes = 5;
+    //----- Codigo borrado -----
+
+    //----- NUEVO CODIGO ----- Se calcula en Start según las tablas activas
+    private int barricadasRestantes;
+    //----- NUEVO CODIGO -----
+
     public int zombiesClose = 0;
 
     protected override void Start()
     {
         base.Start();
         fullString = "Reparar Barricada (E)";
+
+        //----- NUEVO CODIGO ----- Cuenta las tablas que arrancan activas
+        barricadasRestantes = 0;
+        for (int i = 0; i < barricades.Length; i++)
+        {
+            if (barricades[i] != null && barricades[i].activeSelf) barricadasRestantes++;
+        }
+        //----- NUEVO CODIGO -----
     }
     protected override void Update()
     {

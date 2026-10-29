@@ -29,7 +29,11 @@ public class PlayerShoot : MonoBehaviour
     private float shootTimer = 0;
 
     private bool inventoryOpen = false;
-
+    
+    //----- NUEVO CODIGO ----- Índice del arma que sostenías antes de la actual
+    private Inventory.itemIndex lastWeapon = Inventory.itemIndex.None;
+        
+    //----- NUEVO CODIGO -----
     private void Awake()
     {
         inventory = GetComponent<Inventory>();
@@ -68,12 +72,23 @@ public class PlayerShoot : MonoBehaviour
     public void EquipGun(GunBehaviour newGun)
     {
         if (newGun == gun) return;
+        //----- NUEVO CODIGO ----- Antes de soltar el arma actual, guarda cuál era
+        if (gun != null) lastWeapon = gun.WeaponIndex;
+        //----- NUEVO CODIGO -----
         if (gun != null) gun.Unequip();
 
         gun = newGun;
         gun.Initialize(playerCamera, playerAmmoText, shotParticle, shootSfx, reloadSfx, inventory);
         shootTimer = 0;
     }
+    //----- NUEVO CODIGO ----- Cambia al arma anterior si existe en la escena y todavía está en el inventario
+    private void EquipLastWeapon()
+    {
+        if (!guns.ContainsKey(lastWeapon)) return;
+        if (!inventory.TrySelectWeapon(lastWeapon)) return;
+        EquipWeapon(lastWeapon);
+    }
+    //----- NUEVO CODIGO -----
 
     public void EquipFromSlot(int slot)
     {
@@ -110,7 +125,12 @@ public class PlayerShoot : MonoBehaviour
         }
 
         if (inventoryOpen) return;
-
+        //----- NUEVO CODIGO ----- Al apretar Q (LastWeapon) vuelve al arma anterior
+        if (pi.lastWeaponAction.WasPressedThisFrame())
+        {
+            EquipLastWeapon();
+        }
+        //----- NUEVO CODIGO -----
         if (gun != null)
          {
             bool inputShoot;

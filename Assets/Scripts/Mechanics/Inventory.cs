@@ -228,6 +228,20 @@ public class Inventory : MonoBehaviour
         }
         return false;
     }
+    //----- NUEVO CODIGO ----- Busca el slot donde está esa arma y lo marca como equipado. Devuelve false si ya no está en el inventario
+    public bool TrySelectWeapon(itemIndex weapon)
+    {
+        for (int i = 0; i < actualInventory.Length; i++)
+        {
+            if (actualInventory[i].item == itemType.Weapon && actualInventory[i].index == weapon)
+            {
+                equippedSlot = i;
+                return true;
+            }
+        }
+        return false;
+    }
+    //----- NUEVO CODIGO -----
 
     public int TakeAmount(itemIndex index, int requested)
     {

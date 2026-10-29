@@ -76,11 +76,25 @@ public class ZombieBase : MonoBehaviour
         //----- NUEVO CODIGO -----
         rm = GameObject.FindWithTag("RoundManager").GetComponent<RoundManager>();
         health = rm.SetHealthBasedOnRound();
-
+        //----- NUEVO CODIGO ----- coroutina para q haga primero la anim de spawnear
+        StartCoroutine(SpawnZombie());
         //----- NUEVO CODIGO ----- Le pasa la velocidad al agente
-        nav.SetSpeed(speedValues[speedIndex]);
+        // nav.SetSpeed(speedValues[speedIndex]); - CODIGO QUITADO, ahora cuando termina la animacion de spawnear ahi recien le da la velocidad correcta
         //----- NUEVO CODIGO -----
     }
+
+    //---NUEVO CODIGO--- spawnea el zombi sin velocidad, hace la anim de rise y cuando termina de hacerla pone la velocidad correcta :D
+    private IEnumerator SpawnZombie()
+    {
+        nav.SetSpeed(0f);
+
+        anim.Play("rise", 0, 0f);
+
+        yield return new WaitForSeconds(anim.GetCurrentAnimatorStateInfo(0).length);
+
+        nav.SetSpeed(speedValues[speedIndex]);
+    }
+
 
     //----- Codigo borrado ----- Con el Rigidbody kinematic esta colisión ya no se dispara
     // private void OnCollisionStay(Collision collision) => HitStay(collision);
@@ -235,7 +249,10 @@ public class ZombieBase : MonoBehaviour
 
         yield return new WaitForSeconds(0.3f);
 
-        player.LoseHealth(zombieDamage);
+
+        bool blockedByBarricade = destroyingBarricade && ultimabarricada != null && !ultimabarricada.isOpen;
+
+        if (!blockedByBarricade) { player.LoseHealth(zombieDamage); }
 
         yield return new WaitForSeconds(0.45f);
 

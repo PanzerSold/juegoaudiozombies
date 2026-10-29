@@ -1037,6 +1037,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MaquinaArmas (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4822490891637465596, guid: fc9d1e1220146f841a132a2938437f22, type: 3}
+      propertyPath: m_Volume
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 4926447371646258677, guid: fc9d1e1220146f841a132a2938437f22, type: 3}
       propertyPath: givenWeapon
       value: 9
@@ -9478,6 +9482,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MaquinaArmas
       objectReference: {fileID: 0}
+    - target: {fileID: 4822490891637465596, guid: fc9d1e1220146f841a132a2938437f22, type: 3}
+      propertyPath: m_Volume
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 4926447371646258677, guid: fc9d1e1220146f841a132a2938437f22, type: 3}
       propertyPath: givenWeapon
       value: 2
@@ -13167,6 +13175,10 @@ PrefabInstance:
     - target: {fileID: 4059323923924282965, guid: fc9d1e1220146f841a132a2938437f22, type: 3}
       propertyPath: m_Name
       value: MaquinaArmas (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4822490891637465596, guid: fc9d1e1220146f841a132a2938437f22, type: 3}
+      propertyPath: m_Volume
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 4926447371646258677, guid: fc9d1e1220146f841a132a2938437f22, type: 3}
       propertyPath: givenWeapon
@@ -20981,9 +20993,29 @@ PrefabInstance:
       propertyPath: textoInteraccion
       value: 
       objectReference: {fileID: 1495732276}
+    - target: {fileID: -1962106248256925180, guid: 9639f1a2f8bd132489c34077965714ae, type: 3}
+      propertyPath: availableWeapons.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: -1962106248256925180, guid: 9639f1a2f8bd132489c34077965714ae, type: 3}
+      propertyPath: 'availableWeapons.Array.data[0]'
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -1962106248256925180, guid: 9639f1a2f8bd132489c34077965714ae, type: 3}
+      propertyPath: 'availableWeapons.Array.data[3]'
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -1962106248256925180, guid: 9639f1a2f8bd132489c34077965714ae, type: 3}
+      propertyPath: 'availableWeapons.Array.data[5]'
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 1058575190388714187, guid: 9639f1a2f8bd132489c34077965714ae, type: 3}
       propertyPath: m_Name
       value: MaquinaRandom
+      objectReference: {fileID: 0}
+    - target: {fileID: 1719505085700046461, guid: 9639f1a2f8bd132489c34077965714ae, type: 3}
+      propertyPath: m_Volume
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 1814053394454670526, guid: 9639f1a2f8bd132489c34077965714ae, type: 3}
       propertyPath: m_text

@@ -11,10 +11,10 @@ public class Door : Interaction
     {
         if (player.points >= PuntosRequeridos)
         {
-            player.RemovePoints(PuntosRequeridos);
-            Destroy(gameObject);
-            textoInteraccion.gameObject.SetActive(false);
             SFX_Comprar.Play();
+            player.RemovePoints(PuntosRequeridos);
+            textoInteraccion.gameObject.SetActive(false);
+            Destroy(gameObject);
         }
         else
         {

@@ -5,7 +5,7 @@ public class BurstGun : GunBehaviour
 {
     [Header("Burst Settings")]
     [SerializeField] private int bulletsPerBurst = 3;
-    [SerializeField] private float burstInterval = 0.1f;
+    [SerializeField] private float burstInterval = 0.06f;
 
     private Coroutine burstCoroutine;
 

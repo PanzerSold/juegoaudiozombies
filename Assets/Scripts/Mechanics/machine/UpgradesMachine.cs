@@ -6,7 +6,7 @@ public class UpgradesMachine : BaseMachine
     protected override void Start()
     {
         base.Start();
-        fullString = "Comprar Mejora " + PuntosRequeridos + " (E)";
+        fullString = "Buy Upgrade (" + PuntosRequeridos + ") (E)";
     }
 
     protected override void Buy()
@@ -28,8 +28,10 @@ public class UpgradesMachine : BaseMachine
         else
         {
             player.AwardPoints(PuntosRequeridos);
-            StartCoroutine(VisualPurchase("Every perk collected"));        
+            StartCoroutine(VisualPurchase("Every perk collected"));
+            return;      
         }
+        SFX_Comprar.Play();
     }
 
     private void GivePerk(List<int> missingPerks)

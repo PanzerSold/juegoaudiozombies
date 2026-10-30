@@ -17,12 +17,13 @@ public class Inventory : MonoBehaviour
         M4,
         AK47,
         AWP,
-        MAC10,
+        UZI,
         MP5,
         RPG,
         Remington,
         Balas_Pistola,
         Balas_Rifle,
+        Balas_Sniper,
         Balas_Subfusil,
         Balas_Escopeta,
         Balas_Lanzacohete,
@@ -33,6 +34,7 @@ public class Inventory : MonoBehaviour
     {
         public int Balas_Pistola;
         public int Balas_Rifle;
+        public int Balas_Sniper;
         public int Balas_Subfusil;
         public int Balas_Escopeta;
         public int Balas_Lanzacohete;
@@ -43,6 +45,7 @@ public class Inventory : MonoBehaviour
         {
             Balas_Pistola = 48,
             Balas_Rifle = 90,
+            Balas_Sniper = 30,
             Balas_Subfusil = 120,
             Balas_Escopeta = 24,
             Balas_Lanzacohete = 6,
@@ -70,13 +73,25 @@ public class Inventory : MonoBehaviour
     }
     private Item[] actualInventory;
 
+    public bool CheckFull()
+    {
+        foreach(Item i in actualInventory)
+        {
+            if (i.item == itemType.Empty) return false;
+        }
+        return true;
+    }
 
-
-
+    public itemIndex[] getAllWeapons()
+    {
+        itemIndex[] allWeapons = new itemIndex[9];
+        for(int i = 0; i < SlotCount; i++)
+        {
+            if (actualInventory[i].item == itemType.Weapon) allWeapons[i] = actualInventory[i].index;
+        }
+        return allWeapons;
+    }
     private const int SlotCount = 9;
-
-    
-
     private int equippedSlot = 0;
 
     public event Action OnInventoryChanged;
@@ -86,7 +101,7 @@ public class Inventory : MonoBehaviour
         ResetInventory();
     }
 
-    private static int GetLimit(itemIndex index)
+    public static int GetLimit(itemIndex index)
     {
         LimitesInventario limites = LimitesInventario.Defecto;
         switch (index)
@@ -98,7 +113,7 @@ public class Inventory : MonoBehaviour
             case itemIndex.Balas_Lanzacohete: return limites.Balas_Lanzacohete;
             case itemIndex.Granada: return limites.Granada;
             case itemIndex.Espray_curativo: return limites.Espray_curativo;
-            default: return int.MaxValue;
+            default: return 0;
         }
     }
 
@@ -111,9 +126,10 @@ public class Inventory : MonoBehaviour
                 return itemIndex.Balas_Pistola;
             case itemIndex.M4:
             case itemIndex.AK47:
-            case itemIndex.AWP:
                 return itemIndex.Balas_Rifle;
-            case itemIndex.MAC10:
+            case itemIndex.AWP:
+                return itemIndex.Balas_Sniper;
+            case itemIndex.UZI:
             case itemIndex.MP5:
                 return itemIndex.Balas_Subfusil;
             case itemIndex.Remington:
@@ -145,7 +161,7 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    private bool HasItem(itemType type, itemIndex index)
+    public bool HasItem(itemType type, itemIndex index)
     {
         for (int i = 0; i < actualInventory.Length; i++)
         {

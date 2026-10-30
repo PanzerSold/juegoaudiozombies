@@ -94,12 +94,9 @@ public class GunBehaviour : MonoBehaviour
     private void Awake()
     {
         ammoCurrent = ammoMax;
-    }
-
-    private void Start()
-    {
         render = GetComponent<SkinnedMeshRenderer>();
     }
+
     public void Initialize(Camera playerCamera, TextMeshProUGUI playerAmmoText, ParticleSystem shotParticle, AudioSource shootSource, AudioSource reloadSource, Inventory playerInventory, Animator playerAnim)
     {
         cameraPos = playerCamera;

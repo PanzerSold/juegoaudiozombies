@@ -26,7 +26,6 @@ public abstract class BaseMachine : Interaction
         {
             Buy();
             player.RemovePoints(PuntosRequeridos);
-            SFX_Comprar.Play();
         }
         else
         {

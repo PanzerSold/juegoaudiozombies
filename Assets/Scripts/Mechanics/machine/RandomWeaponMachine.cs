@@ -1,14 +1,25 @@
 using System.Collections.Generic;
+using Unity.Burst.Intrinsics;
 using UnityEngine;
+using System.Linq;
 
 public class RandomWeaponMachine : BaseMachine
 {
-    [SerializeField] private Inventory.itemIndex[] availableWeapons;
-
+    private static Inventory.itemIndex[] armasPosibles = {
+        Inventory.itemIndex.M1911,
+        Inventory.itemIndex.M93R,
+        Inventory.itemIndex.MP5,
+        Inventory.itemIndex.UZI,
+        Inventory.itemIndex.RPG,
+        Inventory.itemIndex.Remington,
+        Inventory.itemIndex.AK47,
+        Inventory.itemIndex.M4,
+        Inventory.itemIndex.AWP,
+        };
     protected override void Start()
     {
         base.Start();
-        fullString = "Randon weapon machine " + PuntosRequeridos + " (E)";
+        fullString = "Random Gun Machine (" + PuntosRequeridos + ") (E)";
     }
 
     protected override void Buy()
@@ -20,48 +31,20 @@ public class RandomWeaponMachine : BaseMachine
     {
         // Dar arma
 
-        if (inventory == null)
-        {
-            inventory = player.GetComponent<Inventory>();
 
-            GameObject jugadorObj = GameObject.FindGameObjectWithTag("Player");
-            if (jugadorObj != null)
-                inventory = jugadorObj.GetComponent<Inventory>();
-        }
-
-        List<Inventory.itemIndex> missingWeapons = new List<Inventory.itemIndex>();
-
-        foreach (Inventory.itemIndex weapon in availableWeapons)
-        {
-            bool alreadyOwned = false;
-
-            for (int i = 0; i < 9 && alreadyOwned == false; i++)
-            {
-                Inventory.Item slot = inventory.GetSlot(i);
-
-                if (slot.item == Inventory.itemType.Weapon && slot.index == weapon)
-                {
-                    alreadyOwned = true;
-                }
-            }
-
-            if (alreadyOwned == false)
-            {
-                missingWeapons.Add(weapon);
-            }
-        }
-
-        if (missingWeapons.Count == 0)
+        if (inventory.CheckFull())
         {
             player.AwardPoints(PuntosRequeridos);
-            StartCoroutine(VisualPurchase("Tenes todas las armas de la caja!"));
+            StartCoroutine(VisualPurchase("Your Inventory is Full"));
             return;
         }
+        
+        Inventory.itemIndex[] weaponPool = armasPosibles;
+        Inventory.itemIndex[] currentWeapons = inventory.getAllWeapons(); 
+        Inventory.itemIndex[] result = weaponPool.Except(currentWeapons).ToArray();
+        Inventory.itemIndex chosenWeapon = result[Random.Range(0,result.Length-1)];
 
-        Inventory.itemIndex chosenWeapon =
-            missingWeapons[Random.Range(0, missingWeapons.Count)];
-
-        bool added = inventory.AddItem(
+        inventory.AddItem(
             new Inventory.Item(
                 Inventory.itemType.Weapon,
                 chosenWeapon,
@@ -70,50 +53,29 @@ public class RandomWeaponMachine : BaseMachine
             )
         );
 
-        // Dar balas
+        SFX_Comprar.Play();
+        StartCoroutine(VisualPurchase("You got: " + chosenWeapon));
+
+        // si ni te puede dar las balas porque tenes el inventario lleno, sale
+
+        if (inventory.CheckFull()) return;
 
         Inventory.itemIndex ammo = Inventory.GetAmmoFor(chosenWeapon);
-        int ammoAmount = GetAmmoAmount(chosenWeapon);
-
-        if (ammo != Inventory.itemIndex.None && ammoAmount > 0)
-        {
-            inventory.AddItem(
-                new Inventory.Item(
-                    Inventory.itemType.Ammo,
-                    ammo,
-                    amount: ammoAmount
-                )
-            );
-        }
+        int ammoAmount = Inventory.GetLimit(ammo)/2;
+        inventory.AddItem(
+            new Inventory.Item(
+                Inventory.itemType.Ammo,
+                ammo,
+                amount: ammoAmount
+            )
+        );
         
-
-        StartCoroutine(VisualPurchase("te tocó el: " + chosenWeapon));
     }
 
     // una verguenza esto
-    private int GetAmmoAmount(Inventory.itemIndex weapon)
-    {
-        switch (weapon)
-        {
-            case Inventory.itemIndex.MAC10:
-                return 120;
+    // confirmo, tenes un switch en el propio inventory :P
+    // confirmo que lo mio tambien puede ser mucho mejor
 
-            case Inventory.itemIndex.AK47:
-                return 90;
-
-            case Inventory.itemIndex.AWP:
-                return 10;
-
-            case Inventory.itemIndex.M4:
-                return 90;
-
-            case Inventory.itemIndex.RPG:
-                return 3;
-
-            default:
-                return 0;
-        }
-    }
 
 }
 

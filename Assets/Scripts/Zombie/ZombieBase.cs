@@ -1,43 +1,127 @@
+using System.Collections;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class ZombieBase : MonoBehaviour
 {
-    private float health = 10f;
-    // public bool Active = true;
-    private bool isStunned = false;
-    // private RoundManager rm;
-    private Player player;
+    [SerializeField] private float health = 10f;
 
+    [Header("Probabilidad de crítico")]
+    [SerializeField, Range(0f, 1f)]
+
+    private float criticalChance = 0.33f;
+
+    [Header("Probabilidad de curación")]
+    [SerializeField, Range(0f, 1f)]
+
+    private float healChance = 0.0667f;
+    private bool isStunned = false;
+    private Player player;
+    [SerializeField] private PowerUpSpawner pus;
+    private PlayerShoot playerAmmo;
     private Transform playerTransform;
 
-    private bool scriptedMovement = false;
-    private Vector3 scriptedDir = Vector3.zero;
-    private Rigidbody rb;
+    //----- Codigo borrado ----- El movimiento por waypoint ahora lo maneja ZombieNavmesh
+    // private bool scriptedMovement = false;
+    // private Vector3 scriptedDir = Vector3.zero;
+    //----- Codigo borrado -----
 
+    private Rigidbody rb;
+    
+    //----- NUEVO CODIGO ----- Referencia al script que mueve al zombie con el NavMesh
+    private ZombieNavmesh nav;
+    //----- NUEVO CODIGO -----
+
+
+    //----- NUEVO CODIGO ----- Awake porque RoundManager llama a goTo justo después del Instantiate, antes del Start
+    private void Awake()
+    {
+        nav = GetComponent<ZombieNavmesh>();
+    }
+    //----- NUEVO CODIGO -----
+
+    //----- NUEVO CODIGO ----- Distancia a la que el zombie le pega al jugador (tiene que ser mayor al Stopping Distance del NavMeshAgent)
+    [SerializeField] private float attackRange = 1.5f;
+    private PlayerHealth playerHealth;
+    //----- NUEVO CODIGO -----
     private Barricade ultimabarricada;
 
-    [SerializeField] private float speed = 5f;
-
-    [SerializeField] private float rotationSpeed = 10f;
+    // [SerializeField] private float rotationSpeed = 10f; la rotacion depende del agente, no del rigidbody.
 
     [SerializeField] private int zombieDamage = 1;
+    [SerializeField] private ParticleSystem ps;
+
+    [SerializeField] private float[] speedValues = new float[3]{1.6f, 1.8f, 2.4f};
+
+    private int speedIndex = 0;
     private bool destroyingBarricade = false;
     private RoundManager rm;
+
+    private Animator anim;
+
+    private bool isAttacking = false;
 
     // private float timerPos = 0f;
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        player = GameObject.Find("Player").GetComponent<Player>();
-        playerTransform = GameObject.Find("Player").GetComponentInParent<Transform>();
+        anim = GetComponentInChildren<Animator>();
+        GameObject playerObject = GameObject.Find("Player");
+        player = playerObject.GetComponent<Player>();
+        playerAmmo = playerObject.GetComponent<PlayerShoot>();
+        playerTransform = playerObject.transform;
+        //----- NUEVO CODIGO -----
+        playerHealth = playerObject.GetComponent<PlayerHealth>();
+        //----- NUEVO CODIGO -----
         rm = GameObject.FindWithTag("RoundManager").GetComponent<RoundManager>();
         health = rm.SetHealthBasedOnRound();
+        //----- NUEVO CODIGO ----- coroutina para q haga primero la anim de spawnear
+        StartCoroutine(SpawnZombie());
+        //----- NUEVO CODIGO ----- Le pasa la velocidad al agente
+        // nav.SetSpeed(speedValues[speedIndex]); - CODIGO QUITADO, ahora cuando termina la animacion de spawnear ahi recien le da la velocidad correcta
+        //----- NUEVO CODIGO -----
+    }
+
+    //---NUEVO CODIGO--- spawnea el zombi sin velocidad, hace la anim de rise y cuando termina de hacerla pone la velocidad correcta :D
+    private IEnumerator SpawnZombie()
+    {
+        nav.SetSpeed(0f);
+
+        anim.Play("rise", 0, 0f);
+
+        yield return new WaitForSeconds(anim.GetCurrentAnimatorStateInfo(0).length);
+
+        nav.SetSpeed(speedValues[speedIndex]);
     }
 
 
+    //----- Codigo borrado ----- Con el Rigidbody kinematic esta colisión ya no se dispara
+    // private void OnCollisionStay(Collision collision) => HitStay(collision);
+    //----- Codigo borrado -----
+
+    //----- NUEVO CODIGO ----- Frena al zombie si está en una barricada cerrada y ataca al jugador si está al alcance
+    private void Update()
+    {
+        bool blockedByBarricade = destroyingBarricade && ultimabarricada != null && !ultimabarricada.isOpen;
+        nav.SetHolding(blockedByBarricade);
+
+        if (blockedByBarricade || isStunned || isAttacking) return;
+
+        Vector3 diff = playerTransform.position - transform.position;
+        diff.y = 0f;
+
+        if (diff.magnitude <= attackRange)
+        {
+            StartCoroutine(Attack(playerHealth));
+        }
+    }
+    //----- NUEVO CODIGO -----
+
     private void FixedUpdate()
     {
+        //----- Codigo borrado ----- El movimiento y la rotación ahora los hace el NavMeshAgent
+        /*
         if (!isStunned)
         {
             Vector3 direction = playerTransform.position - transform.position; 
@@ -51,7 +135,7 @@ public class ZombieBase : MonoBehaviour
             direction.y = 0;
             direction.Normalize();
 
-            Vector3 position = transform.position + direction * speed * Time.fixedDeltaTime;
+            Vector3 position = transform.position + direction * speedValues[speedIndex] * Time.fixedDeltaTime;
             rb.MovePosition(position);
 
             if (direction != Vector3.zero)
@@ -62,27 +146,56 @@ public class ZombieBase : MonoBehaviour
         } 
         else
         {
-
             rb.linearVelocity = Vector3.zero;
 
         }
+        */
+        //----- Codigo borrado -----
+
+        float actualSpeed = isStunned ? 0 : speedValues[speedIndex];
+        
+        anim.SetFloat("Speed", actualSpeed);
 
     }
+
 
     public async void Stun()
     {
         isStunned = true;
+        //----- NUEVO CODIGO ----- Frena al agente mientras está aturdido
+        nav.SetStunned(true);
+        //----- NUEVO CODIGO -----
         await Awaitable.WaitForSecondsAsync(2f);
         if (this == null) return;
         isStunned = false;
+        //----- NUEVO CODIGO ----- Lo vuelve a mover
+        nav.SetStunned(false);
+        //----- NUEVO CODIGO -----
     }
     public void ReceiveDamage(bool isHeadshot, float damage)
     {
         if (isHeadshot)
         {
-            health -= damage * 5;
+            if (player.HasPowerUp(Player.PlayerBonus.HeadShots))
+            {
+                health = 0;
+            }
+            else
+            {
+                if (player.activePerks[6])
+                {
+                    if (Random.value >= criticalChance) health -= damage * 5;
+                    else health -= damage * 10;
+                }
+                else health -= damage * 5;
+            }
         }
-        health -= damage;
+        if (player.activePerks[6])
+        {
+            if (Random.value >= criticalChance) health -= damage;
+            else health -= damage * 2;
+        }
+        else health -= damage;
         if (health <= 0)
         {
             player.AwardPoints(60);
@@ -91,6 +204,17 @@ public class ZombieBase : MonoBehaviour
                 player.AwardPoints(40);
             }
             Despawn();
+            if (player.activePerks[4] && playerAmmo.Gun != null)
+            {
+                int bonusAmmo = playerAmmo.Gun.AmmoMax * 10 / 100;
+                playerAmmo.Gun.GainAmmo(bonusAmmo);
+            }
+            if (player.activePerks[5])
+            {
+                PlayerHealth ph = GameObject.Find("Player").GetComponent<PlayerHealth>();
+                if (Random.value >= healChance || ph.health >= 6) return;
+                else ph.GainHealth(1);
+            }
         }
         else
         {
@@ -101,27 +225,65 @@ public class ZombieBase : MonoBehaviour
     private void Despawn()
     {
         if(destroyingBarricade) ultimabarricada.zombiesClose--;
-        rm.removeZombie(this);
+        rm.RemoveZombie(this);
+        pus.Spawn();
         Destroy(gameObject);
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        PlayerHealth player = collision.gameObject.GetComponent<PlayerHealth>();
 
-        if (player != null)
-        {
-            player.loseHealth(zombieDamage);
-        }
+    private IEnumerator Attack(PlayerHealth player)
+    {
+        isAttacking = true;
+
+        anim.Play("attack", 0, 0f);
+
+        yield return new WaitForSeconds(0.3f);
+
+
+        bool blockedByBarricade = destroyingBarricade && ultimabarricada != null && !ultimabarricada.isOpen;
+
+        if (!blockedByBarricade) { player.LoseHealth(zombieDamage); }
+
+        yield return new WaitForSeconds(0.45f);
+
+        isAttacking = false;
+        
     }
+
+/*private void OnCollisionEnter(Collision collision)
+{
+    PlayerHealth player = collision.gameObject.GetComponent<PlayerHealth>();
+
+    if (player != null)
+    {
+        player.LoseHealth(zombieDamage);
+    }
+}*/
     public void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("ZombieBarricade")){ 
             ultimabarricada=other.GetComponentInParent<Barricade>();
             ultimabarricada.zombiesClose++;
+            ultimabarricada.GetZombieAnim(anim);
             destroyingBarricade = true;
         }
+        if (other.CompareTag("Fire"))
+        {
+            StartCoroutine(Burn());
+        }
     }
+
+    IEnumerator Burn()
+    {
+        isStunned = true;
+        //----- NUEVO CODIGO ----- Frena al agente mientras se quema
+        nav.SetStunned(true);
+        //----- NUEVO CODIGO -----
+        ps.Play();
+        yield return new WaitForSeconds(1f);
+        Despawn();
+    }
+    
     public void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("ZombieBarricade"))
@@ -130,49 +292,16 @@ public class ZombieBase : MonoBehaviour
             destroyingBarricade = false;
         }
     }
-
-
-    /*
-    void Update()
-    {
-        
-        if (Active){
-            if (!isStunned) return;
-            if (TimedCheck())
-            {
-                
-            }
-
-        }
-        
-    }
-    
-
-    
-    private bool TimedCheck()
-    {
-        if (timerPos < 0.2f)
-        {
-            timerPos += Time.deltaTime;
-            return false;
-        }
-        timerPos = 0f;
-        return true;
-    }
-    
-    private void Respawn()
-    {
-        SetHealthBasedOnRound(rm.currentRound);
-
-    }
-    */
-
-
     public void goTo( Vector3 position)
     {
-        scriptedMovement = true;
-        scriptedDir = position;
+        //----- Codigo borrado -----
+        // scriptedMovement = true;
+        // scriptedDir = position;
+        //----- Codigo borrado -----
 
+        //----- NUEVO CODIGO ----- Ahora el punto de la barricada lo maneja ZombieNavmesh
+        nav.SetWaypoint(position);
+        //----- NUEVO CODIGO -----
     }
 
 }

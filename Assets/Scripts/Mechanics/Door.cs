@@ -1,28 +1,25 @@
-using UnityEditor;
-using UnityEngine;
-using TMPro;
-
 public class Door : Interaction
 {
-
+    protected override int PuntosRequeridos { get => base.PuntosRequeridos; set => base.PuntosRequeridos = value; }
     protected override void Start()
     {
         base.Start();
-        fullString = "Abrir Puerta (" + puntosRequeridos + ") (E)";
+        fullString = "Open door (" + PuntosRequeridos + ") (E)";
     }
 
     protected override void Interactuar()
     {
-        if (player.points >= puntosRequeridos)
+        if (player.points >= PuntosRequeridos)
         {
-            player.RemovePoints(puntosRequeridos);
-            Destroy(gameObject);
+            SFX_Comprar.Play();
+            player.RemovePoints(PuntosRequeridos);
             textoInteraccion.gameObject.SetActive(false);
+            Destroy(gameObject);
         }
         else
         {
-            //SFX_FaltaPlata.Play();
+            SFX_FaltaPlata.Play();
+            StartCoroutine(VisualPurchase("Not enough money"));
         }
     }
-
 }

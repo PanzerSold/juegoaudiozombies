@@ -1,25 +1,42 @@
-using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using TMPro;
-using UnityEngine.Rendering;
+using UnityEngine.UI;
 
 public class Hammer : MonoBehaviour
 {
     [SerializeField] private float hammerRadius = 5.5f;
     [SerializeField] private float coolDown = 15.0f;
-    [SerializeField] private bool isOnCooldown = true;
+    [SerializeField] private bool isOnCooldown = false;
+    [SerializeField] private RawImage hammerImage;
     [SerializeField] private TextMeshProUGUI HammerText;
-
+    [SerializeField] private PlayerInputs pi;
+    private Color originalColor;
     private float cooldownTimer;
     private int timeLeft;
     private int lastTimeLeft;
     void Awake()
     {
+        pi = GetComponent<PlayerInputs>();
         cooldownTimer = coolDown;
         lastTimeLeft = -1;
+
+        if (hammerImage != null) originalColor = hammerImage.color;
     }
 
+    private void OnEnable()
+    {
+        UnityEvents.onCooldownChanged.AddListener(ChangeColor);
+    }
+
+    private void OnDisable()
+    {
+        UnityEvents.onCooldownChanged.RemoveListener(ChangeColor);
+    }
+
+    private void ChangeColor(bool onCooldown)
+    {
+        hammerImage.color = onCooldown ? Color.black : originalColor;
+    }
 
     void Update()
     {
@@ -28,26 +45,31 @@ public class Hammer : MonoBehaviour
 
         if (timeLeft <= 0)
         {
-            isOnCooldown = false;
-            HammerText.text = "Hammer: Ready";
+            if (isOnCooldown)
+            {
+                isOnCooldown = false;
+                UnityEvents.onCooldownChanged.Invoke(false);
+            }
 
+            HammerText.text = "Ready";
         }
         else
         {
             if (timeLeft != lastTimeLeft)
             {
-                HammerText.text = "Hammer: " + timeLeft + "s";
+                HammerText.text = timeLeft + "s";
                 lastTimeLeft = timeLeft;
             }
         }
 
-        if (Input.GetKeyUp(KeyCode.X))
+        if (pi.skillAction.WasPressedThisFrame())
         {
             if (!isOnCooldown)
             {
                 HammerStun();
                 isOnCooldown = true;
                 cooldownTimer = 0;
+                UnityEvents.onCooldownChanged.Invoke(true);
             }
             else
             {

@@ -3,7 +3,6 @@ using UnityEngine.InputSystem;
 
 public class PlayerInputs : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     public InputActionAsset inputActionsAsset;
     public InputActionMap playerMap;
     public InputAction moveAction;
@@ -16,6 +15,8 @@ public class PlayerInputs : MonoBehaviour
     public InputAction aimAction;
     public InputAction shootAction;
     public InputAction skillAction;
+    public InputAction inventoryAction;
+    public InputAction lastWeaponAction;
     private void Start()
     {
 
@@ -31,6 +32,8 @@ public class PlayerInputs : MonoBehaviour
         aimAction = playerMap.FindAction("Aim");
         shootAction = playerMap.FindAction("Shoot");
         skillAction = playerMap.FindAction("Skill");
+        inventoryAction = playerMap.FindAction("Inventory");
+        lastWeaponAction = playerMap.FindAction("LastWeapon");
 
         playerMap.Enable();
 

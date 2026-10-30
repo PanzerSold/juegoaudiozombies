@@ -1,55 +1,53 @@
-using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
-
 public class PlayerHealth : MonoBehaviour
 {
     
     [SerializeField] private int healthMax = 6;
-
-    [SerializeField] private TextMeshProUGUI healthText;
+    [SerializeField] private float invulnTime = 0.75f;
 
     public int health = 6;
-    private string healthTextStart;
-    
-    private void Awake()
+    private HealthBar healthBar;
+    private Player player;
+    private float invulnUntil = 0f;
+
+    public bool IsInvulnerable => 0 < invulnUntil;
+
+    private void Start()
     {
         health = healthMax;
-        healthTextStart = healthText.text;
-        healthText.text = healthText.text + " " + health;
+        healthBar = GetComponent<HealthBar>();
+        player = GetComponent<Player>();
     }
 
-    /* private void Update()
-    {
-        //testeo de los metodos y ver si el hud cambia
-       
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            loseHealth(1);
-        }
-
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            gainHealth(1);
-        }
-        
-    } */
-    public void gainHealth(int bonusHealth)
+    public void GainHealth(int bonusHealth)
     {
         health += bonusHealth;
-        if (health > healthMax) {
+        if (health > healthMax) 
+        {
             health = healthMax;
         }
-        healthText.text = healthTextStart + " " + health;
+        healthBar.OnHealthChange(health);
     }
-    public void loseHealth(int damage)
+    private void Update()
     {
-        health -= damage;
+        if (invulnUntil > 0) invulnUntil -= Time.deltaTime;
+    }
 
-        if (health < 0)
+    public void LoseHealth(int damage = 1)
+    {
+        if (IsInvulnerable) return;
+        invulnUntil = invulnTime;
+
+        if (player.activePerks[0] && player.shieldAvailable)
         {
-            health = 0;
+            player.shieldAvailable = false;
+            UnityEvents.shielded.Invoke(false);
+            player.StartCoroutine(player.Shield());
+            return;
         }
-        healthText.text = healthTextStart + " " + health;
+
+        health = Mathf.Max(0, health - damage);
+        healthBar.OnHealthChange(health);
     }
 }
+
